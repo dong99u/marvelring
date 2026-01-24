@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="113" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dong99u&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dong99u/marvelring.git&quot;,
+    &quot;accountId&quot;: &quot;dd9bf282-70d2-4156-a721-5f7736a69754&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="38MbfUFKW7JTcQxPBTpMNs6O2Gg" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/parkdongkyu/my_project/marvelring&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.CommitDialog&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/parkdongkyu/my_project/marvelring/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecapSpentCounter">
+    <option name="endsOfQuotaMs" value="1769551208860" />
+    <option name="spentUsd" value="0.0199846" />
+  </component>
+  <component name="RecapUselessUpdatesCounter">
+    <option name="suspendCountdown" value="0" />
+  </component>
+  <component name="RunManager" selected="npm.Next.js: server-side">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
+    <configuration name="Next.js: server-side" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="" />
+      <created>1768612489483</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1768612489483</updated>
+      <workItem from="1768612490626" duration="15532000" />
+      <workItem from="1768915632482" duration="10910000" />
+    </task>
+    <task id="LOCAL-00001" summary="Remove unused files and update dependencies  &#10;&#10;Deleted `page.js` and `jsconfig.json` as they are no longer necessary. Updated `package-lock.json` to include additional dependencies such as `@hookform/resolvers`, `react-hook-form`, and others for enhanced functionality. Ensured the build setup aligns with current project requirements.">
+      <option name="closed" value="true" />
+      <created>1768797437946</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1768797437946</updated>
+    </task>
+    <task id="LOCAL-00002" summary="&quot;Refactor and implement core features for announcements and auth&quot;&#10;&#10;This commit removes unused files, streamlines folder structure, and introduces new features for announcements, products, and enhanced authentication. Features include fetching data with server actions, reusable components like `Breadcrumb` and `AnnouncementBanner`, Zustand-based auth store, and E2E auth tests. These changes modernize the app's architecture and improve core functionalities.">
+      <option name="closed" value="true" />
+      <created>1768827904761</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1768827904761</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add footer, enhance homepage, and improve button styles&#10;&#10;Implemented a new footer with improved UX and branding. Enhanced the homepage layout with updated hero and collections sections, added animations, and visual effects. Updated button styles to improve clarity, consistency, and responsiveness.">
+      <option name="closed" value="true" />
+      <created>1768829028108</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1768829028108</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability.">
+      <option name="closed" value="true" />
+      <created>1768829362414</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1768829362414</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/app/layout.js" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Remove `jsconfig.json` and add project setup files.&#10;&#10;Deleted `jsconfig.json` as it's no longer needed. Added project-specific configuration files: `.claude-session`, `.idea/.gitignore`, `.shipspec/active-loop.local.json`, `CLAUDE.md`, and `docs/DESIGN-SYSTEM.md` to document and standardize the project setup and design system." />
+    <MESSAGE value="Remove unused files and update dependencies  &#10;&#10;Deleted `page.js` and `jsconfig.json` as they are no longer necessary. Updated `package-lock.json` to include additional dependencies such as `@hookform/resolvers`, `react-hook-form`, and others for enhanced functionality. Ensured the build setup aligns with current project requirements." />
+    <MESSAGE value="&quot;Refactor and implement core features for announcements and auth&quot;&#10;&#10;This commit removes unused files, streamlines folder structure, and introduces new features for announcements, products, and enhanced authentication. Features include fetching data with server actions, reusable components like `Breadcrumb` and `AnnouncementBanner`, Zustand-based auth store, and E2E auth tests. These changes modernize the app's architecture and improve core functionalities." />
+    <MESSAGE value="Add footer, enhance homepage, and improve button styles&#10;&#10;Implemented a new footer with improved UX and branding. Enhanced the homepage layout with updated hero and collections sections, added animations, and visual effects. Updated button styles to improve clarity, consistency, and responsiveness." />
+    <MESSAGE value="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability." />
+  </component>
+</project>

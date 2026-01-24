@@ -1,0 +1,788 @@
+# Product Requirements Document: Marvelring B2B Platform
+
+**Version:** 1.0
+**Last Updated:** 2026-01-21
+**Status:** Draft for Review
+**Owner:** Product Team
+
+---
+
+## 1. Overview
+
+### 1.1 Problem Statement
+
+Korean jewelry business owners (40-60 years old) who operate wholesale and retail businesses face challenges in sourcing gold jewelry products. They need a professional B2B platform that provides:
+- Detailed technical specifications for jewelry products (gold type, weight, diamond size, etc.)
+- Differentiated pricing based on business type (wholesale vs retail)
+- Secure business verification to ensure professional dealers only
+- Simple inquiry-based purchasing without complex checkout flows
+
+Current solutions lack the professional specifications needed for B2B transactions and don't provide the trust mechanisms required for business verification in the Korean market.
+
+### 1.2 Proposed Solution
+
+Marvelring is a desktop-first, mobile-responsive B2B platform for browsing and ordering gold jewelry with:
+- **Business verification system**: Manual approval based on business license upload
+- **Differentiated pricing**: Separate wholesale and retail pricing tiers
+- **Professional product specs**: Comprehensive technical details (gold type, weight, diamond size, labor costs)
+- **Category navigation**: Organized by luxury brands (Collection) and jewelry types (Fashion)
+- **Inquiry-based purchasing**: KakaoTalk integration for direct communication
+- **Admin management**: Product and user management via Supabase Dashboard (MVP)
+
+The platform prioritizes clean, professional aesthetics with ivory/marble design language and large, readable fonts optimized for the 40-60 age demographic.
+
+### 1.3 Target Users
+
+**Primary Users:**
+- Korean jewelry business owners (40-60 years old)
+- Wholesale dealers (도매업자)
+- Retail dealers (소매업자)
+- Technical literacy: Basic to intermediate
+- Preferred communication: KakaoTalk (ubiquitous in Korean B2B)
+
+**Secondary Users:**
+- Platform administrators (product management, user approval)
+
+### 1.4 Success Metrics
+
+**Phase 1 (MVP - 2-3 weeks):**
+- Admin can approve 5+ user registrations per day via Supabase Dashboard
+- Approved users can browse 100+ products with correct pricing based on business type
+- 100% of guests and pending users see "Login to view price" instead of actual prices
+- Mobile responsive experience works seamlessly on iOS and Android devices
+- Zero critical bugs preventing core user flows
+
+**Phase 2 (1-2 weeks later):**
+- Product search functionality with <500ms response time
+- Custom admin panel reduces approval time by 50%
+- User profile pages allow self-service information updates
+
+**Phase 3 (Optional):**
+- Bulk product upload via Excel reduces admin time by 80%
+- Analytics dashboard provides business insights
+
+---
+
+## 2. Requirements
+
+### 2.1 Core Features
+
+**REQ-001: Business User Registration**
+- Description: The system shall provide a multi-step registration form requiring username, email, password, real name, phone number, business type (wholesale/retail), and business license document upload (JPG, PNG, PDF, max 5MB).
+- Priority: High
+- Rationale: Business verification is the foundation of trust for B2B transactions. Manual approval ensures only legitimate dealers access the platform.
+
+**REQ-002: Business License Upload**
+- Description: The system shall allow users to upload business registration documents (사업자등록증) to Supabase Storage with validation for file type (JPG, PNG, PDF) and size (max 5MB), storing the file URL in the user profile.
+- Priority: High
+- Rationale: Required for manual verification by administrators.
+
+**REQ-003: User Approval Workflow**
+- Description: The system shall set new registrations to 'pending' status and allow administrators to approve or reject users via Supabase Dashboard, updating the user's approval_status field and approved_at timestamp.
+- Priority: High
+- Rationale: Manual verification ensures quality control of B2B user base.
+
+**REQ-004: Email Notifications on Approval Status**
+- Description: The system shall send email notifications to users when their registration is approved or rejected, using Supabase Auth's email service.
+- Priority: High
+- Rationale: Provides timely feedback to users without requiring them to repeatedly check their status.
+
+**REQ-005: Category Navigation System**
+- Description: The system shall provide a fixed header navigation with dropdown menus for two category types: Collection (luxury brands: Cartier, Chanel, Hermès, Bulgari, Tiffany) and Fashion (jewelry types: rings, necklaces, earrings, bracelets, other), plus NEW, SALE, Notices, and Customer Service tabs.
+- Priority: High
+- Rationale: Simple navigation structure ensures users can find products within 3 clicks, addressing usability needs of 40-60 age group.
+
+**REQ-006: Product Listing Page**
+- Description: The system shall display products in a responsive grid (3-4 columns desktop, 2 tablet, 1 mobile) with infinite scroll, showing product image, name, product number, and NEW/SALE badges (no prices), with sort options (newest first, product number).
+- Priority: High
+- Rationale: Clean, minimal listing encourages browsing while protecting sensitive pricing information.
+
+**REQ-007: Product Detail Page**
+- Description: The system shall display comprehensive product specifications organized in sections:
+  - **Product Identity**: Product name, product number, creation date
+  - **Material Specifications**: Gold type, gold weight (grams), total weight if available
+  - **Diamond Specifications** (if applicable): Diamond size (carats), shape, color grade, clarity grade, cut grade, certification type (GIA/IGI/HRD), certificate number
+  - **Craftsmanship Details**: Stone setting method, finish type, clasp type (for necklaces/bracelets), chain style/length
+  - **Size & Availability**: Standard size, stock quantity (optional display), MOQ, lead time
+  - **Safety & Certification**: Lead-free/Nickel-free/Hypoallergenic badges, KC certification badge with number
+  - **Pricing** (based on user authorization): Price displayed with generic "가격" label (wholesale_price for wholesale users, retail_price for retail users, never labeled as "도매가" or "소매가") / Login prompt "가격은 로그인 후 확인하실 수 있습니다" (guests/pending), labor cost, origin country
+  - **Image Gallery**: 1-10 images with zoom functionality, swipeable on mobile
+  - **Navigation**: Breadcrumb (Home > Category > Sub-category > Product)
+- Priority: High
+- Rationale: Professional dealers require comprehensive technical specifications including diamond grading, certifications, and safety information to make informed purchasing decisions; organized presentation improves readability for 40-60 age group.
+
+**REQ-008: Differentiated Pricing System**
+- Description: The system shall display pricing based on user status with the following critical business rule: **each user sees only their applicable price with the generic label "가격" (Price), never revealing that multiple price tiers exist**. Specifically:
+  - Guests/pending users see: "가격은 로그인 후 확인하실 수 있습니다"
+  - Wholesale users see: "가격: ₩XXX,XXX" (displaying wholesale_price, NOT labeled as "도매가")
+  - Retail users see: "가격: ₩XXX,XXX" (displaying retail_price, NOT labeled as "소매가")
+  - API responses must return only the price field applicable to the user's business_type; the other price field must NOT be included in the response
+  - Enforced by Supabase Row Level Security policies that filter price fields based on auth.jwt() business_type
+- Priority: High (Critical Business Rule)
+- Rationale: Core value proposition - differentiated pricing for wholesale vs retail business types while maintaining business relationship integrity by preventing mutual awareness of price differences, which could cause dissatisfaction or distrust among dealers.
+
+**REQ-008A: Price Display Label Standardization**
+- Description: The system shall NEVER display price type labels ("도매가", "소매가", "Wholesale Price", "Retail Price") in any user interface. All pricing must use the generic label "가격" (Price) regardless of user business type. The UI must provide no indication that multiple price tiers exist, including:
+  - No price type labels in product detail pages
+  - No hints about differential pricing (e.g., "회원 구분에 따라 가격이 다릅니다")
+  - No price range displays (e.g., "₩500,000 ~ ₩600,000")
+  - No comparison features between price types
+- Priority: High (Critical Business Rule)
+- Rationale: Protects business relationships by ensuring wholesale dealers and retail dealers remain unaware of each other's pricing, preventing dissatisfaction and maintaining trust in the platform's fairness.
+
+**REQ-008B: Price Data Security**
+- Description: The system shall implement strict data security measures to prevent exposure of non-applicable price fields:
+  - Backend queries must select only the applicable price field using column aliasing (e.g., `SELECT wholesale_price AS price` for wholesale users, `SELECT retail_price AS price` for retail users)
+  - API responses must never include both wholesale_price and retail_price fields simultaneously
+  - Frontend TypeScript types must define only a single `price` field, with no wholesale_price or retail_price properties
+  - Client-side state management (Redux/Zustand) must store only the single `price` value
+  - Browser developer tools (Network tab, Redux DevTools) must not reveal the existence of alternative pricing
+  - Supabase RLS policies must enforce column-level security to prevent unauthorized price field access
+- Priority: High (Critical Business Rule)
+- Rationale: Comprehensive security ensures that even technically savvy users cannot discover alternative pricing through API inspection, browser tools, or database queries, maintaining the integrity of the differentiated pricing model.
+
+**REQ-008C: Price Display Implementation Examples**
+- Description: The system shall implement price display following these specific patterns:
+  - **Correct Frontend Implementation:**
+    ```tsx
+    // ✅ Correct: Generic label, single price field
+    <div className="price-section">
+      <span className="price-label">가격</span>
+      <span className="price-value">₩{price.toLocaleString()}</span>
+    </div>
+    ```
+  - **Incorrect Frontend Implementation:**
+    ```tsx
+    // ❌ Wrong: Reveals price tier structure
+    <div className="price-section">
+      <span className="price-label">
+        {businessType === 'wholesale' ? '도매가' : '소매가'}
+      </span>
+      <span className="price-value">₩{price.toLocaleString()}</span>
+    </div>
+    ```
+  - **Correct Backend Query (Supabase):**
+    ```typescript
+    // ✅ Wholesale user
+    const { data } = await supabase
+      .from('products')
+      .select('id, name, wholesale_price as price, labor_cost, ...')
+      .eq('id', productId);
+
+    // ✅ Retail user
+    const { data } = await supabase
+      .from('products')
+      .select('id, name, retail_price as price, labor_cost, ...')
+      .eq('id', productId);
+    ```
+  - **TypeScript Type Definition:**
+    ```typescript
+    // ✅ Correct: Frontend only knows about single price
+    interface Product {
+      id: string;
+      name: string;
+      price: number;  // Backend determines which price to return
+      labor_cost: number;
+      // NO wholesale_price or retail_price in frontend types
+    }
+    ```
+- Priority: High (Critical Business Rule)
+- Rationale: Provides concrete implementation guidance to prevent developers from accidentally revealing price tier structure; code examples ensure consistent implementation across the application.
+
+**REQ-009: NEW Tab Auto-filtering**
+- Description: The system shall automatically display products created within the last 30 days in the NEW tab, with optional category filter (Collection/Fashion), sorted by creation date descending.
+- Priority: High
+- Rationale: Highlights new inventory to encourage repeat visits from dealers.
+
+### 2.2 User Interface
+
+**REQ-010: Responsive Design**
+- Description: The system shall provide a fully responsive layout optimized for desktop (1920px), tablet (768px), and mobile (375px) with touch targets minimum 48px for all interactive elements.
+- Priority: High
+- Rationale: Target users (40-60 age group) need large, easy-to-tap elements on mobile devices.
+
+**REQ-011: Design System Colors**
+- Description: The system shall implement an ivory/cream white color palette (base: #ebdebf) with champagne gold accents (#c19a2e) and gray hierarchy, following the defined Tailwind CSS theme configuration.
+- Priority: High
+- Rationale: Professional, elegant aesthetic that aligns with luxury jewelry brand positioning.
+
+**REQ-012: Typography Standards**
+- Description: The system shall use a base font size of 18px (1.125rem) with sans-serif font (Inter or similar), line height 1.6, and clear visual hierarchy for optimal readability for 40-60 age group.
+- Priority: High
+- Rationale: Large, clear text reduces eye strain and improves accessibility for older users.
+
+**REQ-013: Image Gallery with Zoom**
+- Description: The system shall provide an image gallery on product detail pages with thumbnail navigation, swipeable on mobile, and zoom functionality (lightbox or modal) for detailed inspection.
+- Priority: High
+- Rationale: Users need to inspect jewelry details closely before making purchase inquiries.
+
+**REQ-014: Dropdown Navigation Menu**
+- Description: The system shall implement dropdown menus (hover on desktop, click on mobile) for category navigation, showing sub-categories with active state indication.
+- Priority: Medium
+- Rationale: Compact navigation pattern familiar to target age group, keeps header clean.
+
+**REQ-015: Breadcrumb Navigation**
+- Description: The system shall display breadcrumb navigation on product detail pages showing the path (e.g., Home > Collection > Cartier > Product Name) with clickable links.
+- Priority: Medium
+- Rationale: Helps users understand their location and navigate back easily, aids SEO.
+
+**REQ-016: Infinite Scroll for Product Listing**
+- Description: The system shall implement infinite scroll with loading indicators for product listings, automatically loading the next batch of products as users scroll near the bottom.
+- Priority: Medium
+- Rationale: Provides seamless browsing experience without explicit pagination clicks.
+
+**REQ-017: Loading and Empty States**
+- Description: The system shall display skeleton loaders during data fetching and empty state messages (e.g., "해당 카테고리에 상품이 없습니다") when no products exist in a category.
+- Priority: Medium
+- Rationale: Clear feedback prevents user confusion during loading or when content is unavailable.
+
+### 2.3 Data & Storage
+
+**REQ-020: User Profile Schema**
+- Description: The system shall store user profiles extending Supabase auth.users with fields: username (unique), real_name, phone_number, business_type (enum: wholesale/retail), business_license_url, approval_status (enum: pending/approved/rejected), approved_at, approved_by.
+- Priority: High
+- Rationale: Captures essential business verification data and approval workflow state.
+
+**REQ-021: Product Schema**
+- Description: The system shall store products with the following fields:
+  - **Basic Info**: name, product_number (unique, indexed), description
+  - **Material Specs**: gold_type (enum: 18K, 14K, Platinum, Other), gold_weight (decimal, grams), total_weight (decimal, grams, nullable)
+  - **Diamond Specs**: diamond_size (decimal, carats, nullable), diamond_shape (enum: Round, Princess, Emerald, Oval, Cushion, etc., nullable), diamond_color (enum: D, E, F, G, H, I, J, K, nullable), diamond_clarity (enum: FL, IF, VVS1, VVS2, VS1, VS2, SI1, SI2, nullable), diamond_cut (enum: Excellent, Very Good, Good, Fair, Poor, nullable), diamond_certification (varchar: GIA, IGI, HRD, None, nullable), diamond_certificate_number (varchar, nullable)
+  - **Craftsmanship**: stone_setting (enum: Prong, Bezel, Pave, Channel, Tension, None, nullable), finish_type (enum: Polished, Matte, Brushed, Satin, Hammered, Mixed, nullable), clasp_type (varchar: Lobster, Spring Ring, Magnetic, Box, Toggle, None, nullable for necklaces/bracelets), chain_style (varchar, nullable for necklaces/bracelets), chain_length (varchar, nullable)
+  - **Size & Fit**: standard_size (varchar: ring size "13호", necklace length "55cm", etc.)
+  - **Business Info**: wholesale_price, retail_price, labor_cost, stock_quantity (nullable), moq (integer, nullable, default 1), lead_time_days (integer, nullable), origin_country (varchar, nullable, default "Korea")
+  - **Safety & Certification**: is_lead_free (boolean, default true), is_nickel_free (boolean, default true), is_hypoallergenic (boolean, default false), kc_certified (boolean, default false), kc_certificate_number (varchar, nullable)
+  - **Media & Communication**: main_image_url, images (jsonb array of 1-10 URLs), is_sale (boolean), kakao_link, created_at, updated_at
+- Priority: High
+- Rationale: Comprehensive schema matches international B2B jewelry standards and professional dealer requirements discovered through market research; diamond certification and safety certifications are industry requirements for professional transactions.
+
+**REQ-022: Category Schema**
+- Description: The system shall store categories with fields: name, slug, type (enum: collection/fashion/other), parent_id (nullable for sub-categories), display_order, with many-to-many relationship to products via product_categories join table.
+- Priority: High
+- Rationale: Flexible hierarchical structure supports Collection (brands) and Fashion (jewelry types) navigation.
+
+**REQ-023: Notice Schema**
+- Description: The system shall store notices with fields: title, content (rich text), author_id (admin user), is_pinned (boolean), created_at, updated_at.
+- Priority: Medium
+- Rationale: Enables admin announcements for business communications (e.g., holiday closures, new products).
+
+**REQ-024: Image Storage Strategy**
+- Description: The system shall store product images and business license documents in separate Supabase Storage buckets (product-images, business-documents) with public access for products and restricted access for documents, using Supabase image transformations for thumbnails combined with Next.js Image optimization.
+- Priority: High
+- Rationale: Optimizes bandwidth and loading performance while maintaining security for sensitive documents.
+
+**REQ-025: Database Indexes**
+- Description: The system shall create indexes on product_number, created_at, category relationships, and user approval_status for query performance.
+- Priority: High
+- Rationale: Ensures fast queries for product lookups, NEW tab filtering, and admin approval workflows.
+
+### 2.4 Integration Points
+
+**REQ-030: Supabase Authentication**
+- Description: The system shall integrate Supabase Auth for email/password authentication using @supabase/ssr for Next.js Server Components and middleware, with session management and protected routes.
+- Priority: High
+- Rationale: Provides secure, scalable authentication without building custom auth infrastructure.
+
+**REQ-031: KakaoTalk Inquiry Integration**
+- Description: The system shall provide a "카카오톡 문의하기" button on product detail pages linking to a KakaoTalk Open Chat URL stored per product (or global default).
+- Priority: High
+- Rationale: KakaoTalk is the preferred B2B communication channel in Korea for direct inquiries.
+
+**REQ-032: Email Service Integration**
+- Description: The system shall use Supabase Auth's built-in email service for sending approval/rejection notifications to users.
+- Priority: High
+- Rationale: Leverages existing Supabase infrastructure for reliable email delivery.
+
+**REQ-033: Vercel Deployment**
+- Description: The system shall deploy to Vercel with automatic deployments from main branch, environment variables configured in Vercel dashboard, and production-only environment for MVP.
+- Priority: High
+- Rationale: Vercel provides seamless Next.js hosting with optimal performance and zero-configuration deployments.
+
+### 2.5 Performance
+
+**REQ-040: Page Load Time**
+- Description: The system shall load pages within 3 seconds on desktop broadband and 5 seconds on mobile 4G LTE, measured at p95.
+- Priority: High
+- Rationale: Fast loading prevents user abandonment, especially for older users less tolerant of slow sites.
+
+**REQ-041: Image Optimization**
+- Description: The system shall use Next.js Image component with lazy loading for all product images, with Supabase image transformations generating thumbnails (400px) and medium sizes (800px).
+- Priority: High
+- Rationale: Reduces bandwidth and improves perceived performance on product listing pages.
+
+**REQ-042: Database Query Optimization**
+- Description: The system shall use Supabase indexes and query patterns that fetch only required fields, with pagination limits of 24 products per batch for infinite scroll.
+- Priority: Medium
+- Rationale: Prevents slow queries as product catalog grows beyond 100 items.
+
+### 2.6 Security
+
+**REQ-050: Row Level Security Policies**
+- Description: The system shall implement Supabase RLS policies enforcing: (1) users can only read their own profile and business license URL, (2) product prices visible only to approved users, (3) admin-only write access for products and user approval status updates.
+- Priority: High
+- Rationale: Protects sensitive business data and prevents unauthorized access to pricing information.
+
+**REQ-051: Input Validation**
+- Description: The system shall validate all form inputs using Zod schemas for: email format, password strength (min 8 characters), phone number format (Korean), file upload type and size, and SQL injection prevention.
+- Priority: High
+- Rationale: Prevents malicious input and ensures data quality.
+
+**REQ-052: File Upload Security**
+- Description: The system shall validate uploaded files for type (JPG, PNG, PDF only) and size (max 5MB), with server-side validation and virus scanning (if available via Supabase).
+- Priority: High
+- Rationale: Prevents malicious file uploads that could compromise the system.
+
+**REQ-053: Environment Variables Protection**
+- Description: The system shall store all sensitive configuration (Supabase URL, anon key, service role key) in environment variables (.env.local for development, Vercel dashboard for production) and never commit to git.
+- Priority: High
+- Rationale: Prevents credential exposure in version control.
+
+**REQ-054: HTTPS Enforcement**
+- Description: The system shall enforce HTTPS for all connections (automatically handled by Vercel), with HSTS headers and secure cookie flags.
+- Priority: High
+- Rationale: Protects data in transit, especially login credentials and business information.
+
+### 2.7 Admin Product Management
+
+**REQ-060: Admin Product Creation with Complete Specifications**
+- Description: The system shall allow administrators to create new products via Supabase Dashboard with the following fields:
+  - **Required Fields**: product_name, product_number (unique), gold_type (18K/14K/Platinum/Other), gold_weight (grams), wholesale_price, retail_price, labor_cost, main_image_url
+  - **Material Optional Fields**: total_weight (grams), finish_type (Polished/Matte/Brushed/Satin/Hammered/Mixed), origin_country (default "Korea")
+  - **Diamond Optional Fields**: diamond_size (carats), diamond_shape (Round/Princess/Emerald/Oval/Cushion/etc), diamond_color (D-K scale), diamond_clarity (FL to SI2), diamond_cut (Excellent to Poor), diamond_certification (GIA/IGI/HRD/None), diamond_certificate_number
+  - **Craftsmanship Optional Fields**: stone_setting (Prong/Bezel/Pave/Channel/Tension/None), clasp_type (Lobster/Spring Ring/Magnetic/Box/Toggle), chain_style, chain_length
+  - **Size & Business Fields**: standard_size (e.g., "13호", "55cm"), stock_quantity, moq (minimum order quantity, default 1), lead_time_days (production time)
+  - **Safety & Certification Fields**: is_lead_free (default true), is_nickel_free (default true), is_hypoallergenic, kc_certified, kc_certificate_number
+  - **Other Fields**: description, images (JSONB array 1-10 URLs), is_sale (boolean), kakao_link
+- Priority: High
+- Rationale: Expanded specification fields match international B2B jewelry industry standards (GIA diamond grading, safety certifications, MOQ requirements) and address professional dealer purchasing criteria discovered through market research.
+
+**REQ-061: Admin Product Image Upload and Management**
+- Description: The system shall allow administrators to upload 1-10 product images to Supabase Storage bucket "product-images" with validation for file type (JPG, PNG, WEBP only), file size (max 5MB per image), and automatic thumbnail generation (400px) and medium size (800px) using Supabase image transformations, storing image URLs in the images JSONB array field with support for reordering and deletion.
+- Priority: High
+- Rationale: High-quality product images are critical for jewelry sales; multiple angles and detail shots required for professional dealers to assess products.
+
+**REQ-062: Admin Product Editing**
+- Description: The system shall allow administrators to edit existing products via Supabase Dashboard, modifying any product specification field (name, product_number, prices, gold type, weight, diamond size, standard size, labor cost, stock quantity), updating images (add, remove, reorder), changing category assignments, and toggling is_sale status, with automatic updated_at timestamp.
+- Priority: High
+- Rationale: Product information changes frequently (pricing adjustments, stock updates, specification corrections); admins need full editing capability.
+
+**REQ-063: Admin Product Deletion**
+- Description: The system shall allow administrators to delete products via Supabase Dashboard, removing the product record and all associated product_categories join records, with cascade deletion or soft-delete option (status = 'deleted') to preserve historical data.
+- Priority: Medium
+- Rationale: Admins need ability to remove discontinued or incorrectly entered products; soft-delete option preserves data for auditing.
+
+**REQ-064: Admin Product Category Assignment (Many-to-Many)**
+- Description: The system shall allow administrators to assign products to multiple categories simultaneously via product_categories join table, enabling a single product to appear in both Collection (e.g., "Cartier") and Fashion (e.g., "Rings") categories, as well as NEW (if created_at < 30 days) and SALE (if is_sale = true) dynamic tabs.
+- Priority: High
+- Rationale: Jewelry products often fit multiple categorizations (luxury brand + jewelry type); flexible many-to-many relationship essential for effective product organization.
+
+**REQ-065: Admin Product Validation Rules**
+- Description: The system shall enforce validation rules for product creation and editing: product_number must be unique; gold_weight, wholesale_price, retail_price, labor_cost must be positive numbers; retail_price should be ≥ wholesale_price (warning, not error); gold_type must be from predefined enum; images array must not exceed 10 items; required fields (name, product_number, gold_type, gold_weight, wholesale_price, retail_price, labor_cost, main_image_url) must be non-null.
+- Priority: High
+- Rationale: Data integrity is critical for pricing accuracy and product display; validation prevents erroneous data entry that could cause pricing errors or display issues.
+
+### 2.8 Admin User Management
+
+**REQ-066: Admin User Approval Workflow**
+- Description: The system shall allow administrators to view pending user registrations in Supabase Dashboard users table filtered by approval_status = 'pending', inspect business license document URLs by clicking the business_license_url field, and update approval_status to 'approved' or 'rejected' with optional rejection_reason field, automatically triggering email notifications via Supabase trigger function.
+- Priority: High
+- Rationale: Manual approval workflow ensures business verification quality; detailed inspection of business licenses prevents fraudulent registrations.
+
+**REQ-067: Admin User Business Type Management**
+- Description: The system shall allow administrators to view and edit user business_type (wholesale/retail) via Supabase Dashboard, enabling correction of incorrectly selected business types during registration or business type changes over time.
+- Priority: Medium
+- Rationale: Business owners may select wrong type during registration or change business model; admins need ability to correct business_type which affects pricing visibility.
+
+### 2.9 Admin Content Management
+
+**REQ-068: Rich Text Notice Editor**
+- Description: The system shall provide a WYSIWYG rich text editor (e.g., Tiptap, Quill) for creating and editing notices in the admin interface, supporting bold, italic, lists, links, headings, and basic formatting, with sanitized HTML output stored in the content field.
+- Priority: Medium
+- Rationale: Enables admins to create professionally formatted announcements without HTML knowledge; rich formatting improves readability of business communications.
+
+**REQ-069: Notice Board Display**
+- Description: The system shall display notices in a list view (title, date, author) with optional pinned notices at the top (is_pinned = true), and detail pages showing full formatted content rendered from sanitized HTML, sorted by created_at descending.
+- Priority: Medium
+- Rationale: Provides communication channel for business announcements (holidays, promotions, policy changes); pinned notices ensure critical information stays visible.
+
+### 2.10 Customer Support
+
+**REQ-070: Customer Service Page**
+- Description: The system shall provide a customer service page displaying a prominent KakaoTalk inquiry button, FAQ section with common questions, business hours, and contact information (phone, email).
+- Priority: Medium
+- Rationale: Provides multiple support channels while prioritizing KakaoTalk (preferred in Korean B2B).
+
+**REQ-071: FAQ Content**
+- Description: The system shall include static FAQ content addressing: registration approval process, pricing visibility, product inquiry process, shipping information, and return policy.
+- Priority: Medium
+- Rationale: Reduces support burden by answering common questions proactively.
+
+---
+
+## 3. User Stories
+
+### 3.1 User Registration and Approval
+
+**As a jewelry business owner**, I want to register with my business credentials so that I can access wholesale or retail pricing.
+
+**Acceptance Criteria:**
+- Given I am on the registration page, when I fill out username, email, password, real name, phone number, business type, and upload my business license (JPG/PNG/PDF < 5MB), then my registration is submitted with 'pending' status
+- Given I submitted registration, when an admin approves my account in Supabase Dashboard, then I receive an email notification and can login to see prices based on my business type
+- Given I submitted registration, when an admin rejects my account, then I receive an email notification with rejection message and customer service contact information
+- Given I try to upload an invalid file (wrong type or > 5MB), when I click submit, then I see an error message and the form remains intact with my other data preserved
+
+### 3.2 Product Browsing (Guest User)
+
+**As a guest visitor**, I want to browse products and see specifications without logging in so that I can evaluate the platform before registering.
+
+**Acceptance Criteria:**
+- Given I am not logged in, when I navigate to Collection or Fashion categories, then I see product grid with images, names, product numbers, and badges (no prices)
+- Given I click on a product card, when the detail page loads, then I see full specifications (gold type, weight, diamond size, etc.) with image gallery and "로그인하여 가격 확인" message instead of prices
+- Given I click the KakaoTalk inquiry button, when I am not logged in, then I am redirected to the login page
+- Given I scroll down on the product listing page, when I reach near the bottom, then the next batch of products loads automatically
+
+### 3.3 Product Inquiry (Approved User)
+
+**As an approved wholesale dealer**, I want to see wholesale prices and contact sellers so that I can make purchasing decisions.
+
+**Acceptance Criteria:**
+- Given I am logged in as an approved wholesale user, when I view a product detail page, then I see "가격: ₩XXX,XXX" with formatted pricing (displaying my wholesale_price without revealing that retail pricing exists)
+- Given I am on a product detail page, when I click "카카오톡 문의하기", then I am directed to the product-specific or default KakaoTalk Open Chat
+- Given I am viewing the product gallery, when I click on an image, then a lightbox opens with zoom functionality for detailed inspection
+- Given I navigate categories, when I check the breadcrumb, then I see the full path (Home > Collection > Cartier > Product Name) with clickable links
+
+### 3.4 NEW Products Discovery
+
+**As a retail dealer**, I want to quickly find newly added products so that I can stay updated on new inventory.
+
+**Acceptance Criteria:**
+- Given I click the NEW tab, when the page loads, then I see all products created within the last 30 days with "신상품" badge
+- Given I am on the NEW tab, when I apply a category filter (Collection/Fashion), then I see only NEW products from that category
+- Given a product is 31 days old, when I visit the NEW tab, then that product no longer appears in the list
+- Given I sort by newest first, when the list displays, then products are ordered by creation date descending
+
+### 3.5 Admin User Approval
+
+**As an administrator**, I want to review and approve business registrations so that I can ensure only legitimate dealers access the platform.
+
+**Acceptance Criteria:**
+- Given I log into Supabase Dashboard, when I navigate to the users table, then I see pending registrations with approval_status = 'pending'
+- Given I select a pending user, when I view their business_license_url, then I can inspect the uploaded document image
+- Given I approve a user, when I set approval_status = 'approved' and save, then the user receives an approval email and can login to see prices
+- Given I reject a user, when I set approval_status = 'rejected' and save, then the user receives a rejection email with customer service contact info
+
+### 3.6 Notice Management
+
+**As an administrator**, I want to post formatted announcements so that I can communicate important information to dealers.
+
+**Acceptance Criteria:**
+- Given I am logged into the admin panel (or use a rich text interface), when I create a notice with formatted content (bold, lists, links), then the notice is saved with HTML formatting
+- Given I mark a notice as pinned, when users view the notice board, then the pinned notice appears at the top of the list
+- Given I publish a notice, when users visit the notice board, then they see the notice in the list with title, date, and author
+- Given I edit a notice, when I save changes, then the updated_at timestamp reflects the change and users see the updated content
+
+### 3.7 Admin Product Management
+
+**As an administrator**, I want to create and manage jewelry products with complete specifications so that dealers can browse accurate, detailed product information.
+
+**Acceptance Criteria:**
+- Given I am creating a new product, when I enter all required fields (product name, product number, gold type, gold weight, wholesale price, retail price, labor cost) and upload a main image, then the product is created in the database with created_at timestamp
+- Given I am creating a product, when I enter optional fields (diamond size "0.5", standard size "13호", description, stock quantity), then these specifications are stored and displayed on the product detail page
+- Given I upload product images, when I add 1-10 images (JPG/PNG/WEBP < 5MB each), then the images are stored in Supabase Storage "product-images" bucket with automatic thumbnail (400px) and medium (800px) transformations generated
+- Given I assign categories, when I select multiple categories (e.g., "Collection > Cartier" + "Fashion > Rings"), then product_categories join records are created and the product appears in both category listings
+- Given I set wholesale price to ₩500,000 and retail price to ₩600,000, when I save the product, then wholesale users see "가격: ₩500,000" and retail users see "가격: ₩600,000" on the detail page (both displayed with generic "가격" label, with no indication that different price tiers exist)
+- Given I toggle is_sale to true, when I save, then the product appears in the SALE tab with a SALE badge on listing and detail pages
+- Given I enter an invalid product_number (duplicate) or leave gold_weight empty, when I attempt to save, then I see a validation error and the product is not created
+- Given I need to update pricing, when I edit an existing product and change wholesale_price from ₩500,000 to ₩480,000, then the updated price is immediately reflected for all wholesale users
+- Given I need to remove a discontinued product, when I delete the product, then it is removed from all category listings and the detail page returns 404
+
+---
+
+## 4. Technical Considerations
+
+### 4.1 Constraints
+
+- **No phone verification in MVP**: Manual business license verification only; phone verification deferred to Phase 2 to accelerate launch
+- **No search functionality in MVP**: Category navigation only; search deferred to Phase 2 based on user feedback
+- **No custom admin UI in MVP**: Administrators use Supabase Dashboard for all management tasks
+- **Production environment only**: No separate staging environment; testing done locally before production deployment
+- **Korean market only**: UI, content, and business logic tailored to Korean B2B conventions; internationalization deferred
+- **No online payment**: Inquiry-based purchasing via KakaoTalk; no payment gateway integration
+- **B2B only**: Business verification required; no consumer access allowed
+
+### 4.2 Dependencies
+
+- **Supabase Cloud service availability**: Platform relies on Supabase uptime for authentication, database, and storage
+- **Vercel deployment pipeline**: Continuous deployment depends on Vercel service availability
+- **Email delivery**: User notifications depend on Supabase Auth email service (powered by their provider)
+- **KakaoTalk availability**: Inquiry functionality depends on KakaoTalk Open Chat being accessible in Korea
+
+### 4.3 Technical Decisions from Requirements Gathering
+
+- **Skip phone verification**: Approved - Reduces complexity and launch time; admin verifies business license manually
+- **Email notifications**: Approved - Sends email on approval/rejection status changes using Supabase Auth
+- **Guest product detail access**: Approved - Guests can view specs without prices to encourage registration
+- **Flexible image count**: Approved - 1-10 images per product, no enforced minimum
+- **Infinite scroll**: Approved - Seamless browsing experience for product listings
+- **NEW tab category filter**: Approved - Optional filter for Collection/Fashion within NEW products
+- **Breadcrumb navigation**: Approved - Improves navigation and SEO on product detail pages
+- **No search in MVP**: Approved - Defer to Phase 2; category navigation sufficient for launch
+- **No sale_price field**: Approved - SALE badge only; pricing handled via inquiry
+- **Rich text editor for notices**: Approved - WYSIWYG editor for better formatted announcements
+- **Dropdown navigation**: Approved - Hover/click dropdown for sub-categories, compact and familiar
+- **KakaoTalk link + FAQ only**: Approved - No contact form in MVP; prioritize KakaoTalk
+- **Supabase Cloud**: Approved - Hosted service for faster MVP deployment
+- **Image optimization strategy**: Approved - Combine Supabase transforms (thumbnails) with Next.js Image optimization
+- **Production only environment**: Approved - Single production environment for MVP; Vercel preview deployments for testing
+- **Admin manual checks**: Approved - Administrators check Supabase Dashboard for pending registrations; no automated alerts
+
+### 4.4 Known Risks
+
+- **Manual admin approval bottleneck**: High registration volume may overwhelm manual approval process; mitigation: monitor approval queue daily, plan automation for Phase 2
+- **Supabase free tier limits**: Project may exceed free tier storage or bandwidth; mitigation: monitor usage, upgrade to Pro plan if needed
+- **KakaoTalk dependency**: Critical inquiry flow depends on external service; mitigation: provide fallback contact methods (phone, email) on customer service page
+- **No search in MVP**: Users may struggle to find specific products; mitigation: ensure category structure is intuitive, monitor user feedback for Phase 2 prioritization
+
+---
+
+## 5. Out of Scope
+
+The following features are explicitly **NOT** included in the MVP:
+
+### 5.1 Features Deferred to Phase 2
+
+- **Phone verification via SMS**: Manual business license verification sufficient for MVP
+- **Search functionality**: Category navigation adequate for initial product catalog; search added in Phase 2 based on user needs
+- **Contact form on customer service page**: KakaoTalk + FAQ handles inquiries; form added if users request alternative
+- **Custom admin panel**: Supabase Dashboard sufficient for MVP; custom UI built in Phase 2 for better UX
+- **User profile/settings page**: Users cannot edit their information post-registration; added in Phase 2
+- **Password reset flow**: Users contact admin for password resets; self-service flow added in Phase 2
+- **Inquiry submission form with tracking**: KakaoTalk handles inquiries; in-app inquiry system added in Phase 2
+- **Advanced filtering**: No filtering by price range, gold type, etc. in MVP; added in Phase 2
+
+### 5.2 Features Deferred to Phase 3 (Optional)
+
+- **Bulk product upload via Excel**: Admin enters products individually in MVP
+- **Wishlist/Favorites**: Users cannot save favorite products
+- **Product comparison**: Users cannot compare multiple products side-by-side
+- **Order history tracking**: No order tracking (inquiry-based purchasing)
+- **Real-time notifications**: No push or real-time in-app notifications
+- **Analytics dashboard**: No business intelligence or reporting tools
+- **SEO optimization**: Basic SEO only; advanced optimization deferred
+
+### 5.3 Features Not in Product Scope
+
+- **Shopping cart**: Inquiry-based purchasing model does not require cart functionality
+- **Online payment processing**: All transactions handled via KakaoTalk inquiry and offline payment
+- **Social login (Naver, Google)**: Business verification requires business license; social login not compatible
+- **Product reviews/ratings**: B2B platform does not require consumer-style reviews
+- **Real-time chat in app**: KakaoTalk handles all communication; no need for built-in chat
+- **Multi-language support**: Korean market only; no internationalization planned
+- **Consumer (B2C) access**: Platform is B2B only; general consumers cannot register
+
+---
+
+## 6. Open Questions
+
+### 6.1 Resolved Questions
+
+1. **Phone verification approach?**
+   - Resolution: Skip for MVP, manual verification only
+
+2. **NEW tab filtering options?**
+   - Resolution: Add optional category filter (Collection/Fashion)
+
+3. **Product listing pagination style?**
+   - Resolution: Infinite scroll for seamless browsing
+
+4. **Guest access to product details?**
+   - Resolution: Allow detail view without prices to encourage registration
+
+5. **Image count per product?**
+   - Resolution: Flexible 1-10 images, no enforced minimum
+
+6. **SALE pricing display?**
+   - Resolution: No sale_price field; badge only, pricing via inquiry
+
+7. **Notice board formatting?**
+   - Resolution: Rich text editor (WYSIWYG) for formatted content
+
+8. **Category navigation UI pattern?**
+   - Resolution: Dropdown menu on hover/click
+
+9. **Supabase hosting approach?**
+   - Resolution: Supabase Cloud (managed service)
+
+10. **Email notifications for approval status?**
+    - Resolution: Yes, send email on approval/rejection
+
+11. **Contact form on customer service page?**
+    - Resolution: No, KakaoTalk link + FAQ only for MVP
+
+12. **Breadcrumb navigation?**
+    - Resolution: Yes, implement on product detail pages
+
+13. **Image optimization strategy?**
+    - Resolution: Combine Supabase transforms with Next.js Image
+
+14. **Search functionality in MVP?**
+    - Resolution: No, defer to Phase 2 based on user feedback
+
+15. **Admin notification method for new registrations?**
+    - Resolution: Manual check in Supabase Dashboard
+
+16. **Environment setup (dev/staging/prod)?**
+    - Resolution: Production only; use Vercel preview for testing
+
+### 6.2 Outstanding Questions
+
+1. **Business license document retention policy**
+   - Question: How long should business license documents be stored? Any legal requirements for retention or deletion?
+   - Options: Indefinite retention, delete after user approval, delete after account closure
+   - Recommendation: Clarify with legal/compliance team before launch
+
+2. **Admin role assignment process**
+   - Question: How are admin users created and assigned? Manual database insert, or admin management UI?
+   - Options: Manual Supabase Dashboard insert, environment variable for first admin, admin invitation system
+   - Recommendation: Document admin creation process in deployment guide
+
+3. **Product catalog seeding for launch**
+   - Question: How many products should be available at launch? Who will create the initial product catalog?
+   - Options: Soft launch with 50-100 products, full launch with 200+ products, phased rollout
+   - Recommendation: Plan seeding strategy and assign responsibility
+
+4. **KakaoTalk Open Chat setup**
+   - Question: Will there be one global KakaoTalk Open Chat link, or separate links per product category or product?
+   - Options: Single global link (simplest), per-category links (moderate), per-product links (most complex)
+   - Recommendation: Start with global link for MVP, add per-product links in Phase 2 if needed
+
+5. **Image quality guidelines**
+   - Question: What are the minimum image resolution and quality requirements for product photos?
+   - Options: Minimum 1200x1200px, minimum 800x800px, no minimum (flexible)
+   - Recommendation: Define guidelines for admins uploading products
+
+6. **Diamond certification requirement threshold**
+   - Question: Should we require diamond certification documents for all products with diamonds, or only above a certain carat size (e.g., 0.75ct as per industry standard)?
+   - Options: All diamond products, only ≥0.75ct, only ≥1.0ct, optional for all
+   - Recommendation: Follow industry standard of requiring certification for diamonds ≥0.75ct; document upload in Phase 2
+
+7. **Safety certification verification process**
+   - Question: How will Lead-free/Nickel-free/KC certification claims be verified? Should admins upload certificate documents?
+   - Options: Admin self-declaration only, require certificate upload, third-party lab testing
+   - Recommendation: Start with admin declaration in MVP; add certificate upload in Phase 2 for audit trail
+
+8. **Default MOQ and lead time values**
+   - Question: What should be the default MOQ (minimum order quantity) and lead_time_days for products where not specified?
+   - Options: MOQ default 1 or 200 (industry standard), lead time default 14 days or null
+   - Recommendation: MOQ default 1 for flexibility; lead_time_days default null (contact for details)
+
+9. **Diamond specification field requirements**
+   - Question: Should diamond color, clarity, cut fields be required when diamond_size > 0, or remain optional?
+   - Options: Required for all diamonds, required only if certified, always optional
+   - Recommendation: Optional in MVP for flexibility; encourage completion via admin guidelines
+
+10. **Product specification display strategy**
+    - Question: Should all specification fields be displayed on product detail page even if empty, or only show populated fields?
+    - Options: Show all fields (with "Not specified"), show only populated fields, show conditionally by product type
+    - Recommendation: Show only populated fields to avoid clutter; keeps UI clean for 40-60 age group
+
+---
+
+## 7. Appendix
+
+### 7.1 Related Documents
+
+- Technical Design Document (SDD): TBD
+- API Specification: TBD
+- Database Schema: TBD
+- Design System Guide: See context.md for preliminary design tokens
+- **Price Display Business Rules**: See PRICE-DISPLAY-RULES.md for comprehensive implementation guidelines, security considerations, and testing checklist
+
+### 7.2 Glossary
+
+**Business Terms:**
+- **B2B**: Business-to-business; transactions between businesses
+- **도매업자 (Wholesale dealer)**: Business that purchases in bulk for resale
+- **소매업자 (Retail dealer)**: Business that sells to end consumers
+- **사업자등록증 (Business registration certificate)**: Official Korean business license document
+- **MOQ (Minimum Order Quantity)**: Smallest quantity a supplier will sell (typically 1-200 pieces for jewelry)
+- **Lead Time**: Production and delivery time from order to shipment (typically 2-4 weeks)
+- **FOB/CIF**: Shipping terms - Free On Board / Cost Insurance Freight
+
+**Product Categories:**
+- **컬렉션 (Collection)**: Luxury brand category (Cartier, Chanel, Hermès, Bulgari, Tiffany, etc.)
+- **패션 (Fashion)**: Jewelry type category (rings, necklaces, earrings, bracelets, etc.)
+- **신상품 (New product)**: Badge indicating product is less than 30 days old
+
+**Material & Specifications:**
+- **공임비 (Labor cost)**: Manufacturing or craftsmanship fee for jewelry
+- **18K/14K**: Gold purity (18K = 75% gold, 14K = 58.3% gold)
+- **4C**: Diamond grading criteria - Cut, Color, Clarity, Carat
+- **GIA (Gemological Institute of America)**: Leading diamond certification laboratory
+- **IGI (International Gemological Institute)**: Diamond and gemstone certification lab
+- **HRD (Hoge Raad voor Diamant)**: Antwerp-based diamond certification authority
+
+**Diamond Grading:**
+- **Color Grade**: D (colorless) to K (faint yellow), scale for diamond color
+- **Clarity Grade**: FL (Flawless) to SI2 (Slightly Included), scale for diamond clarity
+- **Cut Grade**: Excellent, Very Good, Good, Fair, Poor - quality of diamond cut
+- **Diamond Shapes**: Round, Princess, Emerald, Oval, Cushion, Marquise, Pear, etc.
+
+**Craftsmanship:**
+- **Stone Setting**: Methods of securing gemstones - Prong, Bezel, Pave, Channel, Tension
+- **Finish Type**: Surface treatment - Polished (shiny), Matte (dull), Brushed (textured), Satin, Hammered
+- **Clasp Type**: Fastening mechanism - Lobster (claw-shaped), Spring Ring, Magnetic, Box, Toggle
+
+**Safety & Certification:**
+- **Lead-free**: Jewelry without lead content (toxic metal)
+- **Nickel-free**: Jewelry without nickel (common allergen)
+- **Hypoallergenic**: Suitable for sensitive skin, minimal allergic reaction risk
+- **KC Certification**: Korea Certification for product safety standards
+
+**Technical:**
+- **RLS (Row Level Security)**: Supabase security feature for database access control
+- **KakaoTalk**: Dominant messaging app in Korea, used for B2B communication
+
+### 7.3 Research Sources
+
+This PRD was enhanced with industry research on B2B jewelry platform requirements:
+
+**Diamond Certification & Grading:**
+- [Helzberg Diamonds - Diamond Grading Chart and Certification Guide](https://www.helzberg.com/jewelry-advice/diamond-grading-chart-and-diamond-certification.html)
+- [IGI - Lab Grown Diamond Report & Certification](https://www.igi.org/reports/lab-grown-diamond-report/)
+- [Nendine - Jewelry Certifications Types Explained](https://nendine.com/jewelry-certifications/)
+
+**B2B Jewelry Platform Standards:**
+- [Feel Style Jewelry - Top 10 Online Fine Jewelry Wholesale Platforms 2026](https://feelstylejewelry.com/top-10-online-fine-jewelry-wholesale-platforms-in-2026/)
+- [Aureate Labs - 21 Must-have Features for B2B Jewelry Store](https://aureatelabs.com/blog/b2b-jewelry-store-features/)
+- [Zoey - B2B Ecommerce for Jewelry Manufacturers and Wholesalers](https://www.zoey.com/b2b-ecommerce-for-jewelry-manufacturers-and-wholesalers/)
+
+**Product Specifications & Finishes:**
+- [Jewelry Making Lab - Ultimate Guide to Magnetic Jewelry Clasps 2026](https://www.jewelrymakinglab.com/the-ultimate-guide-to-magnetic-jewelry-clasps-2026/)
+- [Fire Mountain Gems - All About Clasps: Style Guide](https://www.firemountaingems.com/learn/categories/jewelry-medium/bead-stringing/about-bead-stringing/8B6H-article.html)
+
+**MOQ & Business Terms:**
+- [Nihaojewelry - MOQ Meaning to Save More](https://blog.nihaojewelry.com/moq-meaning-to-save-more-for-your-business/)
+- [Wonnda - Understanding Minimum Order Quantity 2026](https://wonnda.com/magazine/moq-minimum-order-quantity/)
+- [HulkApps - Mastering MOQ for Wholesale Jewelry Businesses](https://www.hulkapps.com/blogs/ecommerce-hub/mastering-moq-essential-guide-for-wholesale-jewelry-businesses)
+
+**Korean Market Requirements:**
+- [Trade.gov - South Korea Labeling/Marking Requirements](https://www.trade.gov/country-commercial-guides/south-korea-labelingmarking-requirements)
+- [Heydome Korea - Wholesale Fashion Jewelry B2B Platform](http://www.heydome.com/heydome_landing/?lang=en)
+
+### 7.4 Revision History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-01-21 | Product Team | Initial PRD draft based on requirements gathering |
+| 1.1 | 2026-01-21 | Product Team | Enhanced admin product management requirements (REQ-060 to REQ-065) |
+| 1.2 | 2026-01-21 | Product Team | Added comprehensive product specifications based on industry research: diamond grading (4C), certifications (GIA/IGI/HRD), safety certifications, craftsmanship details (stone setting, finish, clasp types), MOQ/lead time business terms |
+| 1.3 | 2026-01-22 | Product Team | **CRITICAL UPDATE**: Corrected REQ-008 Differentiated Pricing System to enforce strict price label standardization - all users see generic "가격" label (never "도매가"/"소매가") to prevent mutual awareness of price tier differences. Added REQ-008A (Price Display Label Standardization), REQ-008B (Price Data Security), REQ-008C (Implementation Examples). Updated REQ-007, User Stories 3.3 and 3.7, and added reference to PRICE-DISPLAY-RULES.md. This is a critical business rule change affecting all price display implementations. |
+
+---
+
+**Next Steps:**
+1. Review and approval of this PRD by stakeholders
+2. Create Technical Design Document (SDD) detailing architecture and implementation
+3. Generate implementation tasks with story point estimates
+4. Begin Phase 1 development sprints

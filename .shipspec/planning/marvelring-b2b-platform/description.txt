@@ -1,0 +1,37 @@
+Marvelring - B2B Gold Jewelry Wholesale Platform for Professional Dealers
+
+## Project Overview
+- **Target Users**: Korean jewelry business owners (40-60 years old, wholesale/retail dealers)
+- **Core Value Proposition**: Professional B2B platform for browsing and ordering gold jewelry with detailed technical specifications and differentiated pricing
+- **Platform Priority**: Desktop-first with perfect mobile responsive support
+
+## Tech Stack
+- **Frontend**: Next.js 15 + TypeScript + Tailwind CSS
+- **Backend**: Supabase (Auth + Database + Storage + Row Level Security)
+- **Database**: PostgreSQL (via Supabase)
+- **Authentication**: Email/Password + Phone verification + Business license upload
+- **Deployment**: Vercel
+- **Additional Services**: Supabase Storage for business documents and product images
+
+## Core Features Summary
+1. Business User Registration (Approval System)
+2. Category Navigation System (Collection/Fashion/NEW/SALE)
+3. Product Listing and Detail Pages
+4. Differentiated Pricing System (Wholesale vs Retail)
+5. Notice Board
+6. Customer Service
+7. Admin Product Management via Supabase Dashboard
+
+## Design Direction
+- **Brand Concept**: Marble aesthetics, ivory elegance, professional trust, modern sophistication
+- **Color Palette**: Ivory/cream white base, champagne gold accents, subtle gray for hierarchy
+- **Visual Style**: Minimal modern, clean white, spacious layouts, professional yet approachable
+- **Typography**: Large clear fonts (18px+ body), sans-serif, excellent readability for 40-60 age group
+- **Layout Philosophy**: Generous whitespace, clear visual hierarchy, simple is clean but detailed pages show professional specs elegantly
+
+## Constraints
+- B2B only (no general consumers)
+- Korean market only
+- No online payment processing (inquiry-based purchasing)
+- Manual business verification required
+- MVP uses Supabase Dashboard for admin operations (no custom admin UI)
