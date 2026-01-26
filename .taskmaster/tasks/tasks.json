@@ -1,0 +1,216 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": "1",
+        "title": "프로젝트 초기 설정 - Next.js + Supabase 프로젝트 생성",
+        "description": "Next.js 14 (App Router) 프로젝트 생성 및 Supabase 통합",
+        "details": "- Next.js 14 프로젝트 생성 (App Router 사용)\n- Supabase 프로젝트 생성 (Cloud 호스팅)\n- @supabase/ssr 패키지 설치 및 클라이언트 설정\n- Vercel 배포 설정\n- 환경변수 구성 (.env.local)\n- TypeScript, ESLint, Prettier 설정\n- Tailwind CSS 설정 (고대비 B&W 컬러 팔레트)\n- Inter 폰트 설정",
+        "testStrategy": "- npm run dev 실행 성공\n- Supabase 클라이언트 연결 확인\n- 환경변수 로드 확인\n- 타입체크 통과 (tsc --noEmit)\n- 린트 에러 없음",
+        "status": "done",
+        "priority": "high",
+        "dependencies": [],
+        "subtasks": [],
+        "updatedAt": "2026-01-26T14:55:58.038Z"
+      },
+      {
+        "id": "2",
+        "title": "데이터베이스 스키마 생성 - users, products, categories, collections, product_images",
+        "description": "Supabase 데이터베이스 테이블 스키마 설계 및 생성",
+        "details": "- users 테이블 (auth.users 확장): username, real_name, phone_number, business_type (enum: wholesale/retail), business_license_url, approval_status (enum: pending/approved/rejected), approved_at, approved_by, rejected_reason\n- products 테이블: product_name, product_code (unique), weight_of_14k, weight_of_18k, base_labor_cost, stone_setting_cost, ring_size, size, diamond_size (DECIMAL 5,2), diamond_amount, additional_information, retail_price, wholesale_price, stock_quantity, category_id, collection_id, is_sale, is_new, kakao_link, created_at, updated_at, deleted_at\n- categories 테이블: name, slug, type (enum: collection/fashion/other), parent_id, display_order\n- collections 테이블: brand_name, created_at, updated_at, deleted_at\n- product_images 테이블: product_id (FK), image_url, display_order, is_main, created_at\n- 인덱스 생성: product_code, created_at, category/collection FK, approval_status",
+        "testStrategy": "- Supabase Dashboard에서 모든 테이블 생성 확인\n- FK 제약조건 확인\n- 인덱스 생성 확인\n- 샘플 데이터 INSERT/SELECT 테스트",
+        "status": "in-progress",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "subtasks": [],
+        "updatedAt": "2026-01-26T14:56:15.865Z"
+      },
+      {
+        "id": "3",
+        "title": "인증 시스템 - 회원가입 (사업자등록증 업로드) + 로그인",
+        "description": "Supabase Auth 기반 회원가입/로그인 구현 (사업자등록증 업로드 포함)",
+        "details": "- 회원가입 폼: username, email, password, real_name, phone_number, business_type (wholesale/retail), business_license 파일 업로드\n- 파일 검증: JPG/PNG/PDF, max 5MB\n- Supabase Storage bucket (business-documents) 업로드 및 URL 저장\n- Supabase Auth signUp API 연동\n- 회원가입 시 approval_status = 'pending' 자동 설정\n- 로그인 폼 및 signIn API 연동\n- 세션 관리 (@supabase/ssr middleware)\n- 보호된 라우트 설정",
+        "testStrategy": "- 회원가입 폼 제출 성공\n- 파일 업로드 후 Supabase Storage에 파일 확인\n- users 테이블에 approval_status='pending' 레코드 생성 확인\n- 로그인 성공 후 세션 쿠키 확인\n- 보호된 라우트 접근 시 리다이렉트 확인",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "4",
+        "title": "사용자 승인 워크플로 - pending/approved/rejected 상태 관리",
+        "description": "관리자의 사용자 승인/거절 워크플로 구현 (Supabase Dashboard 기반)",
+        "details": "- Supabase Dashboard에서 users 테이블 approval_status 필터링\n- 관리자가 approval_status를 'approved' 또는 'rejected'로 변경\n- approved_at, approved_by 타임스탬프 자동 업데이트\n- rejected_reason 필드 입력\n- 승인/거절 시 이메일 발송 트리거 (Supabase Email 서비스 사용)\n- 승인된 사용자만 가격 조회 가능 (RLS 정책)",
+        "testStrategy": "- Supabase Dashboard에서 pending 사용자 필터링 확인\n- approval_status='approved' 업데이트 후 이메일 수신 확인\n- approval_status='rejected' 업데이트 후 거절 이메일 수신 확인\n- 승인된 사용자 로그인 후 가격 표시 확인\n- pending/rejected 사용자 로그인 시 '로그인하여 가격 확인' 메시지 확인",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "3"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "5",
+        "title": "카테고리 시스템 - Collection (브랜드) + Fashion (상품 종류) 네비게이션",
+        "description": "고정 헤더 네비게이션 및 드롭다운 메뉴 구현",
+        "details": "- 고정 헤더 네비게이션 (Collection, Fashion, NEW, SALE, Notices, Customer Service)\n- Collection 드롭다운: Cartier, Chanel, Hermès, Bulgari, Tiffany 등 브랜드\n- Fashion 드롭다운: Rings, Necklaces, Earrings, Bracelets, Other\n- 데스크톱: hover 드롭다운, 모바일: 클릭 드롭다운\n- 활성 상태 표시 (현재 카테고리 하이라이트)\n- 반응형 디자인 (모바일 햄버거 메뉴)",
+        "testStrategy": "- 데스크톱에서 Collection/Fashion hover 시 드롭다운 표시 확인\n- 모바일에서 클릭 시 드롭다운 표시 확인\n- 카테고리 클릭 시 해당 카테고리 페이지로 이동 확인\n- 활성 카테고리 하이라이트 확인",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "6",
+        "title": "상품 목록 페이지 - 반응형 그리드, 무한 스크롤, 정렬",
+        "description": "카테고리별 상품 목록 페이지 구현 (무한 스크롤)",
+        "details": "- 반응형 그리드: 데스크톱 3-4 컬럼, 태블릿 2 컬럼, 모바일 1 컬럼\n- 상품 카드: 이미지, 제품명, 제품코드, NEW/SALE 배지 (가격 제외)\n- 무한 스크롤 (Intersection Observer 또는 react-infinite-scroll-component)\n- 정렬 옵션: 최신순 (created_at desc), 제품코드순\n- 스켈레톤 로더 및 Empty State\n- 24개 상품/배치 페이지네이션",
+        "testStrategy": "- 카테고리 페이지 접속 시 상품 그리드 표시 확인\n- 스크롤 다운 시 다음 배치 자동 로드 확인\n- 정렬 변경 시 목록 재정렬 확인\n- 모바일/태블릿/데스크톱 반응형 확인\n- Empty State 표시 확인 (상품 없는 카테고리)",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "2",
+          "5"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "7",
+        "title": "상품 상세 페이지 - 8개 필드 표시 + 이미지 갤러리",
+        "description": "간소화된 상품 상세 정보 및 이미지 갤러리 구현",
+        "details": "- 상품 정보 표시 (8개 필드): 제품명, 제품코드, 14K/18K 중량, 기본공임, 알공임, 사이즈 (반지 호수 또는 일반 사이즈), 다이아 정보 (사이즈/개수), 추가사항\n- 가격 표시: 사용자 business_type에 따라 wholesale_price 또는 retail_price 표시 (레이블: '가격', 절대 '도매가'/'소매가' 사용 금지)\n- 이미지 갤러리: 1-10장, 썸네일 네비게이션, 모바일 스와이프, 줌 기능 (Lightbox)\n- 카카오톡 문의 버튼 (product.kakao_link)\n- Breadcrumb 네비게이션 (Home > Category > Sub-category > Product)\n- NEW/SALE 배지 표시",
+        "testStrategy": "- 상품 상세 페이지 접속 시 8개 필드 표시 확인\n- wholesale 사용자 로그인 시 wholesale_price 표시 확인 (레이블: '가격')\n- retail 사용자 로그인 시 retail_price 표시 확인 (레이블: '가격')\n- 게스트/pending 사용자 접속 시 '로그인하여 가격 확인' 메시지 확인\n- 이미지 갤러리 썸네일 클릭 시 이미지 전환 확인\n- 줌 기능 (Lightbox) 동작 확인\n- Breadcrumb 링크 동작 확인",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "2",
+          "6"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "8",
+        "title": "가격 표시 시스템 - RLS 기반 도매/소매 가격 분리 (가격 라벨 절대 노출 금지)",
+        "description": "사용자 business_type에 따른 차등 가격 표시 및 RLS 보안 구현",
+        "details": "- Supabase RLS 정책: wholesale 사용자는 wholesale_price만 조회, retail 사용자는 retail_price만 조회\n- API 쿼리: 사용자 business_type에 따라 wholesale_price AS price 또는 retail_price AS price 컬럼 별칭 사용\n- 프론트엔드 타입: Product 인터페이스에 price 필드만 정의 (wholesale_price, retail_price 필드 절대 노출 금지)\n- UI 표시: 모든 사용자에게 '가격: ₩XXX,XXX' 레이블만 표시 (절대 '도매가', '소매가' 레이블 사용 금지)\n- 게스트/pending 사용자: '가격은 로그인 후 확인하실 수 있습니다' 메시지\n- 브라우저 개발자 도구 (Network, Redux DevTools)에서도 다른 가격 필드 노출 방지",
+        "testStrategy": "- wholesale 사용자 로그인 후 Network 탭에서 API 응답 확인 → price 필드만 존재, retail_price 필드 없음\n- retail 사용자 로그인 후 Network 탭에서 API 응답 확인 → price 필드만 존재, wholesale_price 필드 없음\n- UI에서 '가격' 레이블만 표시 확인 (절대 '도매가'/'소매가' 레이블 없음)\n- 게스트/pending 사용자 접속 시 '로그인하여 가격 확인' 메시지 확인\n- Redux DevTools/State에서 wholesale_price, retail_price 필드 노출 방지 확인",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "9",
+        "title": "디자인 시스템 - High-Contrast B&W, 큰 폰트 (40-60대 타겟)",
+        "description": "고대비 흑백 디자인 시스템 및 타이포그래피 구현",
+        "details": "- 컬러 팔레트: Primary BG #FFFFFF, Secondary BG #FAFAF8, Primary Text/UI #000000, Secondary Text #333333-#666666, Accent (Gold) #C19A2E, Border #E8E4DA or #DDDDDD\n- 타이포그래피: Inter 폰트, H1 32-36px Bold, H2 24-28px Bold, Body 18px Regular, Caption 14-16px, Line Height 1.6-1.8\n- 레이아웃: Section 간격 48-64px, Product Grid 4 컬럼 (24px gap), Container max-width 적절히 설정\n- 컴포넌트: Cards (#FFFFFF, 1px border #E8E4DA, border-radius 0px), Primary Button (56px height, #000000 BG, #FFFFFF text), Secondary Button (56px height, #FFFFFF BG, #000000 text, 1px border)\n- 터치 타겟: 최소 48px",
+        "testStrategy": "- 모든 페이지에서 컬러 팔레트 적용 확인\n- 폰트 크기 및 Line Height 확인 (Chrome DevTools Computed)\n- 버튼 높이 56px, 터치 타겟 48px 이상 확인\n- 모바일 디바이스에서 터치 타겟 용이성 확인",
+        "status": "in-progress",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "subtasks": [],
+        "updatedAt": "2026-01-26T14:56:15.867Z"
+      },
+      {
+        "id": "10",
+        "title": "카카오톡 문의 - 상품 문의 버튼 + 카카오톡 연동",
+        "description": "상품 상세 페이지 카카오톡 문의 버튼 구현",
+        "details": "- 상품 상세 페이지에 '카카오톡 문의하기' 버튼 추가\n- product.kakao_link (또는 global default KakaoTalk Open Chat URL) 링크 연결\n- 버튼 디자인: Primary Button 스타일 (56px height, #000000 BG)\n- 게스트 사용자 클릭 시 로그인 페이지로 리다이렉트\n- 승인된 사용자만 카카오톡 링크 접근 가능",
+        "testStrategy": "- 상품 상세 페이지에 카카오톡 문의 버튼 표시 확인\n- 버튼 클릭 시 KakaoTalk Open Chat URL 오픈 확인\n- 게스트 사용자 클릭 시 로그인 페이지 리다이렉트 확인\n- 모바일에서 카카오톡 앱 연동 확인",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "7"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "11",
+        "title": "관리자 기능 - Supabase Dashboard 기반 상품/사용자 관리",
+        "description": "관리자의 상품 생성/수정/삭제 및 사용자 승인 관리 (Supabase Dashboard)",
+        "details": "- Supabase Dashboard에서 products 테이블 직접 관리\n- 상품 생성: product_name, product_code, weight_of_14k, weight_of_18k, base_labor_cost, stone_setting_cost, ring_size, size, diamond_size, diamond_amount, additional_information, retail_price, wholesale_price, stock_quantity, category_id, collection_id, is_sale, is_new, kakao_link 입력\n- 상품 이미지 업로드: Supabase Storage (product-images bucket)에 업로드 후 product_images 테이블에 image_url 저장\n- 상품 수정: 기존 상품 레코드 업데이트\n- 상품 삭제: 상품 레코드 삭제 (soft delete: deleted_at 설정)\n- 사용자 승인: users 테이블에서 approval_status 업데이트",
+        "testStrategy": "- Supabase Dashboard에서 products 테이블에 상품 INSERT 성공 확인\n- product_images 테이블에 이미지 URL 저장 확인\n- 상품 수정 후 프론트엔드에서 변경사항 반영 확인\n- 상품 삭제 후 목록에서 사라짐 확인\n- 사용자 approval_status 업데이트 후 이메일 발송 확인",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [
+          "2",
+          "4"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "12",
+        "title": "이메일 알림 - 회원 승인/거절 알림",
+        "description": "Supabase Auth 이메일 서비스를 이용한 승인/거절 알림 발송",
+        "details": "- Supabase Database Trigger 함수 생성: users 테이블 approval_status 업데이트 시 이메일 발송\n- 승인 이메일 템플릿: '회원 승인 완료' 메시지, 로그인 링크\n- 거절 이메일 템플릿: '회원 승인 거절' 메시지, rejected_reason 표시, 고객센터 연락처\n- Supabase Auth Email 서비스 설정 (SMTP 또는 기본 Supabase Email)",
+        "testStrategy": "- 사용자 approval_status를 'approved'로 변경 시 승인 이메일 수신 확인\n- 사용자 approval_status를 'rejected'로 변경 시 거절 이메일 수신 확인\n- 이메일 템플릿 내용 확인 (로그인 링크, 고객센터 정보)",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "4"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "13",
+        "title": "NEW/SALE 태그 - 최근 30일 상품 자동 필터링",
+        "description": "NEW 탭 및 NEW 배지 자동 필터링 구현",
+        "details": "- NEW 탭: created_at < 30일 상품만 표시\n- NEW 배지: 상품 목록 및 상세 페이지에 '신상품' 배지 표시\n- 카테고리 필터: NEW 탭 내에서 Collection/Fashion 필터 옵션\n- 정렬: created_at desc (최신순)\n- SALE 탭: is_sale=true 상품만 표시\n- SALE 배지: 상품 목록 및 상세 페이지에 'SALE' 배지 표시",
+        "testStrategy": "- NEW 탭 접속 시 created_at < 30일 상품만 표시 확인\n- 31일 이상 된 상품은 NEW 탭에서 제외 확인\n- NEW 배지 표시 확인 (상품 카드 및 상세 페이지)\n- SALE 탭 접속 시 is_sale=true 상품만 표시 확인\n- SALE 배지 표시 확인",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [
+          "6",
+          "7"
+        ],
+        "subtasks": []
+      },
+      {
+        "id": "14",
+        "title": "검색 기능 - Phase 2 기능 (의존성 표시)",
+        "description": "상품 검색 기능 (Phase 2로 연기)",
+        "details": "- Phase 2 기능으로 MVP에서는 제외\n- 카테고리 네비게이션으로 충분\n- 사용자 피드백 기반으로 Phase 2에서 우선순위 결정",
+        "testStrategy": "Phase 2에서 구현",
+        "status": "deferred",
+        "priority": "low",
+        "dependencies": [],
+        "subtasks": [],
+        "updatedAt": "2026-01-26T14:57:06.845Z"
+      },
+      {
+        "id": "15",
+        "title": "모바일 최적화 - 터치 타겟 48px, 스와이프 갤러리",
+        "description": "모바일 디바이스 최적화 및 터치 인터랙션 구현",
+        "details": "- 모든 버튼 및 링크 터치 타겟 최소 48px\n- 상품 이미지 갤러리 모바일 스와이프 지원 (react-swipeable 또는 swiper.js)\n- 햄버거 메뉴 네비게이션 (모바일)\n- 반응형 타이포그래피 (모바일에서 폰트 크기 조정)\n- iOS/Android 테스트 (Safari, Chrome)",
+        "testStrategy": "- 모바일 디바이스에서 모든 터치 타겟 48px 이상 확인\n- 이미지 갤러리 스와이프 동작 확인\n- 햄버거 메뉴 동작 확인\n- iOS Safari 및 Android Chrome에서 레이아웃 확인",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "7",
+          "9"
+        ],
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2026-01-26T14:57:06.845Z",
+      "taskCount": 15,
+      "completedCount": 1,
+      "tags": [
+        "master"
+      ]
+    }
+  }
+}

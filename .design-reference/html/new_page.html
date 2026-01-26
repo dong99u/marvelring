@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Marvelring B2B | New Arrivals</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#D4C2A1",
+                        "soft-ivory": "#FAFAF8",
+                        "marble-grey": "#F2F2F2",
+                        "gold-muted": "#A68D60",
+                        "charcoal-light": "#4A4A48",
+                        "card-border": "#E8DCC4",
+                    },
+                    fontFamily: {
+                        "sans": ["Manrope", "Noto Sans KR", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-soft-ivory text-charcoal-light font-sans antialiased;
+            }
+        }
+        .nav-item {
+            @apply px-8 py-5 text-[15px] font-medium tracking-tight text-charcoal-light/70 hover:text-charcoal-light transition-all relative cursor-pointer;
+        }
+        .nav-item.active {
+            @apply text-charcoal-light font-bold;
+        }
+        .nav-item.active::after {
+            @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-gold-muted;
+        }
+        .sub-nav-item {
+            @apply text-[13px] font-normal text-charcoal-light/60 hover:text-gold-muted transition-colors px-4 py-3;
+        }
+        .loader {
+            border: 2px solid #E8DCC4;
+            border-top: 2px solid #A68D60;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .product-card {
+            @apply bg-white border border-card-border p-4 transition-all duration-500 flex flex-col;
+        }
+        .product-card:hover {
+            @apply shadow-[0_20px_40px_-15px_rgba(232,220,196,0.4)];
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden bg-soft-ivory">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="flex items-center justify-between bg-white px-10 py-6 z-50 border-b border-gray-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gold-muted text-2xl">diamond</span>
+<h1 class="text-xl font-bold tracking-[0.2em] uppercase text-charcoal-light">Marvelring</h1>
+</div>
+<div class="flex items-center gap-8">
+<button class="text-[12px] font-semibold uppercase tracking-widest text-charcoal-light/40 hover:text-charcoal-light">Partnership</button>
+<button class="text-[12px] font-semibold uppercase tracking-widest text-charcoal-light/40 hover:text-charcoal-light">Login</button>
+<button class="material-symbols-outlined text-charcoal-light/60">search</button>
+</div>
+</header>
+<nav class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+<div class="mx-auto flex max-w-7xl flex-col">
+<div class="flex items-center justify-center">
+<div class="nav-item active">New</div>
+<div class="nav-item">브랜드</div>
+<div class="nav-item">패션</div>
+<div class="nav-item">SALE</div>
+<div class="nav-item">공지사항</div>
+<div class="nav-item">고객센터</div>
+</div>
+</div>
+</nav>
+<main class="w-full max-w-[1600px] mx-auto px-6 py-12">
+<div class="flex flex-col items-center justify-center mb-16 text-center">
+<h2 class="text-4xl font-bold tracking-tight text-charcoal-light mb-3">신상품</h2>
+<p class="text-[15px] text-charcoal-light/60 font-light max-w-lg mx-auto">최근 30일 이내 등록된 신규 디자인을 확인하세요. B2B 파트너를 위한 독점 큐레이션입니다.</p>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center mb-10 pb-6 border-b border-card-border/50 gap-6">
+<div class="flex gap-2">
+<button class="px-8 py-2.5 bg-charcoal-light text-white text-[14px] font-medium rounded-sm shadow-md transition-all">전체</button>
+<button class="px-8 py-2.5 bg-white border border-card-border text-charcoal-light text-[14px] font-medium hover:border-gold-muted hover:text-gold-muted transition-colors rounded-sm">컬렉션</button>
+<button class="px-8 py-2.5 bg-white border border-card-border text-charcoal-light text-[14px] font-medium hover:border-gold-muted hover:text-gold-muted transition-colors rounded-sm">패션</button>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[13px] text-charcoal-light/40 font-medium">총 128개 상품</span>
+<div class="relative min-w-[140px]">
+<select class="w-full appearance-none bg-transparent border-b border-card-border py-2 pl-2 pr-8 text-sm font-medium text-charcoal-light focus:outline-none focus:border-gold-muted cursor-pointer">
+<option>최신순</option>
+<option>인기순</option>
+<option>카테고리순</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-charcoal-light/50 text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Ring" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG5IuB-U_JgEsjQE-KLFD_CgyJcLZNq-nZ9ksZzw767GNv7iUltW_AQijnnlORtb9bprYws3Hjkn5_kF2xfLUTVzzwz3iFaDB-HeHbP5z2el6uCjBGGmO3j_PhAtCc17CgCQaybhbCKATcchhnRPT-cgnaUPLF3VlkM4c54bY4jmPk65y_sQU-EWwZkBgdOg8YMR3weBLkPwtReOGUlFw2V2_uzRqKePmCHVU1HkupHBH1Xe4z4c_i33dNT3BDfzGKU_c9IOq4REjf"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Love Ring</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. B4084600</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 2일 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Necklace" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADhz1V5-Crjv7UyXhIBlf209nXG8ta8LbPCbk7ABRIfU_UsbgLxbJR3qgfGYd4XIHsdrTO9HPu4sKy8ea147N9m3QyfcFgsoDUu2Ko7L7wB0NyJ27eaD977aTugzQqdVnz5Z_8zsL7uAe962k2O48RoA7v3vbWH4Ux48-0aJhsWmKXg90f13OzQRrgLPV-Ww_zu-q5s6IvEOV7AtFJuvDUqU7XQIJrpdFEhT8hsFPzI87KIT6c6oONxcdD3oSgxQyl-r-zXGP5XXZO"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Juste un Clou</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. B6048217</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 3일 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Bracelet" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMPlQdyX400Wcrzj9auq3Ygg4h2cag81fjSu_Tp0m3yREVEWZVLOjFVA25dIHxU-C6yKh9gceCYu3cmLGKAZb8STymUkLHPiwHzsz11PmWz8M4pVcUhXQ81yvdXUhTi8VmzZUi00-T-Hgs_wmp-01IYDgdAyk0f01_XSmgjI4M8RXNC2lB9vZQaSn3T6ilAi3e_BvcNnUi6k98iVy70Doi-z2Z8RLTGfppe3zNbRD1ro2TZOL8go2O955VWHoLZ0272nsGK71Mak2L"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Trinity Ring</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. B4052700</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 1일 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Earrings" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR1IJKDUY_U1rDxWwG9iuCenDf9qxwX4xaecdUiq-DxyBFLFP_Fl4oDNbSspN50VQheiUPmCTDJoav2UGVRWQZb1T6THxqq9TS02iErHcHhBh1vcl8gx8eyX6KcMcA_yBg_2yUlwHNQrcSOUoOy3Y3ChZpkEImh2J4UjfNHzEJFiIpj6JMWS8UTSUyWHYV9Hf22htlE4Uyt3bb6kCNC7YAqzNB9R8okbi_c8Wx-eiY2MfxnpinAiZVKa8nU5g_0Yu6scv7VeDyzzoB"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Panthère Ring</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. N4722500</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 4일 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Watch" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFU30A3rLAhgwZcjrWY-RgIE64hoSxkvYrkyyCpD5LKN-5yZ61jKwY2PvBCH9b3eZCOp0YV009Myy7J9C_SQsCxVzAvcbVfXSj5MnwXyor9b2C-idGR08VjPQpeUvG1cTrM-l9X5Ittnx_mNg51p2iTKy0BjwwmMFzILcyZS-tISROR1hhFJqlDJqXU_6z9Me8wv6Ze9aimGywtDI2BZSA66vPs-bx1db69hkX3on6EyLGE4ktZzE1nEqu5MWTphfgpTuEYZSk_H3k"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Tank Must</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. WSTA0041</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 5시간 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Bracelet" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5ApuUp0G5M32RVV-TZAKp9GwIhcU2rDm_E-KhUjBbCitOeYNnnv-POykfnlKZs8aTvLXQ2Qm59PjqVQe_c0CkzySkNb5USqrRIrbRVA3GzQcjhmeYh-8fPn4n35bmULaVI3f-VNsxifCUKKiUMXUTy0310purjZ0fRkBff2eODoLMQqU2LU3de-S6FGZyAxAjCiZezSaGa7wyMDEZQrerI6d8ydsowd19bNd_KHlga8QP7oRn3IVTBEUZowLFXABlMgfT8ALqYDuC"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Clash de Ring</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. B4229800</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 2일 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Pendant" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN0_XoMvOyB4scmuk2ZjJJpJKUjTX2DiRrZau49FUXy89p3FW5TJp2Sxh6bE3gqy5YB2v_FH1CF7XQ6QJPiM0tatgv1Qq2hjKOu2DUjBRrrWH3j2yg11_a8J8wsu5DY0nZofTjAj2mifQOBkdyLIJt4wYuOb1CKyqIfGB-w8WZ5vCuFu99af5nBDTM5xdC96sUaFxNwlfSSbbzKQNcgm82-n9e6_jYadFDL5DY72hd9072LGkSmIhjdVnquqQZdi262zhBS4eXKRed"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Diamants Necklace</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. B7224516</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 6일 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group product-card">
+<div class="relative w-full aspect-square bg-white mb-5 overflow-hidden">
+<img alt="Ring" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuyzcVndXH5nKlqu2ZKobWXnnKfK_H4PFKiI0chmhzmpu2bmvAIsMYapXcM6qZ-sv20YatHRzF7joUSCAKevAiReQ35-fXW9pAzdT6Oj2A_osX6M6rAD0zavE-C93jIqcswBYun4NncHoA383VArG889tp39eqU-1Gy2e80qPZc3EtRhO5cLh-mz9enkt9aVVoa3Ta1YJ5_qDwCu-iggWGBMxEy-C4P00hjf-_XSMDmvTdaVwGRbMQ_7Ow8cRM9FpCbhN3pcwvCqEe"/>
+<div class="absolute top-3 right-3 bg-gold-muted text-white text-[10px] font-bold px-2.5 py-1 tracking-[0.15em] shadow-sm">NEW</div>
+</div>
+<div class="flex flex-col flex-1">
+<div class="mb-4">
+<h3 class="text-[16px] font-semibold text-charcoal-light mb-1.5 tracking-tight group-hover:text-gold-muted transition-colors">Ecrou de Ring</h3>
+<p class="text-[12px] text-charcoal-light/40 font-normal tracking-wider">REF. B4227200</p>
+</div>
+<div class="mt-auto pt-4 border-t border-card-border/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1 h-1 rounded-full bg-gold-muted"></span>
+<span class="text-[13px] text-charcoal-light/60 font-medium italic">등록 1주일 전</span>
+</div>
+<button class="text-charcoal-light/30 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-24 flex flex-col items-center justify-center gap-4">
+<div class="loader"></div>
+<span class="text-[11px] text-charcoal-light/40 tracking-[0.2em] font-semibold uppercase">Discovering more designs</span>
+</div>
+</main>
+<footer class="bg-white border-t border-gray-100 py-20 px-10 mt-20">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-gold-muted">diamond</span>
+<span class="text-sm font-bold tracking-[0.3em] uppercase">Marvelring</span>
+</div>
+<p class="text-[12px] text-charcoal-light/40 leading-relaxed max-w-xs">
+                    Elevating gold jewelry distribution through modern aesthetics and reliable B2B service.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-20">
+<div class="flex flex-col gap-4">
+<h4 class="text-[11px] font-bold uppercase tracking-widest mb-2">Corporate</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">Privacy Policy</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-[11px] font-bold uppercase tracking-widest mb-2">Support</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">Wholesale Guide</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">Customer Center</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-20 pt-10 border-t border-gray-50 text-center">
+<p class="text-[10px] text-charcoal-light/30 uppercase tracking-[0.2em]">© 2024 Marvelring. All rights reserved.</p>
+</div>
+</footer>
+</div>
+
+</body></html>

@@ -1,0 +1,95 @@
+{
+  "node": {
+    "406b2ef893b0073b2f02a8ceedab3fa172a532a9cf": {
+      "workers": {
+        "app/(main)/fashion/page": {
+          "moduleId": 25686,
+          "async": false,
+          "exportedName": "getProducts",
+          "filename": "src/app/actions/products.ts"
+        },
+        "app/(main)/new/page": {
+          "moduleId": 36908,
+          "async": false,
+          "exportedName": "getProducts",
+          "filename": "src/app/actions/products.ts"
+        },
+        "app/(main)/sale/page": {
+          "moduleId": 59161,
+          "async": false,
+          "exportedName": "getProducts",
+          "filename": "src/app/actions/products.ts"
+        }
+      },
+      "layer": {
+        "app/(main)/fashion/page": "action-browser",
+        "app/(main)/new/page": "action-browser",
+        "app/(main)/sale/page": "action-browser"
+      },
+      "filename": "src/app/actions/products.ts",
+      "exportedName": "getProducts"
+    },
+    "00a4e2ffa366efaf6999d86f53b84afab3c0c026c1": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "fetchPendingMembersAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "rsc"
+      },
+      "filename": "src/app/actions/approval.ts",
+      "exportedName": "fetchPendingMembersAction"
+    },
+    "40824f3671a264994cf491a58736677c7baa837473": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "fetchMemberDetailsAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "rsc"
+      },
+      "filename": "src/app/actions/approval.ts",
+      "exportedName": "fetchMemberDetailsAction"
+    },
+    "40f63565bde0aaa8789b23152a8ec9d80ddf3d135c": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "approveMemberAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "action-browser"
+      },
+      "filename": "src/app/actions/approval.ts",
+      "exportedName": "approveMemberAction"
+    },
+    "605f66082a6ec6c2558763b85c4e5dd02099e98f55": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "rejectMemberAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "action-browser"
+      },
+      "filename": "src/app/actions/approval.ts",
+      "exportedName": "rejectMemberAction"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "RebjCLNlIiRtkhokaZcF1GGrbj8vp8sLBrE3Np/Oy5E="
+}

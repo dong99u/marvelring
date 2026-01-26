@@ -1,0 +1,65 @@
+{
+  "node": {
+    "00a4e2ffa366efaf6999d86f53b84afab3c0c026c1": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "fetchPendingMembersAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "rsc"
+      },
+      "exportedName": "fetchPendingMembersAction",
+      "filename": "src/app/actions/approval.ts"
+    },
+    "40824f3671a264994cf491a58736677c7baa837473": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "fetchMemberDetailsAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "rsc"
+      },
+      "exportedName": "fetchMemberDetailsAction",
+      "filename": "src/app/actions/approval.ts"
+    },
+    "40f63565bde0aaa8789b23152a8ec9d80ddf3d135c": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "approveMemberAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "action-browser"
+      },
+      "exportedName": "approveMemberAction",
+      "filename": "src/app/actions/approval.ts"
+    },
+    "605f66082a6ec6c2558763b85c4e5dd02099e98f55": {
+      "workers": {
+        "app/admin/users/page": {
+          "moduleId": 70834,
+          "async": false,
+          "exportedName": "rejectMemberAction",
+          "filename": "src/app/actions/approval.ts"
+        }
+      },
+      "layer": {
+        "app/admin/users/page": "action-browser"
+      },
+      "exportedName": "rejectMemberAction",
+      "filename": "src/app/actions/approval.ts"
+    }
+  },
+  "edge": {}
+}

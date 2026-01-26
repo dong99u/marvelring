@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>마블링 B2B | 공지사항 상세</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#D4C2A1",
+                        "soft-ivory": "#FAFAF8",
+                        "marble-grey": "#F2F2F2",
+                        "gold-muted": "#A68D60",
+                        "charcoal-light": "#4A4A48",
+                        "card-border": "#E8DCC4",
+                    },
+                    fontFamily: {
+                        "sans": ["Manrope", "Noto Sans KR", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-soft-ivory text-charcoal-light font-sans antialiased;
+            }
+        }
+        .nav-item {
+            @apply px-8 py-5 text-[15px] font-medium tracking-tight text-charcoal-light/70 hover:text-charcoal-light transition-all relative cursor-pointer;
+        }
+        .nav-item.active {
+            @apply text-charcoal-light font-bold;
+        }
+        .nav-item.active::after {
+            @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-gold-muted;
+        }
+        .sub-nav-item {
+            @apply text-[13px] font-normal text-charcoal-light/60 hover:text-gold-muted transition-colors px-4 py-3;
+        }
+        .prose p {
+            @apply mb-6 leading-relaxed;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden bg-soft-ivory">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="flex items-center justify-between bg-white px-10 py-6 z-50 border-b border-gray-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gold-muted text-2xl">diamond</span>
+<h1 class="text-xl font-bold tracking-[0.2em] uppercase text-charcoal-light">MARVELRING</h1>
+</div>
+<div class="flex items-center gap-8">
+<button class="text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light">파트너십 안내</button>
+<button class="text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light">로그인</button>
+<button class="material-symbols-outlined text-charcoal-light/60">search</button>
+</div>
+</header>
+<nav class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+<div class="mx-auto flex max-w-7xl flex-col">
+<div class="flex items-center justify-center">
+<div class="nav-item">신상품</div>
+<div class="nav-item">브랜드</div>
+<div class="nav-item">패션</div>
+<div class="nav-item">세일</div>
+<div class="nav-item active">공지사항</div>
+<div class="nav-item">고객센터</div>
+</div>
+</div>
+</nav>
+<main class="flex flex-1 w-full max-w-4xl mx-auto px-6 py-12 flex-col gap-8">
+<nav class="text-sm text-charcoal-light/60">
+<ol class="list-reset flex items-center gap-2">
+<li><span class="hover:text-gold-muted cursor-pointer">Home</span></li>
+<li><span class="material-symbols-outlined text-[14px]">chevron_right</span></li>
+<li><span class="hover:text-gold-muted cursor-pointer">공지사항</span></li>
+<li><span class="material-symbols-outlined text-[14px]">chevron_right</span></li>
+<li class="font-medium text-charcoal-light truncate max-w-[200px]">2024년 추석 연휴 배송 일정 안내</li>
+</ol>
+</nav>
+<div class="w-full bg-white border border-card-border p-8 md:p-10 shadow-sm rounded-sm">
+<div class="flex flex-col gap-4">
+<span class="inline-block px-3 py-1 bg-gold-muted/10 text-gold-muted text-xs font-bold tracking-widest w-fit rounded-full">공지</span>
+<h1 class="text-[28px] md:text-3xl font-bold text-charcoal-light leading-tight">2024년 추석 연휴 배송 및 고객센터 운영 일정 안내</h1>
+<div class="flex items-center gap-6 text-sm text-charcoal-light/50 mt-2 border-t border-gray-100 pt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>2024.09.01</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">person</span>
+<span>마블링 관리자</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>2,341</span>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full bg-white border border-card-border p-8 md:p-[50px] shadow-sm rounded-sm min-h-[400px]">
+<div class="prose max-w-none text-[18px] text-charcoal-light leading-[1.8] font-light">
+<p>안녕하세요, B2B 주얼리 플랫폼 마블링입니다.</p>
+<p>
+                        민족 대명절 추석을 맞이하여 마블링을 이용해주시는 파트너 여러분께 깊은 감사의 말씀을 드립니다.<br/>
+                        연휴 기간 동안의 배송 및 고객센터 운영 일정을 아래와 같이 안내드리오니, 업무에 참고하시어 이용에 불편 없으시길 바랍니다.
+                    </p>
+<hr class="border-card-border/50 my-8"/>
+<h3 class="text-xl font-bold mb-4 text-charcoal-light">1. 배송 마감 및 재개 일정</h3>
+<ul class="list-disc pl-5 mb-8 space-y-2 marker:text-gold-muted">
+<li><strong>배송 마감:</strong> 2024년 9월 12일 (목) 오후 3시 주문 건까지 당일 출고</li>
+<li><strong>배송 휴무:</strong> 2024년 9월 13일 (금) ~ 9월 18일 (수)</li>
+<li><strong>배송 재개:</strong> 2024년 9월 19일 (목)부터 순차 배송 시작</li>
+</ul>
+<p class="text-sm text-charcoal-light/60 bg-gray-50 p-4 rounded-lg">
+                        ※ 연휴 기간 접수된 주문 건은 물량 증가로 인해 배송이 1~2일 정도 지연될 수 있습니다. 너른 양해 부탁드립니다.
+                    </p>
+<br/>
+<h3 class="text-xl font-bold mb-4 text-charcoal-light">2. 고객센터 휴무 안내</h3>
+<ul class="list-disc pl-5 mb-8 space-y-2 marker:text-gold-muted">
+<li><strong>휴무 기간:</strong> 2024년 9월 14일 (토) ~ 9월 18일 (수)</li>
+<li><strong>운영 재개:</strong> 2024년 9월 19일 (목) 오전 10시</li>
+</ul>
+<p>
+                        풍요롭고 행복한 한가위 되시기를 바라며, 하반기에도 파트너 여러분의 성공적인 비즈니스를 위해 최선을 다하겠습니다.<br/>
+                        감사합니다.
+                    </p>
+</div>
+<div class="mt-12 pt-8 border-t border-gray-100">
+<h4 class="text-sm font-bold text-charcoal-light mb-4">첨부파일</h4>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 text-sm text-charcoal-light/70 hover:text-gold-muted transition-colors p-3 border border-dashed border-card-border hover:border-gold-muted rounded-md bg-gray-50 w-full sm:w-fit" href="#">
+<span class="material-symbols-outlined text-gold-muted">description</span>
+                            2024_추석배송안내문.pdf (245KB)
+                            <span class="material-symbols-outlined text-[16px] ml-2 opacity-50">download</span>
+</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 w-full pt-4 border-t border-transparent">
+<button class="w-full sm:w-auto px-6 py-3 border border-card-border text-charcoal-light/70 hover:text-charcoal-light hover:border-gold-muted bg-white rounded-sm text-sm font-medium transition-all flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined text-[16px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<span>이전 글</span>
+</button>
+<button class="w-full sm:w-auto px-8 py-3 border border-charcoal-light text-charcoal-light hover:bg-charcoal-light hover:text-white rounded-sm text-sm font-medium transition-colors">
+                    목록으로
+                </button>
+<button class="w-full sm:w-auto px-6 py-3 border border-card-border text-charcoal-light/70 hover:text-charcoal-light hover:border-gold-muted bg-white rounded-sm text-sm font-medium transition-all flex items-center justify-center gap-2 group">
+<span>다음 글</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</main>
+<footer class="bg-white border-t border-gray-100 py-20 px-10 mt-20">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-gold-muted">diamond</span>
+<span class="text-sm font-bold tracking-[0.3em] uppercase">MARVELRING</span>
+</div>
+<p class="text-[12px] text-charcoal-light/40 leading-relaxed max-w-xs">
+                        현대적인 감각과 신뢰할 수 있는 B2B 서비스를 통해 금주얼리 유통의 가치를 높입니다.
+                    </p>
+</div>
+<div class="grid grid-cols-2 gap-20">
+<div class="flex flex-col gap-4">
+<h4 class="text-[11px] font-bold tracking-widest mb-2">기업 정보</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">개인정보 처리방침</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">이용약관</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-[11px] font-bold tracking-widest mb-2">고객 지원</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">도매 이용안내</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">고객센터</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-20 pt-10 border-t border-gray-50 text-center">
+<p class="text-[10px] text-charcoal-light/30 uppercase tracking-[0.2em]">© 2024 MARVELRING. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+</div>
+
+</body></html>

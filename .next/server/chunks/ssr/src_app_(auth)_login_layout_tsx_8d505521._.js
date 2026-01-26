@@ -1,0 +1,3 @@
+module.exports=[54404,a=>{"use strict";var b=a.i(7997);function c({children:a}){return(0,b.jsxs)("div",{className:"min-h-screen flex flex-col items-center justify-center p-6",children:[a,(0,b.jsx)("footer",{className:"mt-12 text-center pb-8",children:(0,b.jsx)("p",{className:"text-[11px] text-charcoal-deep/30 tracking-[0.5em] uppercase font-light",children:"© 2024 MARVELRING B2B. ALL RIGHTS RESERVED."})})]})}a.s(["default",()=>c])}];
+
+//# sourceMappingURL=src_app_%28auth%29_login_layout_tsx_8d505521._.js.map

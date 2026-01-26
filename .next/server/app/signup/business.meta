@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(auth)/layout,_N_T_/(auth)/signup/layout,_N_T_/(auth)/signup/business/layout,_N_T_/(auth)/signup/business/page,_N_T_/signup/business"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGF1dGgp/signup/business/__PAGE__",
+    "/!KGF1dGgp/signup/business",
+    "/!KGF1dGgp/signup",
+    "/!KGF1dGgp",
+    "/_index",
+    "/_head"
+  ]
+}

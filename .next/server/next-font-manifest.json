@@ -1,0 +1,67 @@
+{
+  "app": {
+    "[project]/src/app/(auth)/login/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(auth)/signup/business/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(auth)/signup/complete/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(auth)/signup/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(main)/fashion/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(main)/new/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(main)/products/[id]/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(main)/sale/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/_not-found/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/admin/users/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/design-system/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

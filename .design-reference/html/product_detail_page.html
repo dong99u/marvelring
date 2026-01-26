@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>마블링 B2B | 제품 상세 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#D4C2A1",
+                        "soft-ivory": "#FAF9F6",
+                        "marble-grey": "#F2F2F2",
+                        "gold-muted": "#A68D60",
+                        "charcoal-light": "#4A4A48",
+                        "champagne": "#E8DCCA",
+                        "champagne-dark": "#D6C4AA",
+                    },
+                    fontFamily: {
+                        "sans": ["Manrope", "Noto Sans KR", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-white text-charcoal-light font-sans antialiased;
+            }
+        }
+        .nav-item {
+            @apply px-8 py-5 text-[15px] font-medium tracking-tight text-charcoal-light/70 hover:text-charcoal-light transition-all relative cursor-pointer;
+        }
+        .nav-item.active {
+            @apply text-charcoal-light font-bold;
+        }
+        .nav-item.active::after {
+            @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-gold-muted;
+        }
+        .sub-nav-item {
+            @apply text-[13px] font-normal text-charcoal-light/60 hover:text-gold-muted transition-colors px-4 py-3;
+        }
+        .workbench-step {
+            @apply border-b border-gray-100 py-5 flex items-start gap-4 transition-all hover:bg-soft-ivory/50 px-2;
+        }
+        .step-number {
+            @apply text-[10px] font-bold text-gold-muted/40 w-5 mt-0.5 font-sans;
+        }
+        .step-content {
+            @apply flex-1;
+        }
+        .config-label {
+            @apply text-[10px] font-bold text-gold-muted uppercase tracking-[0.2em] mb-2 block;
+        }
+        .config-value {
+            @apply text-[14px] text-charcoal-light font-medium;
+        }
+        .config-sub-value {
+            @apply text-[12px] text-charcoal-light/50 font-normal mt-0.5 leading-tight;
+        }
+        .price-summary-card {
+            @apply bg-charcoal-light text-white p-8 mt-10 shadow-2xl relative overflow-hidden;
+        }
+        .spec-tag {
+            @apply text-[10px] font-bold text-charcoal-light/60 bg-gray-50 border border-gray-200 px-2 py-1 rounded-sm mr-1.5 inline-block;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="flex items-center justify-between bg-white px-10 py-6 z-50 border-b border-gray-100">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gold-muted text-2xl">diamond</span>
+<h1 class="text-xl font-bold tracking-[0.2em] uppercase text-charcoal-light">Marvelring</h1>
+</div>
+<div class="flex items-center gap-8">
+<button class="text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light">파트너십 문의</button>
+<button class="text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light">로그인</button>
+<button class="material-symbols-outlined text-charcoal-light/60">search</button>
+</div>
+</header>
+<nav class="sticky top-0 z-40 bg-white border-b border-gray-100">
+<div class="mx-auto flex max-w-7xl flex-col">
+<div class="flex items-center justify-center">
+<div class="nav-item">신상품</div>
+<div class="nav-item active">브랜드</div>
+<div class="nav-item">패션</div>
+<div class="nav-item text-red-400">시즌오프</div>
+<div class="nav-item">공지사항</div>
+<div class="nav-item">고객센터</div>
+</div>
+<div class="flex items-center justify-center py-1 bg-soft-ivory border-t border-gray-50">
+<a class="sub-nav-item" href="#">전체보기</a>
+<a class="sub-nav-item" href="#">프리미엄 라인</a>
+<a class="sub-nav-item" href="#">시그니처 컬렉션</a>
+<a class="sub-nav-item" href="#">웨딩 주얼리</a>
+<a class="sub-nav-item" href="#">데일리 에센셜</a>
+</div>
+</div>
+</nav>
+<main class="flex flex-1 flex-col items-center w-full">
+<div class="w-full max-w-7xl px-6 md:px-10 py-8">
+<div class="flex items-center gap-2 text-[12px] text-charcoal-light/40 uppercase tracking-widest font-medium">
+<span>Home</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span>Gold Collection</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="text-gold-muted font-bold">CNC Precision Line</span>
+</div>
+</div>
+<section class="w-full max-w-7xl px-6 md:px-10 pb-20">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+<div class="lg:col-span-7 relative group w-full h-fit bg-soft-ivory overflow-hidden border border-gray-100">
+<img alt="Product Hero Image" class="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIEaDRhQiMdJ-MM-sQmZF2tcFhLxPELgGHpgg5kD_rZENLCwTrOdhq1CtHksAY5aMdOpfArLP6zPm-csZbqqxqlg5yunc2VXxbsfoZgE-0u_wzr6AfEclAqLBwNvcP2ftjnjsWM2zhAGdEVXQM92-uK5N-KIradYa-cds6gb-7Mek1emHwcTk4sv-JENUQmyVgszv_dCQWKyhMnIa_h5OxYpqqIM-0hJwQuLWPs1U-F3ffHeuKn3O_9wmWazUgz3dnN_wPLl4QCPcd"/>
+<button class="absolute bottom-8 right-8 w-14 h-14 bg-white/90 backdrop-blur-sm shadow-xl flex items-center justify-center rounded-full text-charcoal-light hover:text-gold-muted transition-all z-10 cursor-zoom-in">
+<span class="material-symbols-outlined text-2xl">zoom_in</span>
+</button>
+<div class="absolute top-8 left-8">
+<span class="bg-charcoal-light text-white text-[10px] font-bold px-4 py-2 uppercase tracking-[0.2em]">B2B Exclusive</span>
+</div>
+</div>
+<div class="lg:col-span-5 flex flex-col h-full">
+<div class="mb-6">
+<div class="flex justify-between items-start mb-2">
+<h2 class="text-3xl font-light text-charcoal-light tracking-tight">코코7M-CNC</h2>
+<span class="text-[11px] font-bold text-charcoal-light/40 bg-gray-100 px-2 py-1 rounded">#PROD-7M001</span>
+</div>
+<div class="flex items-center gap-4 border-b border-gray-100 pb-4 mb-4">
+<span class="text-[13px] text-primary font-bold uppercase tracking-widest">Description</span>
+</div>
+<p class="text-[13px] text-charcoal-light/70 leading-relaxed font-light">
+                        정밀 CNC 공법으로 제작되어 완벽한 대칭과 마감을 자랑하는 하이엔드 링입니다. 볼륨감 있는 밴드 디자인에 섬세한 다이아몬드 세팅이 더해져 고급스러움을 극대화했습니다.
+                    </p>
+</div>
+<div class="flex flex-col border-t border-gray-100">
+<div class="workbench-step">
+<span class="step-number">01</span>
+<div class="step-content">
+<span class="config-label">Material &amp; Weight</span>
+<div class="grid grid-cols-2 gap-8">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-charcoal-light/40 uppercase font-bold tracking-wider">14K Gold</span>
+<div class="config-value">10g <span class="text-[11px] font-normal text-charcoal-light/40">(approx)</span></div>
+</div>
+<div class="flex flex-col gap-1 border-l border-gray-100 pl-6">
+<span class="text-[10px] text-charcoal-light/40 uppercase font-bold tracking-wider">18K Gold</span>
+<div class="config-value">15.2g <span class="text-[11px] font-normal text-charcoal-light/40">(approx)</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="workbench-step">
+<span class="step-number">02</span>
+<div class="step-content">
+<span class="config-label">Size &amp; Diamonds</span>
+<div class="grid grid-cols-1 gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gold-muted text-[16px]">ring_volume</span>
+<span class="text-[13px] text-charcoal-light font-medium">Ring Size (호수)</span>
+</div>
+<span class="text-[13px] font-bold text-charcoal-light">12호 (기성)</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gold-muted text-[16px]">diamond</span>
+<span class="text-[13px] text-charcoal-light font-medium">Diamond Info</span>
+</div>
+<span class="text-[13px] font-bold text-charcoal-light">8ea / 1.2mm (Melee)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="workbench-step">
+<span class="step-number">03</span>
+<div class="step-content">
+<span class="config-label">Detailed Costs</span>
+<div class="grid grid-cols-2 gap-y-2 mb-3 bg-gray-50/50 p-3 rounded-sm">
+<div class="text-[12px] text-charcoal-light/60">기본공임비</div>
+<div class="text-[12px] font-bold text-right text-charcoal-light">80,000원</div>
+<div class="text-[12px] text-charcoal-light/60">알공임비 (Setting)</div>
+<div class="text-[12px] font-bold text-right text-charcoal-light">30,000원</div>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="text-[11px] font-bold uppercase tracking-wider text-charcoal-light/40">Total Labor Cost</span>
+<span class="text-[14px] font-bold text-gold-muted">110,000원</span>
+</div>
+</div>
+</div>
+<div class="workbench-step border-none pb-0">
+<span class="step-number">04</span>
+<div class="step-content">
+<span class="config-label">Special Notes</span>
+<div class="mb-2">
+<span class="spec-tag">각인비 포함</span>
+<span class="spec-tag">도금비 별도</span>
+<span class="spec-tag">주문 제작</span>
+</div>
+<p class="text-[11px] text-charcoal-light/50 leading-relaxed italic">
+                                * 특수 사이즈 주문 시 추가 비용이 발생할 수 있습니다. <br/>
+                                * 로렛(Lorett) 가공 옵션 선택 시 제작 기간 2일 추가.
+                            </p>
+</div>
+</div>
+</div>
+<div class="price-summary-card">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+<div class="flex flex-col gap-1 relative z-10">
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-1">Total Price</span>
+<span class="text-md font-light text-white/80">총 제품 가격</span>
+</div>
+<div class="text-right">
+<span class="text-[32px] font-bold tracking-tight text-white leading-none">942,000원</span>
+</div>
+</div>
+<p class="text-[10px] text-white/30 text-right mt-2 tracking-wide">* 금 시세 및 옵션 선택에 따라 최종 금액은 변동될 수 있습니다.</p>
+</div>
+</div>
+<div class="mt-6 flex flex-col gap-3">
+<button class="w-full bg-champagne hover:bg-champagne-dark text-charcoal-light py-5 flex items-center justify-center gap-2 transition-all shadow-lg group">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">chat_bubble</span>
+<span class="text-[14px] font-bold tracking-[0.1em]">카카오톡 문의하기</span>
+</button>
+<div class="grid grid-cols-2 gap-3">
+<button class="border border-gray-200 hover:border-gold-muted py-3 text-[11px] font-bold tracking-widest uppercase transition-colors text-charcoal-light/60">
+                                스펙시트 다운로드
+                            </button>
+<button class="border border-gray-200 hover:border-gold-muted py-3 text-[11px] font-bold tracking-widest uppercase transition-colors flex items-center justify-center gap-2 text-charcoal-light/60">
+<span class="material-symbols-outlined text-[14px]">favorite</span> 관심저장
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full bg-marble-grey py-24 px-6 md:px-10 border-t border-gray-200">
+<div class="max-w-7xl mx-auto">
+<div class="flex items-end justify-between mb-12">
+<div>
+<span class="text-[11px] text-gold-muted font-bold uppercase tracking-[0.2em] block mb-3">Recommendation</span>
+<h3 class="text-2xl font-light text-charcoal-light">함께 보시면 좋은 B2B 전용 상품</h3>
+</div>
+<a class="hidden md:flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest text-charcoal-light/60 hover:text-charcoal-light group" href="#">
+                        전체보기 <span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-white mb-5 relative shadow-sm">
+<img alt="Related Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIzpRqMLDp0u378QrnYtb_hJ4AJ_TZxwnDLnr14a-o12Oa9uq6KQvaY4VmMum_fH3CZ1vfnDWG4ptpjAhxJavDGy_jDqlfHq8dH38NuH31pcjk6xhYNrZ3xMITRnetj96jw1TwosLcxy_cs8XWQoqg1GAUB-6YTINN_HaXCZoVlvb3lc4tB9GB4EpEptoEJQhOwcbQ4iWqiY3g1qiRQPTNUh2y5drd5ICcTpHsE_m0vhw94hpagshSsmt8PnabA9N-FQByLhCS-mxU"/>
+</div>
+<h4 class="text-[14px] font-medium text-charcoal-light mb-1">클래식 골드 뱅글 24K</h4>
+<p class="text-[13px] text-charcoal-light/50 font-light">중량 18.75g (5돈)</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-white mb-5 relative shadow-sm">
+<img alt="Related Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO2USUDHSm9g1ltcBuGJhW0aua-dILVbJWj-svlcCREHrSiOpAAUTLy_3O-HKVJ-BoxWycjqKTT4MOYscsXjpmwXmjpln-fXeARm2X0ZlcVaw-IrcRqNypxBQA3fNCVLIQAfQnZvisREqZe3zOa9O8R3tgU-wwTsWvEK1uGivVM9lcfcntTzCdYtx495z-6gEQCTf1sR-JPllUy-PUKST7qJbTdDr8Tvys3dJX1Z2wqqujV7238gHeIIQXYpayFDK4qN0upmyyAYl5"/>
+</div>
+<h4 class="text-[14px] font-medium text-charcoal-light mb-1">로즈골드 레이어드 링</h4>
+<p class="text-[13px] text-charcoal-light/50 font-light">18K 로즈골드 / 세트</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-white mb-5 relative shadow-sm">
+<img alt="Related Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArsJDu6Q1D78_iQ36P9AzLx-VH-J9polcBU1COx2l7nyrCVOLRzV-8PPU0gA4EkuopImu4b1jAB-OXK3HLVRPif0l5klNJA4pQjEEJ52PMXaqSba8e3WDm4NDfn053xbsNeWpPaOnpCrtWlb-M7U8bPRk3eeL9FG9iTNSDATmCbmTU_oalgYcA_OofRU3huMwki-Dj-gq5_yYjmpNYVej7i52WOY0uTi7jBhzL7HuTZRHv0czBx2M4TEs1agi2JBaIB3SzUoWFHarX"/>
+</div>
+<h4 class="text-[14px] font-medium text-charcoal-light mb-1">임페리얼 네크리스 체인</h4>
+<p class="text-[13px] text-charcoal-light/50 font-light">순금 37.5g (10돈)</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] overflow-hidden bg-white mb-5 relative shadow-sm">
+<img alt="Related Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr2ENM0HqCEES7jm1Q-xtnxjqjTY5x7S5yWPyp-y_7bJTGuiJZpmZyxqcuXh_ZL_t8bKOxAaJGZ6O1UGhWqq2U2_aJafhplgIOutv0Aar81w8WyRR0ByeW1ajqAmQMRHfl-MfHMGBE-0QHRdwdM6IqV8sEjGoUpVTDJ14QsZjXg-3pZmEh2i3Zkl_OyxZkdudVKOX05NNyGeAY10rIdop67MmQQVRDGYkxHx6oYbBbLLcqISJNPpNbQEmsYxHvWIQbOlzns6pjLOf7"/>
+</div>
+<h4 class="text-[14px] font-medium text-charcoal-light mb-1">미니멀 스터드 이어링</h4>
+<p class="text-[13px] text-charcoal-light/50 font-light">24K 골드 / 데일리</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white border-t border-gray-100 py-24 px-10">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-16">
+<div class="flex flex-col gap-8">
+<div class="flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-gold-muted">diamond</span>
+<span class="text-sm font-bold tracking-[0.3em] uppercase">Marvelring</span>
+</div>
+<p class="text-[12px] text-charcoal-light/50 leading-loose max-w-sm">
+                    현대적인 디자인과 신뢰할 수 있는 B2B 서비스를 통해 <br/>
+                    골드 주얼리 유통의 새로운 기준을 제시합니다.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-24">
+<div class="flex flex-col gap-5">
+<h4 class="text-[11px] font-bold uppercase tracking-widest mb-3">기업 정보</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">이용약관</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">개인정보처리방침</a>
+</div>
+<div class="flex flex-col gap-5">
+<h4 class="text-[11px] font-bold uppercase tracking-widest mb-3">고객 지원</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">도매 이용 가이드</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">1:1 문의하기</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-24 pt-12 border-t border-gray-50 text-center">
+<p class="text-[10px] text-charcoal-light/30 uppercase tracking-[0.2em]">© 2024 MARVELRING B2B PLATFORM. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+</div>
+
+</body></html>

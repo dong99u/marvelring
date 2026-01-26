@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>회원가입 - 1단계 | Marvelring</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "pure-white": "#FFFFFF",
+                        "solid-black": "#000000",
+                        "deep-charcoal": "#333333",
+                        "light-gray": "#E5E5E5",
+                        "medium-gray": "#9CA3AF",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "Noto Sans KR", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-pure-white text-solid-black font-sans antialiased min-h-screen flex items-center justify-center;
+            }
+        }
+        .input-minimalist {
+            @apply w-full h-[50px] px-0 bg-transparent border-0 border-b border-gray-200 text-[16px] text-solid-black focus:border-solid-black focus:ring-0 outline-none transition-all placeholder-gray-400;
+        }
+        .label-minimalist {
+            @apply block text-[13px] font-medium text-deep-charcoal mb-1;
+        }
+    </style>
+</head>
+<body class="p-6">
+<main class="w-full max-w-[540px]">
+<div class="mb-12 text-center">
+<div class="flex items-center justify-center gap-2 mb-6 opacity-100">
+<span class="material-symbols-outlined text-solid-black text-4xl">diamond</span>
+</div>
+<h1 class="text-[32px] font-bold tracking-tight text-solid-black mb-3">계정 생성</h1>
+<p class="text-deep-charcoal text-sm font-normal">비즈니스 회원을 위한 전용 서비스입니다.</p>
+</div>
+<div class="w-full max-w-[380px] mx-auto mb-16 relative">
+<div class="absolute top-[15px] left-0 w-full h-[1px] bg-gray-200 -z-0"></div>
+<div class="flex justify-between items-start relative z-10">
+<div class="flex flex-col items-center gap-3">
+<div class="w-[32px] h-[32px] rounded-full bg-solid-black text-pure-white flex items-center justify-center text-[13px] font-bold shadow-sm ring-4 ring-pure-white">1</div>
+<span class="text-[13px] font-bold text-solid-black tracking-wide">계정 정보</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-[32px] h-[32px] rounded-full bg-pure-white border border-solid-black text-solid-black flex items-center justify-center text-[13px] font-medium ring-4 ring-pure-white">2</div>
+<span class="text-[13px] font-medium text-deep-charcoal tracking-wide">사업자 정보</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-[32px] h-[32px] rounded-full bg-pure-white border border-solid-black text-solid-black flex items-center justify-center text-[13px] font-medium ring-4 ring-pure-white">3</div>
+<span class="text-[13px] font-medium text-deep-charcoal tracking-wide">인증 완료</span>
+</div>
+</div>
+</div>
+<form class="space-y-12" onsubmit="event.preventDefault()">
+<div class="space-y-8">
+<div class="relative group">
+<label class="label-minimalist" for="userid">아이디</label>
+<input autocomplete="off" class="input-minimalist" id="userid" name="userid" placeholder="사용하실 아이디를 입력하세요" type="text"/>
+</div>
+<div class="relative group">
+<label class="label-minimalist" for="realname">실명</label>
+<input autocomplete="off" class="input-minimalist" id="realname" name="realname" placeholder="성함을 입력하세요" type="text"/>
+</div>
+<div class="relative group">
+<label class="label-minimalist" for="email">이메일</label>
+<input autocomplete="off" class="input-minimalist" id="email" name="email" placeholder="business@example.com" type="email"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative group">
+<label class="label-minimalist" for="password">비밀번호</label>
+<input class="input-minimalist" id="password" name="password" placeholder="8자 이상 입력" type="password"/>
+</div>
+<div class="relative group">
+<label class="label-minimalist" for="password-confirm">비밀번호 확인</label>
+<input class="input-minimalist" id="password-confirm" name="password-confirm" placeholder="비밀번호 재입력" type="password"/>
+</div>
+</div>
+</div>
+<div class="pt-6 flex flex-col items-center gap-5">
+<button class="w-full h-[56px] bg-solid-black text-pure-white hover:bg-deep-charcoal text-[15px] font-semibold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 group shadow-md">
+<span>다음 단계</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="text-center mt-2">
+<span class="text-[13px] text-deep-charcoal">이미 계정이 있으신가요?</span>
+<a class="ml-2 text-[13px] font-bold text-solid-black border-b border-solid-black pb-0.5 hover:opacity-70 transition-opacity" href="#">로그인하기</a>
+</div>
+</div>
+</form>
+<footer class="mt-20 pt-8 border-t border-gray-100 text-center">
+<div class="flex justify-center gap-6 text-[12px] text-deep-charcoal font-medium mb-4">
+<a class="hover:text-solid-black transition-colors" href="#">이용약관</a>
+<a class="hover:text-solid-black transition-colors" href="#">개인정보처리방침</a>
+<a class="hover:text-solid-black transition-colors" href="#">고객센터</a>
+</div>
+<p class="text-[10px] text-gray-400 tracking-[0.2em] uppercase">© 2024 Marvelring Platform</p>
+</footer>
+</main>
+
+</body></html>

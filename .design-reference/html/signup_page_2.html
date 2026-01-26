@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modern Mono Registration Step 2 | Marvelring</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "pure-white": "#FFFFFF",
+                        "mono-black": "#000000",
+                        "mono-gray": "#E5E5E5",
+                        "mono-dark-gray": "#666666",
+                    },
+                    fontFamily: {
+                        "serif": ["Cinzel", "serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-pure-white text-mono-black font-sans antialiased min-h-screen flex flex-col;
+            }
+        }
+        .input-boutique {
+            @apply w-full h-[56px] px-4 bg-pure-white border border-mono-black text-[15px] font-sans text-mono-black focus:ring-1 focus:ring-mono-black focus:border-mono-black outline-none transition-all placeholder-mono-dark-gray/50 rounded-none;
+        }
+        .label-boutique {
+            @apply block text-[13px] font-medium text-mono-black mb-2 tracking-wide uppercase;
+        }
+        .radio-custom {
+            @apply w-5 h-5 text-mono-black border-gray-300 focus:ring-mono-black focus:ring-offset-0 cursor-pointer;
+        }
+    </style>
+</head>
+<body class="p-0">
+<nav class="w-full h-[80px] flex items-center justify-center px-8 border-b border-mono-gray sticky top-0 bg-pure-white/95 backdrop-blur-sm z-20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-mono-black text-2xl">diamond</span>
+<span class="font-serif text-lg tracking-[0.2em] font-semibold text-mono-black">MARVELRING</span>
+</div>
+</nav>
+<main class="flex-grow w-full max-w-[1440px] mx-auto flex flex-col items-center py-12 px-4 sm:px-6">
+<div class="w-full max-w-2xl mb-16 relative">
+<div class="absolute top-[20px] left-0 w-full h-[1px] bg-mono-gray -z-10"></div>
+<div class="absolute top-[20px] left-0 w-1/2 h-[1px] bg-mono-black -z-10 transition-all duration-500"></div>
+<div class="flex justify-between items-start w-full">
+<div class="flex flex-col items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-mono-black flex items-center justify-center text-pure-white shadow-sm ring-4 ring-pure-white">
+<span class="material-symbols-outlined text-lg font-bold">check</span>
+</div>
+<span class="text-xs font-serif font-medium text-mono-black tracking-wide">Account Setup</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-mono-black flex items-center justify-center text-pure-white shadow-sm ring-4 ring-pure-white">
+<span class="font-serif text-base font-semibold">2</span>
+</div>
+<span class="text-xs font-bold text-mono-black tracking-wide font-serif">사업자 정보</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-pure-white border border-mono-gray flex items-center justify-center text-mono-gray ring-4 ring-pure-white">
+<span class="font-serif text-base font-medium">3</span>
+</div>
+<span class="text-xs font-serif font-medium text-mono-gray tracking-wide">Verification</span>
+</div>
+</div>
+</div>
+<div class="w-full max-w-2xl">
+<header class="mb-12 text-center">
+<h1 class="font-serif text-3xl md:text-4xl text-mono-black mb-6">Business Information</h1>
+<div class="w-12 h-[2px] bg-mono-black mx-auto"></div>
+<p class="text-mono-dark-gray font-sans text-sm mt-6 leading-relaxed max-w-md mx-auto">
+                귀하의 비즈니스에 대한 정확한 정보는 저희가 최적화된 상품을 제안하는 데 도움이 됩니다.
+            </p>
+</header>
+<form class="space-y-12 bg-pure-white p-0 md:p-8" onsubmit="event.preventDefault()">
+<div class="space-y-6">
+<h3 class="font-serif text-lg text-mono-black border-b border-mono-gray pb-2 mb-6 flex items-center gap-2">
+<span class="w-1 h-4 bg-mono-black block"></span>
+                    Company Details
+                </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="label-boutique" for="company-name">상호명 (Company Name)</label>
+<input class="input-boutique" id="company-name" name="company-name" placeholder="예: 마블 주얼리" type="text"/>
+</div>
+<div>
+<label class="label-boutique" for="ceo-name">대표자명 (CEO Name)</label>
+<input class="input-boutique" id="ceo-name" name="ceo-name" placeholder="홍길동" type="text"/>
+</div>
+</div>
+<div>
+<label class="label-boutique" for="biz-num">사업자 등록번호 (Business Registration No.)</label>
+<input class="input-boutique font-mono" id="biz-num" name="biz-num" placeholder="000-00-00000" type="text"/>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="font-serif text-lg text-mono-black border-b border-mono-gray pb-2 mb-6 flex items-center gap-2">
+<span class="w-1 h-4 bg-mono-black block"></span>
+                    Business Type
+                </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="relative flex items-center p-5 border border-mono-gray hover:border-mono-black bg-pure-white transition-all cursor-pointer group has-[:checked]:border-2 has-[:checked]:border-mono-black">
+<input class="radio-custom peer" name="biz-type" type="radio" value="wholesale"/>
+<div class="ml-4">
+<span class="block text-[15px] font-semibold text-mono-black">Wholesale (도매)</span>
+<span class="block text-[12px] text-mono-dark-gray mt-1">대량 구매 및 유통</span>
+</div>
+</label>
+<label class="relative flex items-center p-5 border border-mono-gray hover:border-mono-black bg-pure-white transition-all cursor-pointer group has-[:checked]:border-2 has-[:checked]:border-mono-black">
+<input class="radio-custom peer" name="biz-type" type="radio" value="retail"/>
+<div class="ml-4">
+<span class="block text-[15px] font-semibold text-mono-black">Retail (소매)</span>
+<span class="block text-[12px] text-mono-dark-gray mt-1">매장 운영 및 소비자 판매</span>
+</div>
+</label>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="font-serif text-lg text-mono-black border-b border-mono-gray pb-2 mb-6 flex items-center gap-2">
+<span class="w-1 h-4 bg-mono-black block"></span>
+                    Location
+                </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2">
+<label class="label-boutique" for="address-main">주소 (Address)</label>
+<input class="input-boutique" id="address-main" name="address-main" placeholder="기본 주소 검색" type="text"/>
+</div>
+<div>
+<label class="label-boutique" for="zipcode">우편번호 (Zip)</label>
+<input class="input-boutique" id="zipcode" name="zipcode" placeholder="00000" type="text"/>
+</div>
+</div>
+<div>
+<label class="label-boutique" for="address-detail">상세 주소 (Detail Address)</label>
+<input class="input-boutique" id="address-detail" name="address-detail" placeholder="층, 호수 등 상세 주소 입력" type="text"/>
+</div>
+</div>
+<div class="pt-10 flex items-center justify-between border-t border-mono-gray mt-12">
+<button class="text-mono-dark-gray hover:text-mono-black font-sans text-sm font-medium flex items-center gap-2 transition-colors uppercase tracking-wider">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                    이전 단계
+                </button>
+<button class="bg-mono-black text-pure-white h-[56px] px-12 text-[14px] font-medium tracking-widest hover:bg-gray-800 transition-all duration-300 flex items-center gap-3 uppercase shadow-lg">
+                    다음 단계
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</main>
+
+</body></html>

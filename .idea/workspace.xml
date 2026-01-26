@@ -1,18 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AIDiffSettings">
+    <option name="showAIDiff" value="true" />
+  </component>
+  <component name="AIDiffStorage" id="1">
+    <groups>
+      <group changeListId="d88b3df0-5d2e-4af4-b49c-e483f5d678be" id="1" name="Update 'workspace.xml' Git URL and component properties" description="Update IDE workspace configuration for Git URL, component properties, and indexing." importance="0.5">
+        <files>
+          <file summary="Modifies the `.idea/workspace.xml` file to update the Git repository URL, adjust component properties, refresh shared indexing values, and add new work item entries and VCS log tab properties." importance="0.5" isPending="false">
+            <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+            <ranges>
+              <range afterLine1="6" afterLine2="9" beforeLine1="6" beforeLine2="7" groupId="1" />
+              <range afterLine1="15" afterLine2="15" beforeLine1="13" beforeLine2="14" groupId="1" />
+              <range afterLine1="28" afterLine2="29" beforeLine1="27" beforeLine2="28" groupId="1" />
+              <range afterLine1="43" afterLine2="68" beforeLine1="42" beforeLine2="66" groupId="1" />
+              <range afterLine1="69" afterLine2="70" beforeLine1="67" beforeLine2="68" groupId="1" />
+              <range afterLine1="95" afterLine2="97" beforeLine1="93" beforeLine2="95" groupId="1" />
+              <range afterLine1="109" afterLine2="113" beforeLine1="107" beforeLine2="107" groupId="1" />
+              <range afterLine1="157" afterLine2="168" beforeLine1="151" beforeLine2="151" groupId="1" />
+              <range afterLine1="176" afterLine2="180" beforeLine1="159" beforeLine2="159" groupId="1" />
+            </ranges>
+          </file>
+        </files>
+      </group>
+    </groups>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability." />
+    <list default="true" id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability.">
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/collection_product_list_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/fashion_product_list_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/inquiry_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/login_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/main_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/new_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/notice_detail_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/notice_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/product_detail_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/sale_product_list_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/signup_page_1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/signup_page_2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/html/signup_page_3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/collection_product_list_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/fashion_product_list_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/inquiry_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/login_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/main_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/new_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/notice_detail_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/notice_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/product_detail_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/sale_product_list_page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/signup_page_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/signup_page_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.design-reference/screens/signup_page_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.shipspec/planning/marvelring-b2b-platform/PRD.md" beforeDir="false" afterPath="$PROJECT_DIR$/.shipspec/planning/marvelring-b2b-platform/PRD.md" afterDir="false" />
+    </list>
+    <list id="d88b3df0-5d2e-4af4-b49c-e483f5d678be" name="Update 'workspace.xml' Git URL and component properties" comment="Update IDE workspace configuration for Git URL, component properties, and indexing.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="113" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,7 +87,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/dong99u/marvelring.git&quot;,
+    &quot;url&quot;: &quot;git@github.com:dong99u/marvelring.git&quot;,
     &quot;accountId&quot;: &quot;dd9bf282-70d2-4156-a721-5f7736a69754&quot;
   }
 }</component>
@@ -37,41 +99,56 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="38MbfUFKW7JTcQxPBTpMNs6O2Gg" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
-    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/parkdongkyu/my_project/marvelring&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.CommitDialog&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/parkdongkyu/my_project/marvelring/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.github.patou.gitmoji.migration-offered": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/parkdongkyu/my_project/marvelring/.design-reference/html",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/Users/parkdongkyu/my_project/marvelring/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecapSpentCounter">
     <option name="endsOfQuotaMs" value="1769551208860" />
     <option name="spentUsd" value="0.0199846" />
   </component>
   <component name="RecapUselessUpdatesCounter">
     <option name="suspendCountdown" value="0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.design-reference/html" />
+      <recent name="$PROJECT_DIR$/.design-reference/screens" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.design-reference/screens" />
+      <recent name="$PROJECT_DIR$/.design-reference/html" />
+    </key>
   </component>
   <component name="RunManager" selected="npm.Next.js: server-side">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
@@ -91,8 +168,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.240" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
       </set>
     </attachedChunks>
   </component>
@@ -105,6 +181,11 @@
       <updated>1768612489483</updated>
       <workItem from="1768612490626" duration="15532000" />
       <workItem from="1768915632482" duration="10910000" />
+      <workItem from="1769248286555" duration="237000" />
+      <workItem from="1769248531783" duration="1360000" />
+      <workItem from="1769259923599" duration="2879000" />
+      <workItem from="1769342376852" duration="2317000" />
+      <workItem from="1769360935404" duration="80000" />
     </task>
     <task id="LOCAL-00001" summary="Remove unused files and update dependencies  &#10;&#10;Deleted `page.js` and `jsconfig.json` as they are no longer necessary. Updated `package-lock.json` to include additional dependencies such as `@hookform/resolvers`, `react-hook-form`, and others for enhanced functionality. Ensured the build setup aligns with current project requirements.">
       <option name="closed" value="true" />
@@ -149,6 +230,17 @@
       </list>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Remove `jsconfig.json` and add project setup files.&#10;&#10;Deleted `jsconfig.json` as it's no longer needed. Added project-specific configuration files: `.claude-session`, `.idea/.gitignore`, `.shipspec/active-loop.local.json`, `CLAUDE.md`, and `docs/DESIGN-SYSTEM.md` to document and standardize the project setup and design system." />
     <MESSAGE value="Remove unused files and update dependencies  &#10;&#10;Deleted `page.js` and `jsconfig.json` as they are no longer necessary. Updated `package-lock.json` to include additional dependencies such as `@hookform/resolvers`, `react-hook-form`, and others for enhanced functionality. Ensured the build setup aligns with current project requirements." />
@@ -156,5 +248,9 @@
     <MESSAGE value="Add footer, enhance homepage, and improve button styles&#10;&#10;Implemented a new footer with improved UX and branding. Enhanced the homepage layout with updated hero and collections sections, added animations, and visual effects. Updated button styles to improve clarity, consistency, and responsiveness." />
     <MESSAGE value="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability." />
     <option name="LAST_COMMIT_MESSAGE" value="Refactor CSS imports and simplify className usage.&#10;&#10;Moved font import to the top of the CSS file for clarity. Replaced template literals with the `cn` utility for cleaner and more consistent handling of conditional classNames in the Header component. Reduced inline class definition redundancy for better readability." />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

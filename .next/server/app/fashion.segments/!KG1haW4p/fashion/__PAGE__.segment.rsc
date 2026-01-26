@@ -1,0 +1,9 @@
+1:"$Sreact.fragment"
+2:"$Sreact.suspense"
+3:I[7045,["/_next/static/chunks/055f45ce21733195.js","/_next/static/chunks/2f8bd3d86d7e2fec.js","/_next/static/chunks/edaef7c6b669e805.js"],"default"]
+4:I[22302,["/_next/static/chunks/055f45ce21733195.js","/_next/static/chunks/2f8bd3d86d7e2fec.js","/_next/static/chunks/edaef7c6b669e805.js"],"default"]
+5:I[52351,["/_next/static/chunks/055f45ce21733195.js","/_next/static/chunks/2f8bd3d86d7e2fec.js","/_next/static/chunks/edaef7c6b669e805.js"],"default"]
+6:I[57783,["/_next/static/chunks/055f45ce21733195.js","/_next/static/chunks/2f8bd3d86d7e2fec.js","/_next/static/chunks/edaef7c6b669e805.js"],"default"]
+7:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/2b423cf30d3964a3.js"],"OutletBoundary"]
+0:{"buildId":"0y7hJKo1BNjXG38HDKW-l","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"flex w-full max-w-[1600px] mx-auto px-6 py-12","children":[["$","aside",null,{"className":"w-[280px] flex-shrink-0 pr-8 hidden md:block border-r border-card-border/50","children":["$","div",null,{"className":"sticky top-32","children":[["$","h2",null,{"className":"text-2xl font-light tracking-tight mb-8","children":"패션"}],["$","$2",null,{"fallback":["$","div",null,{"children":"Loading..."}],"children":[["$","$L3",null,{}],["$","$L4",null,{}]]}]]}]}],["$","div",null,{"className":"flex-1 pl-0 md:pl-8","children":[["$","$L5",null,{"title":"","totalCount":0}],["$","$L6",null,{"sort":"latest"}]]}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/2f8bd3d86d7e2fec.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/edaef7c6b669e805.js","async":true}]],["$","$L7",null,{"children":["$","$2",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+8:null

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Marvelring B2B | Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&amp;family=Inter:wght@300;400;500;600&amp;family=Noto+Serif+KR:wght@300;400;500&amp;family=Noto+Sans+KR:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "pure-white": "#FFFFFF",
+                        "boutique-silver": "#E5E7EB",
+                        "translucent-silver": "rgba(229, 231, 235, 0.5)",
+                        "charcoal-deep": "#1A1A1A",
+                        "charcoal-hover": "#333333",
+                        "soft-grey": "#F9FAFB",
+                    },
+                    fontFamily: {
+                        "serif-display": ["Playfair Display", "Noto Serif KR", "serif"],
+                        "sans-modern": ["Inter", "Noto Sans KR", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-pure-white text-charcoal-deep font-sans-modern antialiased min-h-screen flex flex-col items-center justify-center;
+            }
+        }
+        .form-label {
+            @apply block text-[15px] font-medium text-charcoal-deep/60 uppercase tracking-widest mb-3;
+        }
+        .form-input {
+            @apply w-full h-[60px] px-0 bg-transparent border-0 border-b border-boutique-silver text-[20px] text-charcoal-deep focus:border-charcoal-deep focus:ring-0 outline-none transition-all placeholder-gray-300;
+        }
+        .boutique-button {
+            @apply w-full h-[64px] flex items-center justify-center text-[16px] font-semibold tracking-[0.15em] transition-all duration-300;
+        }
+    </style>
+</head>
+<body class="selection:bg-charcoal-deep selection:text-white">
+<main class="w-full max-w-[1200px] grid grid-cols-1 md:grid-cols-2 min-h-[85vh] bg-pure-white shadow-[0_0_100px_rgba(0,0,0,0.03)] border border-translucent-silver rounded-[2px] overflow-hidden">
+<div class="hidden md:flex bg-soft-grey items-center justify-center p-20 border-r border-translucent-silver">
+<div class="text-center">
+<div class="flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-charcoal-deep text-6xl font-light">diamond</span>
+</div>
+<h1 class="font-serif-display text-4xl tracking-[0.3em] uppercase mb-4">Marvelring</h1>
+<p class="text-charcoal-deep/40 tracking-[0.4em] text-[12px] uppercase">Est. 2024 • Jewelry B2B Platform</p>
+</div>
+</div>
+<div class="flex items-center justify-center p-8 md:p-20 bg-pure-white">
+<div class="w-full max-w-[420px]">
+<header class="mb-16 text-center md:text-left">
+<div class="md:hidden flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-charcoal-deep text-4xl">diamond</span>
+</div>
+<h2 class="font-serif-display text-5xl md:text-6xl tracking-wider text-charcoal-deep mb-2">로그인</h2>
+<div class="h-[1px] w-16 bg-charcoal-deep mx-auto md:mx-0 mt-6"></div>
+</header>
+<form class="space-y-10" onsubmit="event.preventDefault()">
+<div class="space-y-1">
+<label class="form-label" for="email">Email Address</label>
+<input class="form-input" id="email" name="email" placeholder="example@marvelring.com" type="email"/>
+</div>
+<div class="space-y-1">
+<label class="form-label" for="password">Password</label>
+<input class="form-input" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center">
+<input class="w-5 h-5 text-charcoal-deep border-boutique-silver rounded-none focus:ring-0 cursor-pointer" id="stay-logged-in" type="checkbox"/>
+<label class="ml-3 text-[15px] text-charcoal-deep/60 cursor-pointer select-none font-light" for="stay-logged-in">
+                            로그인 상태 유지
+                        </label>
+</div>
+<a class="text-[14px] text-charcoal-deep/50 hover:text-charcoal-deep transition-colors underline underline-offset-4" href="#">
+                        비밀번호 찾기
+                    </a>
+</div>
+<div class="space-y-4 pt-4">
+<button class="boutique-button bg-charcoal-deep text-white hover:bg-charcoal-hover">
+                        로그인
+                    </button>
+<div class="relative flex items-center py-4">
+<div class="flex-grow border-t border-translucent-silver"></div>
+<span class="flex-shrink-0 mx-6 text-charcoal-deep/20 text-[12px] tracking-widest font-light">OR</span>
+<div class="flex-grow border-t border-translucent-silver"></div>
+</div>
+<button class="boutique-button border border-boutique-silver text-charcoal-deep hover:bg-soft-grey">
+                        회원가입
+                    </button>
+</div>
+</form>
+<footer class="mt-16 flex justify-center">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-translucent-silver bg-soft-grey/50">
+<span class="material-symbols-outlined text-[16px] text-charcoal-deep/50">verified_user</span>
+<span class="text-[12px] font-medium text-charcoal-deep/60 tracking-wide">B2B 전용: 사업자 인증 후 이용 가능</span>
+</div>
+</footer>
+</div>
+</div>
+</main>
+<footer class="mt-12 text-center pb-8">
+<p class="text-[11px] text-charcoal-deep/30 tracking-[0.5em] uppercase font-light">© 2024 MARVELRING B2B. ALL RIGHTS RESERVED.</p>
+</footer>
+</body></html>

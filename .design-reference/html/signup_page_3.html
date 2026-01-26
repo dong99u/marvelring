@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>사업자 인증 | Marvelring</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "pure-white": "#FFFFFF",
+                        "silver-border": "#E5E5E5",
+                        "silver-dashed": "#D4D4D4",
+                        "charcoal": "#1A1A1A",
+                        "charcoal-muted": "#555555",
+                        "charcoal-light": "#888888",
+                        "light-grey": "#F8F8F8",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "Noto Sans KR", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-pure-white text-charcoal font-sans antialiased min-h-screen flex flex-col items-center justify-center;
+            }
+        }
+        .upload-zone {@apply w-full h-[320px] bg-pure-white border border-dashed border-charcoal rounded-lg flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 hover:bg-light-grey/30;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+<main class="w-full max-w-[560px]">
+<div class="mb-12 text-center">
+<div class="flex items-center justify-center gap-2 mb-8">
+<span class="material-symbols-outlined text-charcoal text-3xl">diamond</span>
+<span class="text-xl font-light tracking-[0.4em] uppercase text-charcoal">Marvelring</span>
+</div>
+<div class="relative flex items-center justify-center w-full mb-10">
+<div class="absolute left-0 top-1/2 w-full h-[1px] bg-silver-border -z-10 transform -translate-y-1/2 max-w-[360px] mx-auto right-0"></div>
+<div class="flex flex-col items-center gap-2 bg-pure-white px-2 z-10 mx-6">
+<div class="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px]">check</span>
+</div>
+<span class="text-xs font-medium text-charcoal hidden md:block">가입 정보</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-pure-white px-2 z-10 mx-6">
+<div class="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px]">check</span>
+</div>
+<span class="text-xs font-medium text-charcoal hidden md:block">약관 동의</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-pure-white px-2 z-10 mx-6">
+<div class="w-8 h-8 rounded-full bg-charcoal flex items-center justify-center ring-4 ring-pure-white">
+<span class="text-white text-sm font-bold">3</span>
+</div>
+<span class="text-xs font-bold text-charcoal">인증 완료</span>
+</div>
+</div>
+<h1 class="text-[32px] font-bold tracking-tight text-charcoal mb-2">사업자 등록증 업로드</h1>
+<p class="text-[16px] text-charcoal-muted font-normal">사업자 인증을 위해 등록증 사본을 업로드해주세요.</p>
+</div>
+<form class="space-y-10" onsubmit="event.preventDefault()">
+<div class="upload-zone group">
+<div class="mb-6 p-4 rounded-full bg-light-grey group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-charcoal text-[40px]">upload_file</span>
+</div>
+<div class="space-y-2">
+<p class="text-[18px] font-semibold text-charcoal">드래그 앤 드롭 또는 파일 선택</p>
+<p class="text-[14px] text-charcoal-light">JPG, PNG, PDF (최대 10MB)</p>
+</div>
+<input class="hidden" id="license-upload" name="license" type="file"/>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-3 p-4 border border-silver-border rounded-lg bg-light-grey">
+<div class="flex items-center h-6">
+<input class="w-5 h-5 text-charcoal border-silver-dashed focus:ring-charcoal cursor-pointer rounded-sm" id="terms-agree" required="" type="checkbox"/>
+</div>
+<div class="text-[14px] leading-6">
+<label class="font-medium text-charcoal cursor-pointer" for="terms-agree">
+                        개인정보 수집 및 이용 동의
+                    </label>
+<p class="text-charcoal-muted mt-1 text-[13px]">
+                        수집된 사업자 정보는 B2B 회원 자격 검토 목적으로만 사용되며, 검토 완료 후 안전하게 보관됩니다.
+                    </p>
+</div>
+</div>
+<button class="w-full h-[64px] bg-charcoal text-pure-white hover:bg-black text-[18px] font-bold tracking-wider transition-all duration-300 shadow-md hover:shadow-lg">
+                가입 완료
+            </button>
+<button class="w-full text-charcoal-muted hover:text-charcoal text-[14px] font-medium underline underline-offset-4 transition-colors">
+                다음에 하기 (둘러보기)
+            </button>
+</div>
+</form>
+<footer class="mt-20 text-center">
+<div class="flex items-center justify-center gap-6 mb-6">
+<div class="flex items-center gap-2 text-charcoal-light">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+<span class="text-[12px] uppercase tracking-wider">SSL Encrypted</span>
+</div>
+<div class="flex items-center gap-2 text-charcoal-light">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+<span class="text-[12px] uppercase tracking-wider">Secure Storage</span>
+</div>
+</div>
+<p class="text-[10px] text-silver-border tracking-[0.3em] uppercase">© 2024 Marvelring Platform</p>
+</footer>
+</main>
+
+</body></html>

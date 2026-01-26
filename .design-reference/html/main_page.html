@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>마블링 B2B | 사업자 맞춤형 서비스 허브</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#D4C2A1",
+                        "soft-ivory": "#FAF9F6",
+                        "marble-grey": "#F2F2F2",
+                        "gold-muted": "#A68D60",
+                        "charcoal-light": "#4A4A48",
+                    },
+                    fontFamily: {
+                        "sans": ["Manrope", "Noto Sans KR", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-white text-charcoal-light font-sans antialiased;
+            }
+        }
+        .nav-item {
+            @apply px-8 py-5 text-[15px] font-medium tracking-tight text-charcoal-light/70 hover:text-charcoal-light transition-all relative cursor-pointer;
+        }
+        .nav-item.active {
+            @apply text-charcoal-light font-bold;
+        }
+        .nav-item.active::after {
+            @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-gold-muted;
+        }
+        .sub-nav-item {
+            @apply text-[13px] font-normal text-charcoal-light/60 hover:text-gold-muted transition-colors px-4 py-3;
+        }
+        .marble-bg {
+            background: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)), url('https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+        }
+        .dashboard-item {
+            @apply border border-gray-100 flex flex-col items-start p-10 transition-all hover:bg-white hover:shadow-2xl hover:shadow-gray-200/50 hover:border-primary/20 bg-soft-ivory/30;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="flex items-center justify-between bg-white px-10 py-6 z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gold-muted text-2xl">diamond</span>
+<h1 class="text-xl font-bold tracking-[0.2em] uppercase text-charcoal-light">Marvelring</h1>
+</div>
+<div class="flex items-center gap-8">
+<button class="text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light">파트너십 문의</button>
+<button class="text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light">로그인</button>
+<button class="material-symbols-outlined text-charcoal-light/60">search</button>
+</div>
+</header>
+<nav class="sticky top-0 z-40 bg-white border-y border-gray-100">
+<div class="mx-auto flex max-w-7xl flex-col">
+<div class="flex items-center justify-center">
+<div class="nav-item">신상품</div>
+<div class="nav-item active">브랜드</div>
+<div class="nav-item">패션</div>
+<div class="nav-item text-red-400">시즌오프</div>
+<div class="nav-item">공지사항</div>
+<div class="nav-item">고객센터</div>
+</div>
+<div class="flex items-center justify-center py-1 bg-soft-ivory border-t border-gray-50">
+<a class="sub-nav-item" href="#">전체보기</a>
+<a class="sub-nav-item" href="#">프리미엄 라인</a>
+<a class="sub-nav-item" href="#">시그니처 컬렉션</a>
+<a class="sub-nav-item" href="#">웨딩 주얼리</a>
+<a class="sub-nav-item" href="#">데일리 에센셜</a>
+</div>
+</div>
+</nav>
+<main class="flex flex-1 flex-col items-center">
+<section class="marble-bg w-full py-40 flex flex-col items-center text-center px-6">
+<span class="text-[12px] font-bold tracking-[0.4em] uppercase text-gold-muted mb-4">B2B Gold Wholesale Hub</span>
+<h2 class="text-4xl md:text-5xl font-light tracking-tight text-charcoal-light mb-8 leading-tight">성공적인 비즈니스를 위한<br/>프리미엄 골드 주얼리 플랫폼</h2>
+<div class="w-16 h-[1px] bg-gold-muted/40 mb-10"></div>
+<p class="max-w-xl text-charcoal-light/60 leading-relaxed font-light text-lg">
+                단순한 상품 공급을 넘어, 귀사의 비즈니스 성장을 지원하는<br/>
+                맞춤형 B2B 통합 솔루션을 경험하십시오.
+            </p>
+</section>
+<section class="w-full bg-white py-32 px-10">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col items-center mb-20 text-center">
+<h3 class="text-2xl font-light tracking-tight text-charcoal-light mb-4">사업자 맞춤형 서비스 허브</h3>
+<p class="text-[13px] text-charcoal-light/50 tracking-widest uppercase">Customized Business Solutions</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="dashboard-item">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-gold-muted text-2xl">design_services</span>
+</div>
+<h4 class="text-[15px] font-bold mb-4 tracking-tight">맞춤 제작 솔루션</h4>
+<p class="text-[13px] text-charcoal-light/60 leading-relaxed mb-8">귀사만의 고유한 디자인을 실현하는 맞춤형 ODM/OEM 제작 지원 시스템을 제공합니다.</p>
+<button class="text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">상세보기 <span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></button>
+</div>
+<div class="dashboard-item">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-gold-muted text-2xl">inventory_2</span>
+</div>
+<h4 class="text-[15px] font-bold mb-4 tracking-tight">대량 구매 문의</h4>
+<p class="text-[13px] text-charcoal-light/60 leading-relaxed mb-8">대량 발주 시 경쟁력 있는 단가 제안과 최우선 배송 프로세스로 운영 효율을 극대화합니다.</p>
+<button class="text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">문의하기 <span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></button>
+</div>
+<div class="dashboard-item">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-gold-muted text-2xl">sync_alt</span>
+</div>
+<h4 class="text-[15px] font-bold mb-4 tracking-tight">재고 연동 시스템</h4>
+<p class="text-[13px] text-charcoal-light/60 leading-relaxed mb-8">실시간 API 연동을 통해 품절 걱정 없는 스마트한 재고 관리 환경을 제공합니다.</p>
+<button class="text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">API 가이드 <span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></button>
+</div>
+<div class="dashboard-item">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-gold-muted text-2xl">photo_library</span>
+</div>
+<h4 class="text-[15px] font-bold mb-4 tracking-tight">마케팅 자료 지원</h4>
+<p class="text-[13px] text-charcoal-light/60 leading-relaxed mb-8">판매를 촉진하는 고퀄리티 제품 화보와 상세 이미지, 카탈로그 소스를 무료로 제공합니다.</p>
+<button class="text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">자료실 이동 <span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></button>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full bg-soft-ivory py-32 px-10">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-24 items-center">
+<div class="w-full md:w-5/12 aspect-[4/5] bg-gray-100 overflow-hidden shadow-xl">
+<img alt="Collection" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIEaDRhQiMdJ-MM-sQmZF2tcFhLxPELgGHpgg5kD_rZENLCwTrOdhq1CtHksAY5aMdOpfArLP6zPm-csZbqqxqlg5yunc2VXxbsfoZgE-0u_wzr6AfEclAqLBwNvcP2ftjnjsWM2zhAGdEVXQM92-uK5N-KIradYa-cds6gb-7Mek1emHwcTk4sv-JENUQmyVgszv_dCQWKyhMnIa_h5OxYpqqIM-0hJwQuLWPs1U-F3ffHeuKn3O_9wmWazUgz3dnN_wPLl4QCPcd"/>
+</div>
+<div class="w-full md:w-7/12 flex flex-col items-start">
+<span class="text-gold-muted text-[11px] font-bold tracking-[0.3em] uppercase mb-6">시즌 컬렉션</span>
+<h2 class="text-4xl font-light text-charcoal-light mb-10 leading-snug">2024 미니멀리스트 <br/>헤리티지 시리즈</h2>
+<p class="text-charcoal-light/60 text-lg leading-relaxed mb-12 font-light">
+                        품격과 영속성을 위해 정교하게 설계되었습니다. <br/>
+                        18K 및 24K 골드의 묵직한 중량감과 간결한 라인에 집중한 이번 컬렉션은 귀사의 쇼룸을 더욱 빛내줄 것입니다.
+                    </p>
+<button class="px-12 py-5 border border-charcoal-light text-[12px] font-bold uppercase tracking-widest hover:bg-charcoal-light hover:text-white transition-all">
+                        컬렉션 전체보기
+                    </button>
+</div>
+</div>
+</section>
+<section class="w-full max-w-4xl px-10 py-32 text-center">
+<div class="bg-marble-grey border border-gray-100 p-20 flex flex-col items-center">
+<h3 class="text-2xl font-light mb-10 tracking-tight">비즈니스 파트너 전용 상담 채널</h3>
+<button class="group flex items-center justify-center gap-4 bg-[#FEE500]/90 hover:bg-[#FEE500] px-16 py-6 rounded-none transition-all w-full md:w-auto">
+<span class="material-symbols-outlined text-black font-light">chat_bubble</span>
+<span class="text-sm font-bold text-black tracking-wider">카카오톡 도매 문의 및 상담</span>
+</button>
+<p class="mt-10 text-[11px] text-charcoal-light/40 tracking-[0.2em] uppercase leading-loose">영업시간 내 상담 시 1시간 이내 답변을 원칙으로 합니다 <br/> (평일 09:00 - 18:00)</p>
+</div>
+</section>
+</main>
+<footer class="bg-white border-t border-gray-100 py-24 px-10">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-16">
+<div class="flex flex-col gap-8">
+<div class="flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-gold-muted">diamond</span>
+<span class="text-sm font-bold tracking-[0.3em] uppercase">Marvelring</span>
+</div>
+<p class="text-[12px] text-charcoal-light/50 leading-loose max-w-sm">
+                    현대적인 디자인과 신뢰할 수 있는 B2B 서비스를 통해 <br/>
+                    골드 주얼리 유통의 새로운 기준을 제시합니다.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-24">
+<div class="flex flex-col gap-5">
+<h4 class="text-[11px] font-bold uppercase tracking-widest mb-3">기업 정보</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">이용약관</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">개인정보처리방침</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">사업자 정보확인</a>
+</div>
+<div class="flex flex-col gap-5">
+<h4 class="text-[11px] font-bold uppercase tracking-widest mb-3">고객 지원</h4>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">도매 이용 가이드</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">자주 묻는 질문</a>
+<a class="text-[12px] text-charcoal-light/50 hover:text-gold-muted transition-colors" href="#">1:1 문의하기</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-24 pt-12 border-t border-gray-50 text-center">
+<p class="text-[10px] text-charcoal-light/30 uppercase tracking-[0.2em]">© 2024 MARVELRING B2B PLATFORM. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+</div>
+
+</body></html>
