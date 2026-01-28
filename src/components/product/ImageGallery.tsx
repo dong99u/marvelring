@@ -7,16 +7,28 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
-import type { Swiper as SwiperType } from 'swiper';
+import dynamic from 'next/dynamic';
+import type { Swiper as SwiperType, SwiperModule } from 'swiper/types';
 
-// Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+// Dynamic import for Swiper (client-only, reduces initial bundle)
+const Swiper = dynamic(
+  () => import('swiper/react').then((mod) => mod.Swiper),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full aspect-[4/5] bg-soft-ivory animate-pulse" />
+    ),
+  }
+);
+
+const SwiperSlide = dynamic(
+  () => import('swiper/react').then((mod) => mod.SwiperSlide),
+  {
+    ssr: false,
+  }
+);
 
 interface ImageGalleryProps {
   images: string[];
@@ -29,9 +41,32 @@ export default function ImageGallery({
 }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const [swiperModules, setSwiperModules] = useState<SwiperModule[] | null>(null);
 
   const currentImage = images[selectedIndex] || images[0];
+
+  // Load Swiper CSS and modules dynamically
+  useEffect(() => {
+    const loadSwiperAssets = async () => {
+      // Load CSS as side effects (suppress TS module resolution for CSS)
+      await Promise.all([
+        // @ts-expect-error CSS modules don't have type definitions
+        import('swiper/css'),
+        // @ts-expect-error CSS modules don't have type definitions
+        import('swiper/css/pagination'),
+        // @ts-expect-error CSS modules don't have type definitions
+        import('swiper/css/navigation'),
+      ]);
+
+      // Load modules
+      const modules = await import('swiper/modules');
+      setSwiperModules([modules.Pagination, modules.Navigation]);
+    };
+
+    loadSwiperAssets();
+  }, []);
 
   const handleSlideChange = (swiper: SwiperType) => {
     setSelectedIndex(swiper.activeIndex);
@@ -41,34 +76,38 @@ export default function ImageGallery({
     <>
       {/* Mobile Swiper Gallery */}
       <div className="lg:hidden lg:col-span-7 relative w-full bg-soft-ivory overflow-hidden border border-gray-100">
-        <Swiper
-          modules={[Pagination, Navigation]}
-          spaceBetween={0}
-          slidesPerView={1}
-          pagination={{
-            clickable: true,
-            bulletClass: 'swiper-pagination-bullet !bg-charcoal-light/30',
-            bulletActiveClass: 'swiper-pagination-bullet-active !bg-gold-muted',
-          }}
-          onSwiper={setSwiperInstance}
-          onSlideChange={handleSlideChange}
-          className="w-full aspect-[4/5]"
-        >
-          {images.map((image, index) => (
-            <SwiperSlide key={index}>
-              <div className="relative w-full h-full">
-                <Image
-                  src={image}
-                  alt={`${productName} - Image ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  sizes="100vw"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {swiperModules ? (
+          <Swiper
+            modules={swiperModules}
+            spaceBetween={0}
+            slidesPerView={1}
+            pagination={{
+              clickable: true,
+              bulletClass: 'swiper-pagination-bullet !bg-charcoal-light/30',
+              bulletActiveClass: 'swiper-pagination-bullet-active !bg-gold-muted',
+            }}
+            onSwiper={setSwiperInstance}
+            onSlideChange={handleSlideChange}
+            className="w-full aspect-[4/5]"
+          >
+            {images.map((image, index) => (
+              <SwiperSlide key={index}>
+                <div className="relative w-full h-full">
+                  <Image
+                    src={image}
+                    alt={`${productName} - Image ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    priority={index === 0}
+                    sizes="100vw"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <div className="w-full aspect-[4/5] bg-soft-ivory animate-pulse" />
+        )}
 
         {/* Zoom Button */}
         <button

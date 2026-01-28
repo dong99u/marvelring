@@ -33,8 +33,9 @@ export function ApprovalActions({ memberId }: ApprovalActionsProps) {
       }
 
       // Success - the page will be revalidated automatically
-    } catch (err: any) {
-      setError(err.message || 'An error occurred')
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'An error occurred'
+      setError(message)
       setIsApproving(false)
     }
   }
@@ -58,8 +59,9 @@ export function ApprovalActions({ memberId }: ApprovalActionsProps) {
       }
 
       // Success - the page will be revalidated automatically
-    } catch (err: any) {
-      setError(err.message || 'An error occurred')
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'An error occurred'
+      setError(message)
       setIsRejecting(false)
     }
   }

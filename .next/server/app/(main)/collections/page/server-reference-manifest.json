@@ -1,0 +1,20 @@
+{
+  "node": {
+    "406b2ef893b0073b2f02a8ceedab3fa172a532a9cf": {
+      "workers": {
+        "app/(main)/collections/page": {
+          "moduleId": 35601,
+          "async": false,
+          "exportedName": "getProducts",
+          "filename": "src/app/actions/products.ts"
+        }
+      },
+      "layer": {
+        "app/(main)/collections/page": "action-browser"
+      },
+      "exportedName": "getProducts",
+      "filename": "src/app/actions/products.ts"
+    }
+  },
+  "edge": {}
+}

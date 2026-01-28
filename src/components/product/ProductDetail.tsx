@@ -3,8 +3,6 @@
  * Main component orchestrating product detail page layout
  */
 
-'use client';
-
 import { ProductForDisplay } from '@/types/product';
 import Breadcrumb from './Breadcrumb';
 import ImageGallery from './ImageGallery';

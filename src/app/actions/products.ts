@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { ProductForDisplay } from '@/types/product';
 
 export interface GetProductsParams {
   cursor?: number;
@@ -12,7 +13,7 @@ export interface GetProductsParams {
 }
 
 export interface GetProductsResult {
-  products: any[];
+  products: ProductForDisplay[];
   nextCursor: number | null;
   hasMore: boolean;
 }

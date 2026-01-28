@@ -1,35 +1,20 @@
 {
-  "active": false,
+  "active": true,
   "mode": "ralph+ultrawork",
-  "status": "completed",
-  "architect_verified": true,
-  "completed_at": "2026-01-27T00:35:00Z",
-  "task": "Marvelring B2B Platform - Tasks #2-#15",
-  "iteration": 5,
-  "started_at": "2026-01-26T14:55:00Z",
-  "current_wave": 5,
+  "status": "in_progress",
+  "task": "Find and fix all bugs - ESLint errors",
+  "iteration": 9,
+  "started_at": "2026-01-27T00:40:00Z",
+  "current_wave": 1,
   "waves": {
-    "1": {"tasks": ["2", "9"], "status": "completed"},
-    "2": {"tasks": ["3", "5"], "status": "completed"},
-    "3": {"tasks": ["4", "6", "8"], "status": "completed"},
-    "4": {"tasks": ["7", "11", "12"], "status": "completed"},
-    "5": {"tasks": ["10", "13", "15"], "status": "completed"}
+    "1": {
+      "tasks": [
+        "eslint-any-types",
+        "eslint-hooks",
+        "eslint-misc"
+      ],
+      "status": "in_progress"
+    }
   },
-  "skipped": ["14"],
-  "workers": [
-    {"id": "w1", "task": "2", "agent_id": "a090b65", "status": "completed"},
-    {"id": "w2", "task": "9", "agent_id": "a18b3dd", "status": "completed"},
-    {"id": "w3", "task": "3", "agent_id": "adf905b", "status": "completed"},
-    {"id": "w4", "task": "5", "agent_id": "a764667", "status": "completed"},
-    {"id": "w5", "task": "4", "agent_id": "aa0e95e", "status": "completed"},
-    {"id": "w6", "task": "6", "agent_id": "a8cd049", "status": "completed"},
-    {"id": "w7", "task": "8", "agent_id": "ad4d070", "status": "completed"},
-    {"id": "w8", "task": "7", "agent_id": "a7941ce", "status": "completed"},
-    {"id": "w9", "task": "11", "agent_id": "acfe529", "status": "completed"},
-    {"id": "w10", "task": "12", "agent_id": "a2dafba", "status": "completed"},
-    {"id": "w11", "task": "10", "agent_id": "a825f47", "status": "completed"},
-    {"id": "w12", "task": "13", "agent_id": "ac5887e", "status": "completed"},
-    {"id": "w13", "task": "15", "agent_id": "a32335d", "status": "completed"}
-  ],
-  "completed_tasks": ["1", "2", "9", "3", "5", "4", "6", "8", "7", "11", "12", "10", "13", "15"]
+  "workers": []
 }

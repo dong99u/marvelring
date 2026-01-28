@@ -19,6 +19,22 @@ export interface PendingMember {
   created_at: string
 }
 
+export interface MemberData {
+  id: number
+  username: string
+  email: string
+  company_name: string | null
+  ceo_name: string | null
+  biz_reg_num: string | null
+  business_type: 'WHOLESALE' | 'RETAIL'
+  approval_status: ApprovalStatus
+  zip_code: string | null
+  address_line1: string | null
+  address_line2: string | null
+  created_at: string
+  updated_at: string
+}
+
 export interface ApprovalResult {
   success: boolean
   error?: string
@@ -44,8 +60,9 @@ export async function getPendingMembers(): Promise<{
     }
 
     return { data, error: null }
-  } catch (error: any) {
-    return { data: null, error: error.message || 'Failed to fetch pending members' }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to fetch pending members'
+    return { data: null, error: message }
   }
 }
 
@@ -72,10 +89,11 @@ export async function approveMember(
     }
 
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to approve member'
     return {
       success: false,
-      error: error.message || 'Failed to approve member',
+      error: message,
     }
   }
 }
@@ -106,10 +124,11 @@ export async function rejectMember(
     }
 
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to reject member'
     return {
       success: false,
-      error: error.message || 'Failed to reject member',
+      error: message,
     }
   }
 }
@@ -142,7 +161,7 @@ export async function isAdmin(): Promise<boolean> {
  * @returns Member data or error
  */
 export async function getMemberById(memberId: number): Promise<{
-  data: any | null
+  data: MemberData | null
   error: string | null
 }> {
   try {
@@ -159,7 +178,8 @@ export async function getMemberById(memberId: number): Promise<{
     }
 
     return { data, error: null }
-  } catch (error: any) {
-    return { data: null, error: error.message || 'Failed to fetch member' }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to fetch member'
+    return { data: null, error: message }
   }
 }

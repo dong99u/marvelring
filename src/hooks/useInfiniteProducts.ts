@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getProducts, GetProductsParams } from '@/app/actions/products';
+import { ProductForDisplay } from '@/types/product';
 
 interface UseInfiniteProductsParams {
   category?: string;
@@ -18,7 +19,7 @@ export function useInfiniteProducts({
   sort = 'latest',
   pageSize = 24,
 }: UseInfiniteProductsParams) {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<ProductForDisplay[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [hasMore, setHasMore] = useState(true);

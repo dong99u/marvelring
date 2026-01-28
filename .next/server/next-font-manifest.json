@@ -20,6 +20,16 @@
       "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
       "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
     ],
+    "[project]/src/app/(main)/announcements/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(main)/collections/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
     "[project]/src/app/(main)/fashion/page": [
       "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
       "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
@@ -30,12 +40,22 @@
       "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
       "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
     ],
+    "[project]/src/app/(main)/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
     "[project]/src/app/(main)/products/[id]/page": [
       "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
       "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
       "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
     ],
     "[project]/src/app/(main)/sale/page": [
+      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
+      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/src/app/(main)/support/page": [
       "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
       "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
       "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
@@ -51,11 +71,6 @@
       "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
     ],
     "[project]/src/app/design-system/page": [
-      "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
-      "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
-      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
-    ],
-    "[project]/src/app/page": [
       "static/media/a343f882a40d2cc9-s.p.71e1367e.woff2",
       "static/media/fca78c2ee6cec166-s.p.11a55858.woff2",
       "static/media/2a65768255d6b625-s.p.d19752fb.woff2"

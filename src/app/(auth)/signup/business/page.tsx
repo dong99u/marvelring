@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import SignupProgress from '@/components/auth/SignupProgress'
 import BusinessTypeSelector from '@/components/auth/BusinessTypeSelector'
 

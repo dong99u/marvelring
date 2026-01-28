@@ -56,6 +56,12 @@
       "namedRegex": "^/admin/users(?:/)?$"
     },
     {
+      "page": "/announcements",
+      "regex": "^/announcements(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/announcements(?:/)?$"
+    },
+    {
       "page": "/api/auth/login",
       "regex": "^/api/auth/login(?:/)?$",
       "routeKeys": {},
@@ -72,6 +78,12 @@
       "regex": "^/api/auth/signup(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/auth/signup(?:/)?$"
+    },
+    {
+      "page": "/collections",
+      "regex": "^/collections(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/collections(?:/)?$"
     },
     {
       "page": "/design-system",
@@ -126,6 +138,12 @@
       "regex": "^/signup/complete(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/signup/complete(?:/)?$"
+    },
+    {
+      "page": "/support",
+      "regex": "^/support(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/support(?:/)?$"
     }
   ],
   "dataRoutes": [],

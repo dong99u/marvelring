@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import { Member } from '@/lib/supabase/types'
@@ -10,6 +10,18 @@ export function useAuth() {
   const [member, setMember] = useState<Member | null>(null)
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
+
+  const fetchMemberData = useCallback(async (email: string) => {
+    const { data, error } = await supabase
+      .from('member')
+      .select('*')
+      .eq('email', email)
+      .single()
+
+    if (!error && data) {
+      setMember(data as Member)
+    }
+  }, [supabase])
 
   useEffect(() => {
     // Get initial session
@@ -40,19 +52,7 @@ export function useAuth() {
     })
 
     return () => subscription.unsubscribe()
-  }, [])
-
-  const fetchMemberData = async (email: string) => {
-    const { data, error } = await supabase
-      .from('member')
-      .select('*')
-      .eq('email', email)
-      .single()
-
-    if (!error && data) {
-      setMember(data as Member)
-    }
-  }
+  }, [fetchMemberData, supabase.auth])
 
   const signIn = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({

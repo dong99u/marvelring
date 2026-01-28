@@ -2,6 +2,12 @@
   "node": {
     "406b2ef893b0073b2f02a8ceedab3fa172a532a9cf": {
       "workers": {
+        "app/(main)/collections/page": {
+          "moduleId": 35601,
+          "async": false,
+          "exportedName": "getProducts",
+          "filename": "src/app/actions/products.ts"
+        },
         "app/(main)/fashion/page": {
           "moduleId": 25686,
           "async": false,
@@ -22,6 +28,7 @@
         }
       },
       "layer": {
+        "app/(main)/collections/page": "action-browser",
         "app/(main)/fashion/page": "action-browser",
         "app/(main)/new/page": "action-browser",
         "app/(main)/sale/page": "action-browser"

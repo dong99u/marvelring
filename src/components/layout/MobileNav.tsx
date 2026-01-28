@@ -18,11 +18,11 @@ const navigationData: NavSection[] = [
   {
     title: 'Collection',
     items: [
-      { label: '전체보기', href: '/collection' },
-      { label: '프리미엄 라인', href: '/collection/premium' },
-      { label: '시그니처 컬렉션', href: '/collection/signature' },
-      { label: '웨딩 주얼리', href: '/collection/wedding' },
-      { label: '데일리 에센셜', href: '/collection/daily' },
+      { label: '전체보기', href: '/collections' },
+      { label: '프리미엄 라인', href: '/collections/premium' },
+      { label: '시그니처 컬렉션', href: '/collections/signature' },
+      { label: '웨딩 주얼리', href: '/collections/wedding' },
+      { label: '데일리 에센셜', href: '/collections/daily' },
     ],
   },
   {
@@ -136,14 +136,14 @@ export default function MobileNav() {
               시즌오프
             </Link>
             <Link
-              href="/notice"
+              href="/announcements"
               className="block min-h-12 px-6 py-3 text-base font-medium text-charcoal-light hover:bg-soft-ivory transition-colors"
               onClick={() => setIsOpen(false)}
             >
               공지사항
             </Link>
             <Link
-              href="/inquiry"
+              href="/support"
               className="block min-h-12 px-6 py-3 text-base font-medium text-charcoal-light hover:bg-soft-ivory transition-colors"
               onClick={() => setIsOpen(false)}
             >

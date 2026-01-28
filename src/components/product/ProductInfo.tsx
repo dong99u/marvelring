@@ -3,7 +3,6 @@
  * Displays product specifications in step sections
  */
 
-import PriceDisplay from './PriceDisplay';
 import KakaoTalkButton from './KakaoTalkButton';
 import ProductBadges from './ProductBadges';
 
