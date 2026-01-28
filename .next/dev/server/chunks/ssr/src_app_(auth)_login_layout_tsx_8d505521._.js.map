@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/parkdongkyu/my_project/marvelring/src/app/%28auth%29/login/layout.tsx"],"sourcesContent":["export default function LoginLayout({\n  children,\n}: {\n  children: React.ReactNode\n}) {\n  return (\n    <div className=\"min-h-screen flex flex-col items-center justify-center p-6\">\n      {children}\n      <footer className=\"mt-12 text-center pb-8\">\n        <p className=\"text-[11px] text-charcoal-deep/30 tracking-[0.5em] uppercase font-light\">\n          © 2024 MARVELRING B2B. ALL RIGHTS RESERVED.\n        </p>\n      </footer>\n    </div>\n  )\n}\n"],"names":[],"mappings":";;;;;;AAAe,SAAS,YAAY,EAClC,QAAQ,EAGT;IACC,qBACE,8OAAC;QAAI,WAAU;;YACZ;0BACD,8OAAC;gBAAO,WAAU;0BAChB,cAAA,8OAAC;oBAAE,WAAU;8BAA0E;;;;;;;;;;;;;;;;;AAM/F"}}]
-}

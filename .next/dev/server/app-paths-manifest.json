@@ -1,9 +1,0 @@
-{
-  "/(main)/announcements/page": "app/(main)/announcements/page.js",
-  "/(main)/collections/page": "app/(main)/collections/page.js",
-  "/(main)/fashion/page": "app/(main)/fashion/page.js",
-  "/(main)/new/page": "app/(main)/new/page.js",
-  "/(main)/page": "app/(main)/page.js",
-  "/(main)/sale/page": "app/(main)/sale/page.js",
-  "/(main)/support/page": "app/(main)/support/page.js"
-}
