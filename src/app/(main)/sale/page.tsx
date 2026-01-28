@@ -16,9 +16,10 @@ interface SearchParams {
 export default async function SalePage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const sort = searchParams.sort === 'name' ? 'name' : 'latest';
+  const params = await searchParams;
+  const sort = params.sort === 'name' ? 'name' : 'latest';
 
   return (
     <div className="flex w-full max-w-[1600px] mx-auto px-6 py-12">

@@ -1,20 +1,9 @@
 {
-  "active": true,
-  "mode": "ralph+ultrawork",
-  "status": "in_progress",
-  "task": "Find and fix all bugs - ESLint errors",
-  "iteration": 10,
-  "started_at": "2026-01-27T00:40:00Z",
-  "current_wave": 1,
-  "waves": {
-    "1": {
-      "tasks": [
-        "eslint-any-types",
-        "eslint-hooks",
-        "eslint-misc"
-      ],
-      "status": "in_progress"
-    }
-  },
-  "workers": []
+  "active": false,
+  "mode": "ralph",
+  "plan_path": ".omc/plans/seed-data-and-navbar-fix.md",
+  "started_at": "2026-01-28T21:26:00Z",
+  "completed_at": "2026-01-28T21:35:00Z",
+  "current_phase": "complete",
+  "verdict": "APPROVED"
 }

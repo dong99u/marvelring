@@ -16,23 +16,23 @@ interface NavSection {
 
 const navigationData: NavSection[] = [
   {
-    title: 'Collection',
+    title: '컬렉션',
     items: [
       { label: '전체보기', href: '/collections' },
-      { label: '프리미엄 라인', href: '/collections/premium' },
-      { label: '시그니처 컬렉션', href: '/collections/signature' },
-      { label: '웨딩 주얼리', href: '/collections/wedding' },
-      { label: '데일리 에센셜', href: '/collections/daily' },
+      { label: '반지', href: '/collections?category=ring' },
+      { label: '목걸이', href: '/collections?category=necklace' },
+      { label: '귀걸이', href: '/collections?category=earring' },
+      { label: '팔찌', href: '/collections?category=bracelet' },
     ],
   },
   {
-    title: 'Fashion',
+    title: '패션',
     items: [
       { label: '전체보기', href: '/fashion' },
-      { label: '반지', href: '/fashion/rings' },
-      { label: '목걸이', href: '/fashion/necklaces' },
-      { label: '귀걸이', href: '/fashion/earrings' },
-      { label: '팔찌', href: '/fashion/bracelets' },
+      { label: '반지', href: '/fashion?category=ring' },
+      { label: '목걸이', href: '/fashion?category=necklace' },
+      { label: '귀걸이', href: '/fashion?category=earring' },
+      { label: '팔찌', href: '/fashion?category=bracelet' },
     ],
   },
 ];

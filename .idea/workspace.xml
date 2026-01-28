@@ -7,13 +7,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="🔥 chore: Remove unused Next.js server-side rendering chunk">
-      <change beforePath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.1.0-canary.19-88-gda605e0c4/CURRENT" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.1.0-canary.19-88-gda605e0c4/CURRENT" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.1.0-canary.19-88-gda605e0c4/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/cache/turbopack/v16.1.0-canary.19-88-gda605e0c4/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/app-paths-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/server/next-font-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.next/dev/trace" beforeDir="false" afterPath="$PROJECT_DIR$/.next/dev/trace" afterDir="false" />
+    <list default="true" id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="📦 feat: Add Next.js server-side rendering chunks and related scripts">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.omc/ralph-state.json" beforeDir="false" afterPath="$PROJECT_DIR$/.omc/ralph-state.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.omc/ralplan-state.json" beforeDir="false" afterPath="$PROJECT_DIR$/.omc/ralplan-state.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.omc/ultrawork-state.json" beforeDir="false" afterPath="$PROJECT_DIR$/.omc/ultrawork-state.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/collections/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/collections/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/fashion/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/fashion/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/actions/products.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/actions/products.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/MobileNav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/MobileNav.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/CLAUDE.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +152,7 @@
       <workItem from="1769597822662" duration="972000" />
       <workItem from="1769599903744" duration="988000" />
       <workItem from="1769601068191" duration="634000" />
-      <workItem from="1769602005049" duration="338000" />
+      <workItem from="1769602005049" duration="1989000" />
     </task>
     <task id="LOCAL-00001" summary="Remove unused files and update dependencies  &#10;&#10;Deleted `page.js` and `jsconfig.json` as they are no longer necessary. Updated `package-lock.json` to include additional dependencies such as `@hookform/resolvers`, `react-hook-form`, and others for enhanced functionality. Ensured the build setup aligns with current project requirements.">
       <option name="closed" value="true" />
@@ -190,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769441916764</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=":memo: chore: update iteration in ralph-state.json and clean up workspace.xml">
+      <option name="closed" value="true" />
+      <created>1769602551513</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1769602551513</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,7 +234,8 @@
     <MESSAGE value=" feat: Add Next.js server-side rendering chunks and related scripts" />
     <MESSAGE value=" feat: Add Next.js server-side rendering chunks and related scripts" />
     <MESSAGE value=" chore: Remove unused Next.js server-side rendering chunk" />
-    <option name="LAST_COMMIT_MESSAGE" value=" chore: Remove unused Next.js server-side rendering chunk" />
+    <MESSAGE value=":memo: chore: update iteration in ralph-state.json and clean up workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value=":memo: chore: update iteration in ralph-state.json and clean up workspace.xml" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

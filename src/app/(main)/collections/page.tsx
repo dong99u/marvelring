@@ -8,6 +8,7 @@ import {
 } from '@/components/product';
 
 interface SearchParams {
+  category?: string;
   categories?: string;
   materials?: string;
   sort?: string;
@@ -16,9 +17,10 @@ interface SearchParams {
 export default async function CollectionsPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const sort = searchParams.sort === 'name' ? 'name' : 'latest';
+  const params = await searchParams;
+  const sort = params.sort === 'name' ? 'name' : 'latest';
 
   return (
     <div className="flex w-full max-w-[1600px] mx-auto px-6 py-12">
@@ -33,7 +35,7 @@ export default async function CollectionsPage({
       </aside>
       <div className="flex-1 pl-0 md:pl-8">
         <ProductListHeader title="" totalCount={0} />
-        <InfiniteProductList sort={sort} />
+        <InfiniteProductList category={params.category} sort={sort} />
       </div>
     </div>
   );
