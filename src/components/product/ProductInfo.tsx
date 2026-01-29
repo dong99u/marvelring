@@ -192,17 +192,22 @@ export default function ProductInfo({
         )}
 
         {/* Step 04: Special Notes */}
-        {product.additional_information && (
-          <div className="workbench-step border-none pb-0">
-            <span className="step-number">04</span>
-            <div className="step-content">
-              <span className="config-label">Special Notes</span>
+        <div className="workbench-step border-none pb-0">
+          <span className="step-number">04</span>
+          <div className="step-content">
+            <span className="config-label">Special Notes</span>
+            <div className="mb-2">
+              <span className="spec-tag">각인비 포함</span>
+              <span className="spec-tag">도금비 별도</span>
+              <span className="spec-tag">주문 제작</span>
+            </div>
+            {product.additional_information && (
               <p className="text-[11px] text-charcoal-light/50 leading-relaxed italic">
                 {product.additional_information}
               </p>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Price Summary Card */}

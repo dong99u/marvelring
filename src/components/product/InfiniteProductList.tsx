@@ -7,6 +7,9 @@ import EmptyState from './EmptyState';
 
 interface InfiniteProductListProps {
   category?: string;
+  categories?: string;
+  materials?: string;
+  brand?: string;
   isNew?: boolean;
   isSale?: boolean;
   sort?: 'latest' | 'name';
@@ -14,6 +17,9 @@ interface InfiniteProductListProps {
 
 export default function InfiniteProductList({
   category,
+  categories,
+  materials,
+  brand,
   isNew,
   isSale,
   sort = 'latest',
@@ -21,6 +27,9 @@ export default function InfiniteProductList({
   const { products, isLoading, hasMore, error, observerTarget } =
     useInfiniteProducts({
       category,
+      categories,
+      materials,
+      brand,
       isNew,
       isSale,
       sort,

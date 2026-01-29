@@ -7,6 +7,9 @@ export interface GetProductsParams {
   cursor?: number;
   limit?: number;
   category?: string;
+  categories?: string;
+  materials?: string;
+  brand?: string;
   isNew?: boolean;
   isSale?: boolean;
   sort?: 'latest' | 'name';
@@ -22,6 +25,9 @@ export async function getProducts({
   cursor = 0,
   limit = 24,
   category,
+  categories,
+  materials,
+  brand,
   isNew,
   isSale,
   sort = 'latest',
@@ -30,9 +36,31 @@ export async function getProducts({
 
   let query = supabase.from('product_full_details').select('*');
 
-  // Apply category filter
+  // Apply single category filter
   if (category) {
     query = query.eq('category_slug', category);
+  }
+
+  // Apply multiple categories filter (comma-separated)
+  // Filter out 'all' since it means "show all categories"
+  if (categories) {
+    const categoryArray = categories.split(',').map((c) => c.trim()).filter((c) => c && c !== 'all');
+    if (categoryArray.length > 0) {
+      query = query.in('category_slug', categoryArray);
+    }
+  }
+
+  // Apply materials filter (comma-separated)
+  if (materials) {
+    const materialArray = materials.split(',').map((m) => m.trim()).filter(Boolean);
+    if (materialArray.length > 0) {
+      query = query.in('material', materialArray);
+    }
+  }
+
+  // Apply brand/collection filter
+  if (brand) {
+    query = query.eq('collection_slug', brand);
   }
 
   // Apply new products filter (last 30 days)

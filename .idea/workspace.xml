@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AIDiffSettings">
-    <option name="showAIDiff" value="true" />
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="📦 feat: Add Next.js server-side rendering chunks and related scripts">
+    <list default="true" id="ec7a46b9-9f39-489e-ab5d-6e2852ee6605" name="Changes" comment="fix(pages): resolve promise-based searchParams and enhance category handling  &#10;&#10;- Updated `searchParams` in `/sale`, `/new`, `/collections`, and `/fashion` pages to support `Promise` resolution.  &#10;- Ensured category parameters are passed correctly to `InfiniteProductList` for filter support.  &#10;- Aligned behavior across pages for consistent sorting and filtering functionality.">
+      <change afterPath="$PROJECT_DIR$/src/hooks/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.design-reference/html/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/.design-reference/html/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.omc/ralph-state.json" beforeDir="false" afterPath="$PROJECT_DIR$/.omc/ralph-state.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.omc/ralplan-state.json" beforeDir="false" afterPath="$PROJECT_DIR$/.omc/ralplan-state.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mcp.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.omc/ultrawork-state.json" beforeDir="false" afterPath="$PROJECT_DIR$/.omc/ultrawork-state.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(main)/collections/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/collections/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(main)/fashion/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/fashion/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/new/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/new/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/products/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/products/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/sale/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/sale/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/actions/products.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/actions/products.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/MobileNav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/MobileNav.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/layout/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/product/ImageGallery.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/product/ImageGallery.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/product/InfiniteProductList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/product/InfiniteProductList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/product/ProductInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/product/ProductInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/product/RelatedProducts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/product/RelatedProducts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useInfiniteProducts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useInfiniteProducts.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/product.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/product.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.tsbuildinfo" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +33,6 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="274" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -68,34 +75,34 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.github.patou.gitmoji.migration-offered&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
-    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/parkdongkyu/my_project/marvelring&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.inline.completion&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/parkdongkyu/Library/Application Support/JetBrains/IntelliJIdea2025.3/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.github.patou.gitmoji.migration-offered": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/parkdongkyu/my_project/marvelring",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/Users/parkdongkyu/my_project/marvelring/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecapSpentCounter">
     <option name="endsOfQuotaMs" value="1769551208860" />
     <option name="spentUsd" value="0.0199846" />
@@ -131,7 +138,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.30387.83" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
       </set>
     </attachedChunks>
   </component>
@@ -152,7 +160,9 @@
       <workItem from="1769597822662" duration="972000" />
       <workItem from="1769599903744" duration="988000" />
       <workItem from="1769601068191" duration="634000" />
-      <workItem from="1769602005049" duration="1989000" />
+      <workItem from="1769602005049" duration="3548000" />
+      <workItem from="1769607912939" duration="50000" />
+      <workItem from="1769607977890" duration="292000" />
     </task>
     <task id="LOCAL-00001" summary="Remove unused files and update dependencies  &#10;&#10;Deleted `page.js` and `jsconfig.json` as they are no longer necessary. Updated `package-lock.json` to include additional dependencies such as `@hookform/resolvers`, `react-hook-form`, and others for enhanced functionality. Ensured the build setup aligns with current project requirements.">
       <option name="closed" value="true" />
@@ -202,7 +212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769602551513</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix(pages): resolve promise-based searchParams and enhance category handling  &#10;&#10;- Updated `searchParams` in `/sale`, `/new`, `/collections`, and `/fashion` pages to support `Promise` resolution.  &#10;- Ensured category parameters are passed correctly to `InfiniteProductList` for filter support.  &#10;- Aligned behavior across pages for consistent sorting and filtering functionality.">
+      <option name="closed" value="true" />
+      <created>1769606091881</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1769606091881</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,7 +253,8 @@
     <MESSAGE value=" feat: Add Next.js server-side rendering chunks and related scripts" />
     <MESSAGE value=" chore: Remove unused Next.js server-side rendering chunk" />
     <MESSAGE value=":memo: chore: update iteration in ralph-state.json and clean up workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value=":memo: chore: update iteration in ralph-state.json and clean up workspace.xml" />
+    <MESSAGE value="fix(pages): resolve promise-based searchParams and enhance category handling  &#10;&#10;- Updated `searchParams` in `/sale`, `/new`, `/collections`, and `/fashion` pages to support `Promise` resolution.  &#10;- Ensured category parameters are passed correctly to `InfiniteProductList` for filter support.  &#10;- Aligned behavior across pages for consistent sorting and filtering functionality." />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(pages): resolve promise-based searchParams and enhance category handling  &#10;&#10;- Updated `searchParams` in `/sale`, `/new`, `/collections`, and `/fashion` pages to support `Promise` resolution.  &#10;- Ensured category parameters are passed correctly to `InfiniteProductList` for filter support.  &#10;- Aligned behavior across pages for consistent sorting and filtering functionality." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

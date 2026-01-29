@@ -11,6 +11,7 @@ interface SearchParams {
   category?: string;
   categories?: string;
   materials?: string;
+  brand?: string;
   sort?: string;
 }
 
@@ -21,6 +22,7 @@ export default async function CollectionsPage({
 }) {
   const params = await searchParams;
   const sort = params.sort === 'name' ? 'name' : 'latest';
+  const filterKey = `${params.brand || ''}-${params.categories || ''}-${params.materials || ''}-${sort}`;
 
   return (
     <div className="flex w-full max-w-[1600px] mx-auto px-6 py-12">
@@ -35,7 +37,13 @@ export default async function CollectionsPage({
       </aside>
       <div className="flex-1 pl-0 md:pl-8">
         <ProductListHeader title="" totalCount={0} />
-        <InfiniteProductList category={params.category} sort={sort} />
+        <InfiniteProductList
+          key={filterKey}
+          brand={params.brand}
+          categories={params.categories}
+          materials={params.materials}
+          sort={sort}
+        />
       </div>
     </div>
   );

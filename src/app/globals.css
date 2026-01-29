@@ -125,6 +125,43 @@
   .dashboard-item {
     @apply border border-gray-100 flex flex-col items-start p-6 md:p-10 transition-all hover:bg-white hover:shadow-2xl hover:shadow-gray-200/50 hover:border-primary/20 bg-soft-ivory/30;
   }
+
+  /* Product Detail Page - Workbench Styles */
+  .workbench-step {
+    @apply border-b border-gray-100 py-5 flex items-start gap-4 transition-all hover:bg-soft-ivory/50 px-2;
+  }
+
+  .step-number {
+    @apply text-[10px] font-bold text-gold-muted/40 w-5 mt-0.5 font-sans;
+  }
+
+  .step-content {
+    @apply flex-1;
+  }
+
+  .config-label {
+    @apply text-[10px] font-bold text-gold-muted uppercase tracking-[0.2em] mb-2 block;
+  }
+
+  .config-value {
+    @apply text-[14px] text-charcoal-light font-medium;
+  }
+
+  .config-sub-value {
+    @apply text-[12px] text-charcoal-light/50 font-normal mt-0.5 leading-tight;
+  }
+
+  .price-summary-card {
+    @apply bg-charcoal-light text-white p-8 mt-10 shadow-2xl relative overflow-hidden;
+  }
+
+  .spec-tag {
+    @apply text-[10px] font-bold text-charcoal-light/60 bg-gray-50 border border-gray-200 px-2 py-1 rounded-sm mr-1.5 inline-block;
+  }
+
+  .sub-nav-item {
+    @apply text-[13px] font-normal text-charcoal-light/60 hover:text-gold-muted transition-colors px-4 py-3;
+  }
 }
 
 @layer utilities {

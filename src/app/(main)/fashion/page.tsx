@@ -21,6 +21,7 @@ export default async function FashionPage({
 }) {
   const params = await searchParams;
   const sort = params.sort === 'name' ? 'name' : 'latest';
+  const filterKey = `${params.category || ''}-${params.categories || ''}-${params.materials || ''}-${sort}`;
 
   return (
     <div className="flex w-full max-w-[1600px] mx-auto px-6 py-12">
@@ -35,7 +36,13 @@ export default async function FashionPage({
       </aside>
       <div className="flex-1 pl-0 md:pl-8">
         <ProductListHeader title="" totalCount={0} />
-        <InfiniteProductList category={params.category} sort={sort} />
+        <InfiniteProductList
+          key={filterKey}
+          category={params.category}
+          categories={params.categories}
+          materials={params.materials}
+          sort={sort}
+        />
       </div>
     </div>
   );

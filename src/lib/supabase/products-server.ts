@@ -1,0 +1,180 @@
+/**
+ * Server-Side Product Query Helpers
+ *
+ * CRITICAL SECURITY RULES:
+ * 1. ALWAYS query product_full_details view, NEVER product table directly
+ * 2. NEVER expose wholesale_price or retail_price fields
+ * 3. ONLY use the single 'display_price' field from the view
+ * 4. Transform database columns to match frontend types
+ *
+ * DATABASE COLUMN MAPPING:
+ * - product_id (bigint) → id (string)
+ * - display_price → price
+ * - collection_name → brand_name
+ */
+
+import { createClient } from '@/lib/supabase/server';
+import type {
+  ProductForDisplay,
+  ProductQueryOptions,
+  ProductListResponse,
+} from '@/types/product';
+
+/**
+ * Transform database row to ProductForDisplay
+ */
+function transformProductRow(row: any): ProductForDisplay {
+  return {
+    id: row.product_id?.toString() || '',
+    collection_id: row.collection_id?.toString() || null,
+    category_id: row.category_id?.toString() || null,
+    product_name: row.product_name,
+    product_code: row.product_code,
+    base_labor_cost: row.base_labor_cost,
+    stone_setting_cost: row.stone_setting_cost,
+    weight: row.weight,
+    ring_size: row.ring_size,
+    size: row.size,
+    description: row.description,
+    additional_information: row.additional_information,
+    is_sale: row.is_sale,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+    price: row.display_price,
+    kakao_link: row.kakao_link || null,
+    brand_name: row.collection_name || null,
+    collection_slug: row.collection_slug || null,
+    collection_logo: row.collection_logo || null,
+    category_name: row.category_name || null,
+    category_slug: row.category_slug || null,
+    main_image_url: row.main_image_url || null,
+  };
+}
+
+/**
+ * Fetch products with pagination (SERVER-SIDE)
+ * Uses product_full_details view to ensure price security
+ */
+export async function getProductsForUser(
+  options: ProductQueryOptions = {}
+): Promise<ProductListResponse> {
+  const supabase = await createClient();
+  const { category, collectionSlug, search, limit = 20, cursor } = options;
+
+  let query = supabase
+    .from('product_full_details')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(limit + 1); // Fetch one extra to determine hasMore
+
+  // Apply filters
+  if (category) {
+    query = query.eq('category_slug', category);
+  }
+
+  if (collectionSlug) {
+    query = query.eq('collection_slug', collectionSlug);
+  }
+
+  if (search) {
+    query = query.or(
+      `product_name.ilike.%${search}%,product_code.ilike.%${search}%`
+    );
+  }
+
+  if (cursor) {
+    query = query.lt('created_at', cursor);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching products:', error);
+    throw error;
+  }
+
+  const hasMore = data.length > limit;
+  const rawProducts = hasMore ? data.slice(0, limit) : data;
+  const products = rawProducts.map(transformProductRow);
+  const nextCursor =
+    hasMore && products.length > 0
+      ? products[products.length - 1].created_at
+      : null;
+
+  return {
+    products,
+    nextCursor,
+    hasMore,
+  };
+}
+
+/**
+ * Fetch a single product by ID (SERVER-SIDE)
+ * Uses product_full_details view to ensure price security
+ */
+export async function getProductByIdForUser(
+  id: string
+): Promise<ProductForDisplay | null> {
+  const supabase = await createClient();
+
+  const productId = parseInt(id, 10);
+  if (isNaN(productId)) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from('product_full_details')
+    .select('*')
+    .eq('product_id', productId) // Use product_id column (bigint)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      // Not found
+      return null;
+    }
+    console.error('Error fetching product:', error);
+    throw error;
+  }
+
+  return transformProductRow(data);
+}
+
+/**
+ * Get products by collection (SERVER-SIDE)
+ */
+export async function getProductsByCollection(
+  collectionSlug: string,
+  options: Omit<ProductQueryOptions, 'collectionSlug'> = {}
+): Promise<ProductListResponse> {
+  return getProductsForUser({
+    ...options,
+    collectionSlug,
+  });
+}
+
+/**
+ * Get products by category (SERVER-SIDE)
+ */
+export async function getProductsByCategory(
+  category: string,
+  options: Omit<ProductQueryOptions, 'category'> = {}
+): Promise<ProductListResponse> {
+  return getProductsForUser({
+    ...options,
+    category,
+  });
+}
+
+/**
+ * Search products (SERVER-SIDE)
+ */
+export async function searchProducts(
+  searchTerm: string,
+  options: Omit<ProductQueryOptions, 'search'> = {}
+): Promise<ProductListResponse> {
+  return getProductsForUser({
+    ...options,
+    search: searchTerm,
+  });
+}

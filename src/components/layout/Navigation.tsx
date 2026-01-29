@@ -1,97 +1,171 @@
 'use client';
 
-import { Suspense } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
-const mainNavItems = [
-  { href: '/new', label: '신상품' },
-  { href: '/collections', label: '컬렉션' },
-  { href: '/fashion', label: '패션' },
-  { href: '/sale', label: '세일' },
-  { href: '/announcements', label: '공지사항' },
-  { href: '/support', label: '고객센터' },
+const categories = [
+  { id: 'ring', label: '반지' },
+  { id: 'necklace', label: '목걸이' },
+  { id: 'earring', label: '귀걸이' },
+  { id: 'bracelet', label: '팔찌' },
 ];
 
-const subNavItems = [
-  { href: '/collections?category=ring', label: '반지' },
-  { href: '/collections?category=necklace', label: '목걸이' },
-  { href: '/collections?category=earring', label: '귀걸이' },
-  { href: '/collections?category=bracelet', label: '팔찌' },
-];
-
-function SubNavigation() {
-  const searchParams = useSearchParams();
-  const category = searchParams.get('category');
-
-  return (
-    <div className="flex items-center justify-center py-1 bg-soft-ivory border-t border-gray-50 overflow-x-auto scrollbar-hide">
-      {subNavItems.map((item) => {
-        const itemCategory = new URL(item.href, 'http://dummy').searchParams.get('category');
-        const isActive = category === itemCategory;
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`min-h-10 flex items-center text-xs md:text-[13px] font-normal text-charcoal-light/60 hover:text-gold-muted transition-colors px-3 md:px-4 py-2 md:py-3 whitespace-nowrap touch-manipulation ${
-              isActive ? 'font-medium text-gold-muted' : ''
-            }`}
-          >
-            {item.label}
-          </Link>
-        );
-      })}
-    </div>
-  );
+interface Collection {
+  brand_name: string;
+  slug: string;
 }
 
-function SubNavFallback() {
-  return (
-    <div className="flex items-center justify-center py-1 bg-soft-ivory border-t border-gray-50 overflow-x-auto scrollbar-hide">
-      {subNavItems.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className="min-h-10 flex items-center text-xs md:text-[13px] font-normal text-charcoal-light/60 hover:text-gold-muted transition-colors px-3 md:px-4 py-2 md:py-3 whitespace-nowrap touch-manipulation"
-        >
-          {item.label}
-        </Link>
-      ))}
-    </div>
-  );
-}
+type SubNavType = 'collections' | 'fashion' | null;
 
 export default function Navigation() {
   const pathname = usePathname();
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [isLoadingCollections, setIsLoadingCollections] = useState(true);
+  const [activeSubNav, setActiveSubNav] = useState<SubNavType>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Fetch collections on mount
+  useEffect(() => {
+    const fetchCollections = async () => {
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from('collection')
+          .select('brand_name, slug')
+          .order('display_order');
+
+        if (error) {
+          console.error('Error fetching collections:', error);
+          return;
+        }
+
+        setCollections(data || []);
+      } catch (error) {
+        console.error('Failed to fetch collections:', error);
+      } finally {
+        setIsLoadingCollections(false);
+      }
+    };
+
+    fetchCollections();
+  }, []);
+
+  const handleMouseEnter = (subNavType: SubNavType) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    if (subNavType) {
+      setActiveSubNav(subNavType);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setActiveSubNav(null);
+    }, 150);
+  };
+
+  const handleSubNavEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
+
+  const handleSubNavLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setActiveSubNav(null);
+    }, 150);
+  };
+
+  const mainNavItems = [
+    { href: '/new', label: '신상품', subNavType: null },
+    { href: '/collections', label: '컬렉션', subNavType: 'collections' as SubNavType },
+    { href: '/fashion', label: '패션', subNavType: 'fashion' as SubNavType },
+    { href: '/sale', label: '세일', subNavType: null },
+    { href: '/announcements', label: '공지사항', subNavType: null },
+    { href: '/support', label: '고객센터', subNavType: null },
+  ];
 
   return (
-    <nav className="hidden lg:block sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
-      <div className="mx-auto flex max-w-7xl flex-col">
-        {/* Main Navigation */}
-        <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
-          {mainNavItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`min-h-12 flex items-center px-4 md:px-6 lg:px-8 py-3 md:py-4 lg:py-5 text-sm md:text-[15px] font-medium tracking-tight text-charcoal-light/70 hover:text-charcoal-light transition-all relative cursor-pointer whitespace-nowrap touch-manipulation ${
-                  isActive ? 'text-charcoal-light font-bold' : ''
-                }`}
-              >
-                {item.label}
-                {isActive && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-gold-muted" />
-                )}
-              </Link>
-            );
-          })}
-        </div>
+    <nav className="hidden lg:block sticky top-0 z-40 bg-white shadow-sm">
+      {/* Main Navigation */}
+      <div className="border-b border-gray-100">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex items-center justify-center">
+            {mainNavItems.map((item) => {
+              const isActive = pathname === item.href ||
+                (item.subNavType && activeSubNav === item.subNavType);
 
-        {/* Sub Navigation - Wrapped in Suspense for useSearchParams */}
-        <Suspense fallback={<SubNavFallback />}>
-          <SubNavigation />
-        </Suspense>
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`min-h-14 flex items-center px-6 lg:px-10 py-4 lg:py-5 text-[15px] font-medium tracking-tight text-charcoal-light/70 hover:text-charcoal-light transition-all relative cursor-pointer whitespace-nowrap ${
+                    isActive ? 'text-charcoal-light font-bold' : ''
+                  }`}
+                  onMouseEnter={() => handleMouseEnter(item.subNavType)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[2px] bg-gold-muted" />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Full-Width Sub-Navigation Bar */}
+      <div
+        className={`w-full bg-soft-ivory transition-all duration-200 overflow-hidden ${
+          activeSubNav ? 'max-h-20 opacity-100 border-b-2 border-gold-muted/30' : 'max-h-0 opacity-0'
+        }`}
+        onMouseEnter={handleSubNavEnter}
+        onMouseLeave={handleSubNavLeave}
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="flex items-center justify-center gap-x-8 py-4">
+            {activeSubNav === 'collections' && (
+              <>
+                {isLoadingCollections ? (
+                  <div className="text-sm text-charcoal-light/60">Loading...</div>
+                ) : collections.length > 0 ? (
+                  collections.map((collection) => (
+                    <Link
+                      key={collection.slug}
+                      href={`/collections?brand=${collection.slug}`}
+                      className="text-sm text-charcoal-light/70 hover:text-gold-muted transition-colors whitespace-nowrap"
+                    >
+                      {collection.brand_name}
+                    </Link>
+                  ))
+                ) : (
+                  <div className="text-sm text-charcoal-light/60">No collections available</div>
+                )}
+              </>
+            )}
+
+            {activeSubNav === 'fashion' && (
+              <>
+                {categories.map((category) => (
+                  <Link
+                    key={category.id}
+                    href={`/fashion?category=${category.id}`}
+                    className="text-sm text-charcoal-light/70 hover:text-gold-muted transition-colors whitespace-nowrap"
+                  >
+                    {category.label}
+                  </Link>
+                ))}
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </nav>
   );

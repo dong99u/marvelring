@@ -120,66 +120,69 @@ export default function ImageGallery({
 
         {/* B2B Exclusive Badge */}
         <div className="absolute top-4 left-4">
-          <span className="bg-charcoal-light text-white text-[9px] md:text-[10px] font-bold px-3 py-2 uppercase tracking-[0.15em]">
+          <span className="bg-charcoal-light text-white text-[10px] font-bold px-3 py-2 uppercase tracking-[0.2em]">
             B2B Exclusive
           </span>
         </div>
       </div>
 
-      {/* Desktop Main Image */}
-      <div className="hidden lg:block lg:col-span-7 relative group w-full h-fit bg-soft-ivory overflow-hidden border border-gray-100">
-        <div className="relative w-full aspect-[4/5]">
-          <Image
-            src={currentImage}
-            alt={`${productName} - Image ${selectedIndex + 1}`}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            priority={selectedIndex === 0}
-            sizes="(max-width: 1024px) 50vw, 58vw"
-          />
+      {/* Desktop Main Image + Thumbnails Container */}
+      <div className="hidden lg:block lg:col-span-7 space-y-2">
+        {/* Main Image */}
+        <div className="relative group w-full h-fit bg-soft-ivory overflow-hidden border border-gray-100">
+          <div className="relative w-full aspect-[4/5]">
+            <Image
+              src={currentImage}
+              alt={`${productName} - Image ${selectedIndex + 1}`}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              priority={selectedIndex === 0}
+              sizes="(max-width: 1024px) 50vw, 58vw"
+            />
+          </div>
+
+          {/* Zoom Button */}
+          <button
+            onClick={() => setIsZoomed(true)}
+            className="absolute bottom-8 right-8 min-h-12 min-w-12 w-14 h-14 bg-white/90 backdrop-blur-sm shadow-xl flex items-center justify-center rounded-full text-charcoal-light hover:text-gold-muted transition-all z-10 cursor-zoom-in"
+            aria-label="Zoom image"
+          >
+            <span className="material-symbols-outlined text-2xl">zoom_in</span>
+          </button>
+
+          {/* B2B Exclusive Badge */}
+          <div className="absolute top-8 left-8">
+            <span className="bg-charcoal-light text-white text-[10px] font-bold px-4 py-2 uppercase tracking-[0.2em]">
+              B2B Exclusive
+            </span>
+          </div>
         </div>
 
-        {/* Zoom Button */}
-        <button
-          onClick={() => setIsZoomed(true)}
-          className="absolute bottom-8 right-8 min-h-12 min-w-12 w-14 h-14 bg-white/90 backdrop-blur-sm shadow-xl flex items-center justify-center rounded-full text-charcoal-light hover:text-gold-muted transition-all z-10 cursor-zoom-in"
-          aria-label="Zoom image"
-        >
-          <span className="material-symbols-outlined text-2xl">zoom_in</span>
-        </button>
-
-        {/* B2B Exclusive Badge */}
-        <div className="absolute top-8 left-8">
-          <span className="bg-charcoal-light text-white text-[10px] font-bold px-4 py-2 uppercase tracking-[0.2em]">
-            B2B Exclusive
-          </span>
-        </div>
+        {/* Thumbnail Navigation (if multiple images) */}
+        {images.length > 1 && (
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {images.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedIndex(index)}
+                className={`relative flex-shrink-0 min-h-12 min-w-12 w-20 h-20 border-2 transition-all ${
+                  index === selectedIndex
+                    ? 'border-gold-muted'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <Image
+                  src={image}
+                  alt={`${productName} thumbnail ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
-
-      {/* Desktop Thumbnail Navigation (if multiple images) */}
-      {images.length > 1 && (
-        <div className="hidden lg:flex lg:col-span-7 gap-2 overflow-x-auto pb-2">
-          {images.map((image, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedIndex(index)}
-              className={`relative flex-shrink-0 min-h-12 min-w-12 w-20 h-20 border-2 transition-all ${
-                index === selectedIndex
-                  ? 'border-gold-muted'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-            >
-              <Image
-                src={image}
-                alt={`${productName} thumbnail ${index + 1}`}
-                fill
-                className="object-cover"
-                sizes="80px"
-              />
-            </button>
-          ))}
-        </div>
-      )}
 
       {/* Lightbox Modal */}
       {isZoomed && (

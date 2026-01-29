@@ -5,6 +5,11 @@
  * 1. NEVER include wholesale_price or retail_price fields
  * 2. ONLY use the single 'price' field from product_for_user view
  * 3. price can be null for unauthenticated/unapproved users
+ *
+ * FIELD MAPPINGS (from DB to frontend):
+ * - id: mapped from product_id (bigint in DB)
+ * - price: mapped from display_price (numeric in DB)
+ * - brand_name: mapped from collection_name (text in DB)
  */
 
 export interface ProductForDisplay {

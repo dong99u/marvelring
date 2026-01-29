@@ -5,17 +5,17 @@
 
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getProductByIdForUser, getProductsForUser } from '@/lib/supabase/products';
+import { getProductByIdForUser, getProductsForUser } from '@/lib/supabase/products-server';
 import ProductDetail from '@/components/product/ProductDetail';
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   // Fetch product data
   const product = await getProductByIdForUser(id);
@@ -27,10 +27,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   // Fetch product images
   const supabase = await createClient();
   const { data: imageData } = await supabase
-    .from('product_images')
-    .select('image_url, sort_order')
-    .eq('product_id', id)
-    .order('sort_order', { ascending: true });
+    .from('product_image')
+    .select('image_url, display_order')
+    .eq('product_id', parseInt(id, 10))
+    .order('display_order', { ascending: true });
 
   const images = imageData?.map((img) => img.image_url) || [];
 
