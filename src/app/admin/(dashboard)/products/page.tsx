@@ -9,7 +9,7 @@ import Image from 'next/image'
 import ProductDeleteButton from './ProductDeleteButton'
 
 interface Product {
-  id: string
+  product_id: number
   product_code: string
   product_name: string
   retail_price: number
@@ -160,7 +160,7 @@ export default async function AdminProductsPage({
 
                   return (
                     <tr
-                      key={product.id}
+                      key={product.product_id}
                       className="hover:bg-gray-50 transition-colors"
                     >
                       {/* Image */}
@@ -185,7 +185,7 @@ export default async function AdminProductsPage({
                       {/* Product Name */}
                       <td className="px-4 py-4">
                         <Link
-                          href={`/admin/products/${product.id}`}
+                          href={`/admin/products/${product.product_id}/edit`}
                           className="font-medium text-gray-900 hover:text-gray-600 transition-colors"
                         >
                           {product.product_name}
@@ -252,13 +252,13 @@ export default async function AdminProductsPage({
                       <td className="px-4 py-4">
                         <div className="flex gap-2 justify-center">
                           <Link
-                            href={`/admin/products/${product.id}/edit`}
+                            href={`/admin/products/${product.product_id}/edit`}
                             className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
                           >
                             수정
                           </Link>
                           <ProductDeleteButton
-                            productId={Number(product.id)}
+                            productId={product.product_id}
                             productName={product.product_name}
                           />
                         </div>
