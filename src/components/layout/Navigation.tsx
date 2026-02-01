@@ -86,6 +86,7 @@ export default function Navigation() {
     { href: '/collections', label: '컬렉션', subNavType: 'collections' as SubNavType },
     { href: '/fashion', label: '패션', subNavType: 'fashion' as SubNavType },
     { href: '/sale', label: '세일', subNavType: null },
+    { href: '/custom-order', label: '주문제작', subNavType: null },
     { href: '/announcements', label: '공지사항', subNavType: null },
     { href: '/support', label: '고객센터', subNavType: null },
   ];

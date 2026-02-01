@@ -155,6 +155,13 @@ export default function MobileNav() {
               시즌오프
             </Link>
             <Link
+              href="/custom-order"
+              className="block min-h-12 px-6 py-3 text-base font-medium text-charcoal-light hover:bg-soft-ivory transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              주문제작
+            </Link>
+            <Link
               href="/announcements"
               className="block min-h-12 px-6 py-3 text-base font-medium text-charcoal-light hover:bg-soft-ivory transition-colors"
               onClick={() => setIsOpen(false)}
