@@ -10,6 +10,7 @@ export default function SignupStep1Page() {
   const [formData, setFormData] = useState({
     userid: '',
     realname: '',
+    phoneNumber: '',
     email: '',
     password: '',
     passwordConfirm: '',
@@ -25,6 +26,12 @@ export default function SignupStep1Page() {
 
     if (!formData.realname.trim()) {
       newErrors.realname = '실명을 입력하세요'
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = '연락처를 입력하세요'
+    } else if (!/^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$/.test(formData.phoneNumber.replace(/-/g, ''))) {
+      newErrors.phoneNumber = '올바른 연락처 형식이 아닙니다'
     }
 
     if (!formData.email.trim()) {
@@ -119,6 +126,27 @@ export default function SignupStep1Page() {
               autoComplete="off"
             />
             {errors.realname && <p className="mt-1 text-xs text-red-500">{errors.realname}</p>}
+          </div>
+
+          <div className="relative group">
+            <label className="block text-[13px] font-medium text-gray-700 mb-1" htmlFor="phone">
+              연락처
+            </label>
+            <input
+              className={`
+                w-full h-[50px] px-0 bg-transparent border-0 border-b text-[16px] text-black
+                focus:ring-0 outline-none transition-all placeholder-gray-400
+                ${errors.phoneNumber ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-black'}
+              `}
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="010-0000-0000"
+              value={formData.phoneNumber}
+              onChange={(e) => handleChange('phoneNumber', e.target.value)}
+              autoComplete="tel"
+            />
+            {errors.phoneNumber && <p className="mt-1 text-xs text-red-500">{errors.phoneNumber}</p>}
           </div>
 
           <div className="relative group">

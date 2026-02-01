@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import { Member } from '@/lib/supabase/types'
@@ -9,28 +9,35 @@ export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
   const [member, setMember] = useState<Member | null>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
 
-  const fetchMemberData = useCallback(async (email: string) => {
-    const { data, error } = await supabase
-      .from('member')
-      .select('*')
-      .eq('email', email)
-      .single()
-
-    if (!error && data) {
-      setMember(data as Member)
-    }
-  }, [supabase])
+  // Memoize supabase client to ensure stable reference
+  const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
+    let isMounted = true
+
+    const fetchMemberData = async (email: string) => {
+      const { data, error } = await supabase
+        .from('member')
+        .select('*')
+        .eq('email', email)
+        .single()
+
+      if (!error && data && isMounted) {
+        setMember(data as Member)
+      }
+    }
+
     // Get initial session
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()
+
+      if (!isMounted) return
+
       setUser(session?.user ?? null)
 
-      if (session?.user) {
-        await fetchMemberData(session.user.email!)
+      if (session?.user?.email) {
+        await fetchMemberData(session.user.email)
       }
 
       setLoading(false)
@@ -40,10 +47,12 @@ export function useAuth() {
 
     // Listen to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!isMounted) return
+
       setUser(session?.user ?? null)
 
-      if (session?.user) {
-        await fetchMemberData(session.user.email!)
+      if (session?.user?.email) {
+        await fetchMemberData(session.user.email)
       } else {
         setMember(null)
       }
@@ -51,21 +60,40 @@ export function useAuth() {
       setLoading(false)
     })
 
-    return () => subscription.unsubscribe()
-  }, [fetchMemberData, supabase.auth])
+    return () => {
+      isMounted = false
+      subscription.unsubscribe()
+    }
+  }, [supabase]) // supabase is now stable via useMemo
 
-  const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+  const signIn = useCallback(async (username: string, password: string) => {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
     })
 
-    if (error) throw error
+    const result = await response.json()
 
-    return data
-  }
+    if (!response.ok) {
+      throw new Error(result.error || '로그인에 실패했습니다.')
+    }
 
-  const signUp = async (params: {
+    // Set the session on the client (don't await - let it run in background)
+    // The page will do a full reload anyway which will pick up the session from cookies
+    if (result.data?.session) {
+      supabase.auth.setSession({
+        access_token: result.data.session.access_token,
+        refresh_token: result.data.session.refresh_token,
+      }).catch(console.error)
+    }
+
+    return result.data
+  }, [supabase])
+
+  const signUp = useCallback(async (params: {
     email: string
     password: string
     username: string
@@ -77,52 +105,51 @@ export function useAuth() {
     zipCode: string
     addressMain: string
     addressDetail: string
+    bizRegImageUrl?: string
   }) => {
-    // 1. Create auth user
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: params.email,
-      password: params.password,
-      options: {
-        data: {
-          username: params.username,
-          full_name: params.fullName,
-        }
-      }
+    // Use the server-side API route for signup (handles RLS via service role)
+    const response = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: params.email,
+        password: params.password,
+        username: params.username,
+        fullName: params.fullName,
+        companyName: params.companyName,
+        ceoName: params.ceoName,
+        bizRegNum: params.bizRegNum,
+        businessType: params.businessType,
+        zipCode: params.zipCode,
+        addressMain: params.addressMain,
+        addressDetail: params.addressDetail,
+        bizRegImageUrl: params.bizRegImageUrl,
+      }),
     })
 
-    if (authError) throw authError
-    if (!authData.user) throw new Error('Failed to create user')
+    const result = await response.json()
 
-    // 2. Create member record
-    const { error: memberError } = await supabase
-      .from('member')
-      .insert({
-        username: params.username,
-        email: params.email,
-        password: 'SUPABASE_AUTH', // Placeholder - actual password in auth
-        business_type: params.businessType,
-        company_name: params.companyName,
-        ceo_name: params.ceoName,
-        biz_reg_num: params.bizRegNum,
-        zip_code: params.zipCode,
-        address_line1: params.addressMain,
-        address_line2: params.addressDetail,
-        approval_status: 'PENDING',
-      })
-
-    if (memberError) {
-      // Rollback auth user if member creation fails
-      await supabase.auth.admin.deleteUser(authData.user.id)
-      throw memberError
+    if (!response.ok) {
+      throw new Error(result.error || 'Signup failed')
     }
 
-    return authData
-  }
+    return result.data
+  }, [])
 
-  const signOut = async () => {
-    const { error } = await supabase.auth.signOut()
-    if (error) throw error
-  }
+  const signOut = useCallback(async () => {
+    // Clear local state first to ensure UI updates immediately
+    setUser(null)
+    setMember(null)
+
+    // Sign out with local scope for SSR cookie handling
+    const { error } = await supabase.auth.signOut({ scope: 'local' })
+    if (error) {
+      console.error('Sign out error:', error)
+      throw error
+    }
+  }, [supabase])
 
   return {
     user,

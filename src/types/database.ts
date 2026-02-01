@@ -87,6 +87,7 @@ export interface Product {
   retail_price: number
   wholesale_price: number
   is_sale: boolean
+  is_new: boolean
   sale_price: number | null
   created_at: string
   updated_at: string

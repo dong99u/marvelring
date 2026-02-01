@@ -17,6 +17,8 @@ export default function SignupStep2Page() {
     addressDetail: '',
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [bizRegFile, setBizRegFile] = useState<File | null>(null)
+  const [filePreview, setFilePreview] = useState<string | null>(null)
 
   useEffect(() => {
     // Check if step 1 is completed
@@ -25,6 +27,42 @@ export default function SignupStep2Page() {
       router.push('/signup')
     }
   }, [router])
+
+  const validateFile = (file: File): string | null => {
+    const validTypes = ['image/jpeg', 'image/png', 'application/pdf']
+    const maxSize = 5 * 1024 * 1024 // 5MB
+
+    if (!validTypes.includes(file.type)) {
+      return '허용된 파일 형식: JPG, PNG, PDF'
+    }
+    if (file.size > maxSize) {
+      return '파일 크기는 5MB 이하여야 합니다'
+    }
+    return null
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const error = validateFile(file)
+    if (error) {
+      setErrors(prev => ({ ...prev, bizRegFile: error }))
+      return
+    }
+
+    setBizRegFile(file)
+    setErrors(prev => ({ ...prev, bizRegFile: '' }))
+
+    // Create preview for images
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader()
+      reader.onloadend = () => setFilePreview(reader.result as string)
+      reader.readAsDataURL(file)
+    } else {
+      setFilePreview(null)
+    }
+  }
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -41,6 +79,10 @@ export default function SignupStep2Page() {
       newErrors.bizRegNum = '사업자등록번호를 입력하세요'
     } else if (!/^\d{3}-\d{2}-\d{5}$/.test(formData.bizRegNum)) {
       newErrors.bizRegNum = '올바른 형식이 아닙니다 (예: 123-45-67890)'
+    }
+
+    if (!bizRegFile) {
+      newErrors.bizRegFile = '사업자등록증을 업로드하세요'
     }
 
     if (!formData.businessType) {
@@ -63,9 +105,23 @@ export default function SignupStep2Page() {
     e.preventDefault()
 
     if (validateForm()) {
-      // Store data in sessionStorage and move to next step
-      sessionStorage.setItem('signup_step2', JSON.stringify(formData))
-      router.push('/signup/complete')
+      // Convert file to base64 for sessionStorage (temporary)
+      if (bizRegFile) {
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          sessionStorage.setItem('signup_step2', JSON.stringify({
+            ...formData,
+            bizRegFileData: reader.result,
+            bizRegFileName: bizRegFile.name,
+            bizRegFileType: bizRegFile.type,
+          }))
+          router.push('/signup/complete')
+        }
+        reader.readAsDataURL(bizRegFile)
+      } else {
+        sessionStorage.setItem('signup_step2', JSON.stringify(formData))
+        router.push('/signup/complete')
+      }
     }
   }
 
@@ -180,6 +236,44 @@ export default function SignupStep2Page() {
                 onChange={(e) => handleChange('bizRegNum', e.target.value)}
               />
               {errors.bizRegNum && <p className="mt-1 text-xs text-red-500">{errors.bizRegNum}</p>}
+            </div>
+
+            {/* Business License Upload */}
+            <div className="mt-6">
+              <label className="block text-[13px] font-medium text-black mb-2 tracking-wide uppercase">
+                사업자등록증 (Business License) *
+              </label>
+              <div className={`border-2 border-dashed p-6 text-center ${errors.bizRegFile ? 'border-red-500' : 'border-gray-300'}`}>
+                <input
+                  type="file"
+                  id="biz-reg-file"
+                  accept=".jpg,.jpeg,.png,.pdf"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <label htmlFor="biz-reg-file" className="cursor-pointer">
+                  {bizRegFile ? (
+                    <div className="space-y-2">
+                      {filePreview ? (
+                        <img src={filePreview} alt="Preview" className="max-h-32 mx-auto" />
+                      ) : (
+                        <div className="flex items-center justify-center gap-2 text-black">
+                          <span className="material-symbols-outlined">description</span>
+                          <span>{bizRegFile.name}</span>
+                        </div>
+                      )}
+                      <p className="text-sm text-gray-500">클릭하여 파일 변경</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <span className="material-symbols-outlined text-4xl text-gray-400">cloud_upload</span>
+                      <p className="text-sm text-gray-600">클릭하여 파일 업로드</p>
+                      <p className="text-xs text-gray-400">JPG, PNG, PDF (최대 5MB)</p>
+                    </div>
+                  )}
+                </label>
+              </div>
+              {errors.bizRegFile && <p className="mt-1 text-xs text-red-500">{errors.bizRegFile}</p>}
             </div>
           </div>
 

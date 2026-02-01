@@ -47,35 +47,9 @@ export async function approveMemberAction(memberId: number) {
     }
   }
 
-  // Get current admin user ID
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return {
-      success: false,
-      error: 'Authentication required',
-    }
-  }
-
-  // Get admin member ID from auth user
-  const { data: adminMember } = await supabase
-    .from('member')
-    .select('id')
-    .eq('email', user.email)
-    .single()
-
-  if (!adminMember) {
-    return {
-      success: false,
-      error: 'Admin member not found',
-    }
-  }
-
-  const result = await approveMember(memberId, adminMember.id)
+  const result = await approveMember(memberId)
 
   if (result.success) {
-    // Revalidate the admin users page
     revalidatePath('/admin/users')
   }
 
@@ -104,35 +78,9 @@ export async function rejectMemberAction(memberId: number, reason: string) {
     }
   }
 
-  // Get current admin user ID
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return {
-      success: false,
-      error: 'Authentication required',
-    }
-  }
-
-  // Get admin member ID from auth user
-  const { data: adminMember } = await supabase
-    .from('member')
-    .select('id')
-    .eq('email', user.email)
-    .single()
-
-  if (!adminMember) {
-    return {
-      success: false,
-      error: 'Admin member not found',
-    }
-  }
-
-  const result = await rejectMember(memberId, adminMember.id, reason)
+  const result = await rejectMember(memberId, reason)
 
   if (result.success) {
-    // Revalidate the admin users page
     revalidatePath('/admin/users')
   }
 
@@ -155,4 +103,68 @@ export async function fetchMemberDetailsAction(memberId: number) {
 
   const result = await getMemberById(memberId)
   return result
+}
+
+/**
+ * Server action to fetch all members with filtering and pagination
+ * Requires admin authentication
+ */
+export async function fetchAllMembersAction({
+  status,
+  search,
+  page = 1,
+  limit = 20,
+}: {
+  status?: 'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED'
+  search?: string
+  page?: number
+  limit?: number
+}) {
+  // Check admin authorization
+  const adminCheck = await isAdmin()
+  if (!adminCheck) {
+    return {
+      data: null,
+      count: 0,
+      error: 'Unauthorized: Admin access required',
+    }
+  }
+
+  const supabase = await createClient()
+  const offset = (page - 1) * limit
+
+  // Build query
+  let query = supabase
+    .from('member')
+    .select('*', { count: 'exact' })
+    .order('created_at', { ascending: false })
+
+  // Filter by status
+  if (status && status !== 'ALL') {
+    query = query.eq('approval_status', status)
+  }
+
+  // Search by username or email
+  if (search && search.trim()) {
+    query = query.or(`username.ilike.%${search}%,email.ilike.%${search}%`)
+  }
+
+  // Apply pagination
+  query = query.range(offset, offset + limit - 1)
+
+  const { data, error, count } = await query
+
+  if (error) {
+    return {
+      data: null,
+      count: 0,
+      error: error.message,
+    }
+  }
+
+  return {
+    data,
+    count: count || 0,
+    error: null,
+  }
 }

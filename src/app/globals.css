@@ -190,3 +190,13 @@
     display: none;
   }
 }
+
+/* Login page video shimmer animation */
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 200% 200%;
+  }
+  50% {
+    background-position: 0% 0%;
+  }
+}

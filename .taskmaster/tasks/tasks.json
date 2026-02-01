@@ -19,13 +19,13 @@
         "description": "Supabase 데이터베이스 테이블 스키마 설계 및 생성",
         "details": "- users 테이블 (auth.users 확장): username, real_name, phone_number, business_type (enum: wholesale/retail), business_license_url, approval_status (enum: pending/approved/rejected), approved_at, approved_by, rejected_reason\n- products 테이블: product_name, product_code (unique), weight_of_14k, weight_of_18k, base_labor_cost, stone_setting_cost, ring_size, size, diamond_size (DECIMAL 5,2), diamond_amount, additional_information, retail_price, wholesale_price, stock_quantity, category_id, collection_id, is_sale, is_new, kakao_link, created_at, updated_at, deleted_at\n- categories 테이블: name, slug, type (enum: collection/fashion/other), parent_id, display_order\n- collections 테이블: brand_name, created_at, updated_at, deleted_at\n- product_images 테이블: product_id (FK), image_url, display_order, is_main, created_at\n- 인덱스 생성: product_code, created_at, category/collection FK, approval_status",
         "testStrategy": "- Supabase Dashboard에서 모든 테이블 생성 확인\n- FK 제약조건 확인\n- 인덱스 생성 확인\n- 샘플 데이터 INSERT/SELECT 테스트",
-        "status": "in-progress",
+        "status": "done",
         "priority": "high",
         "dependencies": [
           "1"
         ],
         "subtasks": [],
-        "updatedAt": "2026-01-26T14:56:15.865Z"
+        "updatedAt": "2026-01-30T12:08:56.490Z"
       },
       {
         "id": "3",
@@ -33,12 +33,13 @@
         "description": "Supabase Auth 기반 회원가입/로그인 구현 (사업자등록증 업로드 포함)",
         "details": "- 회원가입 폼: username, email, password, real_name, phone_number, business_type (wholesale/retail), business_license 파일 업로드\n- 파일 검증: JPG/PNG/PDF, max 5MB\n- Supabase Storage bucket (business-documents) 업로드 및 URL 저장\n- Supabase Auth signUp API 연동\n- 회원가입 시 approval_status = 'pending' 자동 설정\n- 로그인 폼 및 signIn API 연동\n- 세션 관리 (@supabase/ssr middleware)\n- 보호된 라우트 설정",
         "testStrategy": "- 회원가입 폼 제출 성공\n- 파일 업로드 후 Supabase Storage에 파일 확인\n- users 테이블에 approval_status='pending' 레코드 생성 확인\n- 로그인 성공 후 세션 쿠키 확인\n- 보호된 라우트 접근 시 리다이렉트 확인",
-        "status": "pending",
+        "status": "done",
         "priority": "high",
         "dependencies": [
           "2"
         ],
-        "subtasks": []
+        "subtasks": [],
+        "updatedAt": "2026-01-30T12:21:36.273Z"
       },
       {
         "id": "4",
@@ -141,13 +142,14 @@
         "description": "관리자의 상품 생성/수정/삭제 및 사용자 승인 관리 (Supabase Dashboard)",
         "details": "- Supabase Dashboard에서 products 테이블 직접 관리\n- 상품 생성: product_name, product_code, weight_of_14k, weight_of_18k, base_labor_cost, stone_setting_cost, ring_size, size, diamond_size, diamond_amount, additional_information, retail_price, wholesale_price, stock_quantity, category_id, collection_id, is_sale, is_new, kakao_link 입력\n- 상품 이미지 업로드: Supabase Storage (product-images bucket)에 업로드 후 product_images 테이블에 image_url 저장\n- 상품 수정: 기존 상품 레코드 업데이트\n- 상품 삭제: 상품 레코드 삭제 (soft delete: deleted_at 설정)\n- 사용자 승인: users 테이블에서 approval_status 업데이트",
         "testStrategy": "- Supabase Dashboard에서 products 테이블에 상품 INSERT 성공 확인\n- product_images 테이블에 이미지 URL 저장 확인\n- 상품 수정 후 프론트엔드에서 변경사항 반영 확인\n- 상품 삭제 후 목록에서 사라짐 확인\n- 사용자 approval_status 업데이트 후 이메일 발송 확인",
-        "status": "pending",
+        "status": "done",
         "priority": "medium",
         "dependencies": [
           "2",
           "4"
         ],
-        "subtasks": []
+        "subtasks": [],
+        "updatedAt": "2026-01-30T13:04:55.173Z"
       },
       {
         "id": "12",
@@ -205,9 +207,9 @@
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2026-01-26T14:57:06.845Z",
+      "lastModified": "2026-01-30T13:04:55.173Z",
       "taskCount": 15,
-      "completedCount": 1,
+      "completedCount": 4,
       "tags": [
         "master"
       ]

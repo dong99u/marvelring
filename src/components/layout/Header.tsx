@@ -1,10 +1,29 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Search, Diamond } from 'lucide-react';
 import MobileNav from './MobileNav';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Header() {
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleAuthClick = async () => {
+    if (user) {
+      try {
+        await signOut();
+        router.refresh();
+        router.push('/');
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    } else {
+      router.push('/login');
+    }
+  };
+
   return (
     <header className="sticky top-0 flex items-center justify-between bg-white px-4 md:px-6 lg:px-10 py-4 md:py-6 z-50 border-b border-gray-100">
       {/* Mobile Menu */}
@@ -28,12 +47,12 @@ export default function Header() {
         >
           파트너십 안내
         </Link>
-        <Link
-          href="/login"
+        <button
+          onClick={handleAuthClick}
           className="min-h-12 flex items-center text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light transition-colors"
         >
-          로그인
-        </Link>
+          {user ? '로그아웃' : '로그인'}
+        </button>
         <button className="min-h-12 min-w-12 flex items-center justify-center text-charcoal-light/60 hover:text-charcoal-light transition-colors">
           <Search size={20} />
         </button>

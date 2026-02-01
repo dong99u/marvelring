@@ -4,11 +4,12 @@
  */
 
 import { createClient } from './server'
+import { createAdminClient } from './admin'
 
 export type ApprovalStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
 
 export interface PendingMember {
-  id: number
+  member_id: number
   username: string
   email: string
   company_name: string | null
@@ -20,7 +21,7 @@ export interface PendingMember {
 }
 
 export interface MemberData {
-  id: number
+  member_id: number
   username: string
   email: string
   company_name: string | null
@@ -29,8 +30,8 @@ export interface MemberData {
   business_type: 'WHOLESALE' | 'RETAIL'
   approval_status: ApprovalStatus
   zip_code: string | null
-  address_line1: string | null
-  address_line2: string | null
+  main_address: string | null
+  detail_address: string | null
   created_at: string
   updated_at: string
 }
@@ -52,8 +53,10 @@ export async function getPendingMembers(): Promise<{
     const supabase = await createClient()
 
     const { data, error } = await supabase
-      .from('pending_members')
-      .select('*')
+      .from('member')
+      .select('member_id, username, email, company_name, ceo_name, biz_reg_num, business_type, approval_status, created_at')
+      .eq('approval_status', 'PENDING')
+      .order('created_at', { ascending: true })
 
     if (error) {
       return { data: null, error: error.message }
@@ -73,16 +76,18 @@ export async function getPendingMembers(): Promise<{
  * @returns Success status and optional error message
  */
 export async function approveMember(
-  memberId: number,
-  adminId: number
+  memberId: number
 ): Promise<ApprovalResult> {
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
-    const { error } = await supabase.rpc('approve_member', {
-      member_id_param: memberId,
-      admin_id_param: adminId,
-    })
+    const { error } = await supabase
+      .from('member')
+      .update({
+        approval_status: 'APPROVED',
+        approved_at: new Date().toISOString(),
+      })
+      .eq('member_id', memberId)
 
     if (error) {
       return { success: false, error: error.message }
@@ -107,17 +112,18 @@ export async function approveMember(
  */
 export async function rejectMember(
   memberId: number,
-  adminId: number,
   reason: string
 ): Promise<ApprovalResult> {
   try {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
-    const { error } = await supabase.rpc('reject_member', {
-      member_id_param: memberId,
-      admin_id_param: adminId,
-      reason_param: reason,
-    })
+    const { error } = await supabase
+      .from('member')
+      .update({
+        approval_status: 'REJECTED',
+        rejected_reason: reason,
+      })
+      .eq('member_id', memberId)
 
     if (error) {
       return { success: false, error: error.message }
@@ -170,7 +176,7 @@ export async function getMemberById(memberId: number): Promise<{
     const { data, error } = await supabase
       .from('member')
       .select('*')
-      .eq('id', memberId)
+      .eq('member_id', memberId)
       .single()
 
     if (error) {

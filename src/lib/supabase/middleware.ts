@@ -37,6 +37,17 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
+  // Redirect authenticated users away from admin login
+  if (user && request.nextUrl.pathname === '/admin/login') {
+    return NextResponse.redirect(new URL('/admin', request.url))
+  }
+
+  // Protect admin routes - redirect unauthenticated users to admin login
+  // Allow access to /admin/login without authentication
+  if (!user && request.nextUrl.pathname.startsWith('/admin') && request.nextUrl.pathname !== '/admin/login') {
+    return NextResponse.redirect(new URL('/admin/login', request.url))
+  }
+
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:

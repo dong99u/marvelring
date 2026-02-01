@@ -7,7 +7,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 interface NavSection {
   title: string;
@@ -40,6 +42,23 @@ const navigationData: NavSection[] = [
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleAuthClick = async () => {
+    setIsOpen(false);
+    if (user) {
+      try {
+        await signOut();
+        router.refresh();
+        router.push('/');
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    } else {
+      router.push('/login');
+    }
+  };
 
   const toggleSection = (title: string) => {
     setExpandedSection(expandedSection === title ? null : title);
@@ -160,13 +179,12 @@ export default function MobileNav() {
             >
               파트너십 안내
             </Link>
-            <Link
-              href="/login"
-              className="block min-h-12 px-4 py-3 text-center text-sm font-semibold tracking-widest text-white bg-charcoal-light hover:bg-charcoal-hover rounded"
-              onClick={() => setIsOpen(false)}
+            <button
+              onClick={handleAuthClick}
+              className="block w-full min-h-12 px-4 py-3 text-center text-sm font-semibold tracking-widest text-white bg-charcoal-light hover:bg-charcoal-hover rounded"
             >
-              로그인
-            </Link>
+              {user ? '로그아웃' : '로그인'}
+            </button>
           </div>
         </div>
       </div>

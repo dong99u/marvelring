@@ -26,6 +26,7 @@ export interface ProductForDisplay {
   description: string | null;
   additional_information: string | null;
   is_sale: boolean;
+  is_new: boolean;
   created_at: string;
   updated_at: string;
 

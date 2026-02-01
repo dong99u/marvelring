@@ -38,6 +38,7 @@ function transformProductRow(row: any): ProductForDisplay {
     description: row.description,
     additional_information: row.additional_information,
     is_sale: row.is_sale,
+    is_new: row.is_new ?? false,
     created_at: row.created_at,
     updated_at: row.updated_at,
     price: row.display_price,

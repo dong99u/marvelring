@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function POST(request: Request) {
   try {
@@ -15,20 +15,21 @@ export async function POST(request: Request) {
       zipCode,
       addressMain,
       addressDetail,
+      bizRegImageUrl,
     } = await request.json()
 
-    const supabase = await createClient()
+    // Use admin client with service role to bypass RLS
+    const supabase = createAdminClient()
 
-    // 1. Create auth user
-    const { data: authData, error: authError } = await supabase.auth.signUp({
+    // 1. Create auth user using admin API
+    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
-      options: {
-        data: {
-          username,
-          full_name: fullName,
-        }
-      }
+      email_confirm: true, // Auto-confirm email for B2B workflow
+      user_metadata: {
+        username,
+        full_name: fullName,
+      },
     })
 
     if (authError) {
@@ -45,10 +46,11 @@ export async function POST(request: Request) {
       )
     }
 
-    // 2. Create member record
+    // 2. Create member record (service role bypasses RLS)
     const { error: memberError } = await supabase
       .from('member')
       .insert({
+        auth_id: authData.user.id, // Link to auth.users
         username,
         email,
         password: 'SUPABASE_AUTH', // Placeholder - actual password in auth
@@ -56,9 +58,10 @@ export async function POST(request: Request) {
         company_name: companyName,
         ceo_name: ceoName,
         biz_reg_num: bizRegNum,
+        biz_reg_image_url: bizRegImageUrl || '', // Required field, empty string if not provided
         zip_code: zipCode,
-        address_line1: addressMain,
-        address_line2: addressDetail,
+        main_address: addressMain,
+        detail_address: addressDetail,
         approval_status: 'PENDING',
       })
 
@@ -72,7 +75,12 @@ export async function POST(request: Request) {
       )
     }
 
-    return NextResponse.json({ data: authData })
+    return NextResponse.json({
+      data: {
+        user: authData.user,
+        session: null, // No session created by admin API
+      }
+    })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Internal server error'
     return NextResponse.json(

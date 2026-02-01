@@ -22,8 +22,8 @@ export type Database = {
           business_type: 'WHOLESALE' | 'RETAIL'
           approval_status: 'PENDING' | 'APPROVED' | 'REJECTED'
           zip_code: string | null
-          address_line1: string | null
-          address_line2: string | null
+          main_address: string | null
+          detail_address: string | null
           created_at: string
           updated_at: string
         }
@@ -39,8 +39,8 @@ export type Database = {
           business_type?: 'WHOLESALE' | 'RETAIL'
           approval_status?: 'PENDING' | 'APPROVED' | 'REJECTED'
           zip_code?: string | null
-          address_line1?: string | null
-          address_line2?: string | null
+          main_address?: string | null
+          detail_address?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -56,8 +56,8 @@ export type Database = {
           business_type?: 'WHOLESALE' | 'RETAIL'
           approval_status?: 'PENDING' | 'APPROVED' | 'REJECTED'
           zip_code?: string | null
-          address_line1?: string | null
-          address_line2?: string | null
+          main_address?: string | null
+          detail_address?: string | null
           created_at?: string
           updated_at?: string
         }

@@ -107,6 +107,7 @@ export async function getProducts({
     description: p.description,
     additional_information: p.additional_information,
     is_sale: p.is_sale,
+    is_new: p.is_new ?? false,
     created_at: p.created_at,
     updated_at: p.updated_at,
     price: p.display_price ? Number(p.display_price) : null,

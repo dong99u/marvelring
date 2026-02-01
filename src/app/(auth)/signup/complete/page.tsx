@@ -1,20 +1,33 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useAuth } from '@/hooks/useAuth'
 import SignupProgress from '@/components/auth/SignupProgress'
+
+// Convert base64 to File for FormData
+const base64ToFile = (base64: string, fileName: string, type: string): File => {
+  const byteCharacters = atob(base64.split(',')[1])
+  const byteNumbers = new Array(byteCharacters.length)
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i)
+  }
+  const byteArray = new Uint8Array(byteNumbers)
+  return new File([byteArray], fileName, { type })
+}
 
 export default function SignupCompletePage() {
   const router = useRouter()
-  const { signUp } = useAuth()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const isProcessingRef = useRef(false) // Prevent double execution in StrictMode
 
   useEffect(() => {
     const processSignup = async () => {
+      // Prevent double execution
+      if (isProcessingRef.current) return
+      isProcessingRef.current = true
       // Check if all steps are completed
       const step1Data = sessionStorage.getItem('signup_step1')
       const step2Data = sessionStorage.getItem('signup_step2')
@@ -30,20 +43,64 @@ export default function SignupCompletePage() {
         const step1 = JSON.parse(step1Data)
         const step2 = JSON.parse(step2Data)
 
-        // Call signup API
-        await signUp({
-          email: step1.email,
-          password: step1.password,
-          username: step1.userid,
-          fullName: step1.realname,
-          companyName: step2.companyName,
-          ceoName: step2.ceoName,
-          bizRegNum: step2.bizRegNum,
-          businessType: step2.businessType,
-          zipCode: step2.zipCode,
-          addressMain: step2.addressMain,
-          addressDetail: step2.addressDetail,
+        // Step 1: Call signup API (creates auth user + member record via service role)
+        const signupResponse = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: step1.email,
+            password: step1.password,
+            username: step1.userid,
+            fullName: step1.realname,
+            companyName: step2.companyName,
+            ceoName: step2.ceoName,
+            bizRegNum: step2.bizRegNum,
+            businessType: step2.businessType,
+            zipCode: step2.zipCode,
+            addressMain: step2.addressMain,
+            addressDetail: step2.addressDetail,
+            bizRegImageUrl: null, // Will be updated after file upload if needed
+          }),
         })
+
+        const signupResult = await signupResponse.json()
+
+        if (!signupResponse.ok) {
+          throw new Error(signupResult.error || '계정 생성에 실패했습니다.')
+        }
+
+        const userId = signupResult.data?.user?.id
+
+        // Step 2: Upload business registration document if provided
+        if (step2.bizRegFileData && userId) {
+          try {
+            const file = base64ToFile(
+              step2.bizRegFileData,
+              step2.bizRegFileName,
+              step2.bizRegFileType
+            )
+
+            const formData = new FormData()
+            formData.append('file', file)
+            formData.append('userId', userId)
+            formData.append('email', step1.email) // Pass email to update member record
+
+            const uploadResponse = await fetch('/api/auth/signup/upload', {
+              method: 'POST',
+              body: formData,
+            })
+
+            if (!uploadResponse.ok) {
+              // Log error but don't fail signup
+              console.error('File upload failed')
+            }
+          } catch (uploadError) {
+            // Log error but continue - don't fail signup for upload issues
+            console.error('File upload failed:', uploadError)
+          }
+        }
 
         // Clear session storage
         sessionStorage.removeItem('signup_step1')
@@ -59,7 +116,7 @@ export default function SignupCompletePage() {
     }
 
     processSignup()
-  }, [router, signUp])
+  }, [router])
 
   if (loading) {
     return (
@@ -150,9 +207,33 @@ export default function SignupCompletePage() {
         </div>
 
         <div className="space-y-4">
-          <Link href="/login">
-            <button className="w-full h-[64px] bg-black text-white hover:bg-gray-800 text-[18px] font-bold tracking-wider transition-all duration-300 shadow-md hover:shadow-lg">
-              로그인하기
+          <Link href="/login" className="group block">
+            <button className="relative w-full h-[72px] overflow-hidden bg-gradient-to-r from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a] text-white tracking-[0.25em] uppercase transition-all duration-500 ease-out
+              before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-[#c9a962]/20 before:to-transparent before:translate-x-[-200%] before:transition-transform before:duration-700 before:ease-out
+              hover:before:translate-x-[200%]
+              after:absolute after:inset-[1px] after:bg-gradient-to-r after:from-[#1a1a1a] after:via-[#2d2d2d] after:to-[#1a1a1a] after:z-0
+              border border-[#c9a962]/40 hover:border-[#c9a962]/80 hover:shadow-[0_0_30px_rgba(201,169,98,0.15)]
+            ">
+              {/* Golden shimmer line */}
+              <span className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c9a962]/60 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Button content */}
+              <span className="relative z-10 flex items-center justify-center gap-4">
+                <span className="w-8 h-[1px] bg-gradient-to-r from-transparent to-[#c9a962]/70 group-hover:w-12 transition-all duration-500" />
+                <span className="text-[15px] font-normal text-white/90 group-hover:text-white transition-colors duration-300" style={{ fontFamily: 'var(--font-family-serif-display)' }}>
+                  로그인하기
+                </span>
+                <span className="w-8 h-[1px] bg-gradient-to-l from-transparent to-[#c9a962]/70 group-hover:w-12 transition-all duration-500" />
+              </span>
+
+              {/* Bottom golden line */}
+              <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c9a962]/60 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Corner accents */}
+              <span className="absolute top-2 left-2 w-3 h-3 border-l border-t border-[#c9a962]/30 group-hover:border-[#c9a962]/60 transition-colors duration-500" />
+              <span className="absolute top-2 right-2 w-3 h-3 border-r border-t border-[#c9a962]/30 group-hover:border-[#c9a962]/60 transition-colors duration-500" />
+              <span className="absolute bottom-2 left-2 w-3 h-3 border-l border-b border-[#c9a962]/30 group-hover:border-[#c9a962]/60 transition-colors duration-500" />
+              <span className="absolute bottom-2 right-2 w-3 h-3 border-r border-b border-[#c9a962]/30 group-hover:border-[#c9a962]/60 transition-colors duration-500" />
             </button>
           </Link>
         </div>
