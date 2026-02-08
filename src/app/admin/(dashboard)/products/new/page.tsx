@@ -35,7 +35,15 @@ export default function NewProductPage() {
     sale_price: '',
     is_sale: false,
     is_new: false,
+    material_14K: false,
+    material_18K: false,
+    material_24K: false,
+    material_weight_14K: '',
+    material_weight_18K: '',
+    material_weight_24K: '',
   })
+
+  const [diamondRows, setDiamondRows] = useState<Array<{ size: string; amount: string }>>([])
 
   // Options state
   const [categories, setCategories] = useState<Category[]>([])
@@ -141,6 +149,27 @@ export default function NewProductPage() {
       // Add boolean fields
       formDataObj.append('is_sale', formData.is_sale.toString())
       formDataObj.append('is_new', formData.is_new.toString())
+
+      // Material info
+      for (const type of ['14K', '18K', '24K'] as const) {
+        const key = `material_${type}` as keyof typeof formData
+        formDataObj.append(`material_${type}`, String(formData[key]))
+        if (formData[key]) {
+          const weightKey = `material_weight_${type}` as keyof typeof formData
+          if (formData[weightKey]) {
+            formDataObj.append(`material_weight_${type}`, String(formData[weightKey]))
+          }
+        }
+      }
+
+      // Diamond info
+      formDataObj.append('diamond_count', String(diamondRows.length))
+      diamondRows.forEach((row, index) => {
+        if (row.size && row.amount) {
+          formDataObj.append(`diamond_size_${index}`, row.size)
+          formDataObj.append(`diamond_amount_${index}`, row.amount)
+        }
+      })
 
       const result = await createProduct(formDataObj)
 
@@ -398,6 +427,113 @@ export default function NewProductPage() {
               />
             </div>
           </div>
+        </div>
+
+        {/* 소재 정보 */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">소재 정보</h2>
+          <p className="text-sm text-gray-500 mb-4">지원하는 K수를 선택하고 각각의 중량을 입력하세요.</p>
+
+          <div className="space-y-4">
+            {(['14K', '18K', '24K'] as const).map((karat) => (
+              <div key={karat} className="flex items-center gap-4">
+                <label className="flex items-center gap-2 w-24">
+                  <input
+                    type="checkbox"
+                    name={`material_${karat}`}
+                    checked={formData[`material_${karat}` as keyof typeof formData] as boolean}
+                    onChange={(e) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        [`material_${karat}`]: e.target.checked,
+                        ...(!e.target.checked ? { [`material_weight_${karat}`]: '' } : {}),
+                      }))
+                    }}
+                    className="rounded border-gray-300"
+                  />
+                  <span className="text-sm font-medium">{karat}</span>
+                </label>
+                {formData[`material_${karat}` as keyof typeof formData] && (
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm text-gray-600">중량:</label>
+                    <input
+                      type="number"
+                      name={`material_weight_${karat}`}
+                      value={formData[`material_weight_${karat}` as keyof typeof formData] as string}
+                      onChange={handleChange}
+                      step="0.01"
+                      min="0"
+                      placeholder="0.00"
+                      className="w-32 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    />
+                    <span className="text-sm text-gray-500">g</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 다이아 정보 */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">다이아 정보</h2>
+          <p className="text-sm text-gray-500 mb-4">다이아몬드가 포함된 제품인 경우 사이즈와 수량을 입력하세요.</p>
+
+          <div className="space-y-3">
+            {diamondRows.map((row, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-gray-600 w-16">사이즈:</label>
+                  <input
+                    type="number"
+                    value={row.size}
+                    onChange={(e) => {
+                      setDiamondRows((prev) =>
+                        prev.map((r, i) => (i === index ? { ...r, size: e.target.value } : r))
+                      )
+                    }}
+                    step="0.001"
+                    min="0"
+                    placeholder="0.000"
+                    className="w-28 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  />
+                  <span className="text-sm text-gray-500">ct</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-gray-600 w-12">수량:</label>
+                  <input
+                    type="number"
+                    value={row.amount}
+                    onChange={(e) => {
+                      setDiamondRows((prev) =>
+                        prev.map((r, i) => (i === index ? { ...r, amount: e.target.value } : r))
+                      )
+                    }}
+                    step="1"
+                    min="1"
+                    placeholder="0"
+                    className="w-20 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  />
+                  <span className="text-sm text-gray-500">개</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setDiamondRows((prev) => prev.filter((_, i) => i !== index))}
+                  className="text-red-500 hover:text-red-700 text-sm font-medium"
+                >
+                  삭제
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setDiamondRows((prev) => [...prev, { size: '', amount: '' }])}
+            className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors"
+          >
+            + 다이아 추가
+          </button>
         </div>
 
         {/* Description Section */}

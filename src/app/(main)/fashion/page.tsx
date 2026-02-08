@@ -40,6 +40,7 @@ export default async function FashionPage({
           categories={params.categories}
           materials={params.materials}
           sort={sort}
+          excludePureGold={true}
         />
       </div>
     </div>

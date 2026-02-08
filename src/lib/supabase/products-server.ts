@@ -16,14 +16,20 @@
 import { createClient } from '@/lib/supabase/server';
 import type {
   ProductForDisplay,
+  MaterialInfoForDisplay,
   ProductQueryOptions,
   ProductListResponse,
 } from '@/types/product';
 
 /**
  * Transform database row to ProductForDisplay
+ * @param row - Raw database row from product_full_details view
+ * @param materialInfo - Optional material info from product_material_info table
  */
-function transformProductRow(row: any): ProductForDisplay {
+function transformProductRow(
+  row: any,
+  materialInfo?: MaterialInfoForDisplay[]
+): ProductForDisplay {
   return {
     id: row.product_id?.toString() || '',
     collection_id: row.collection_id?.toString() || null,
@@ -49,6 +55,7 @@ function transformProductRow(row: any): ProductForDisplay {
     category_name: row.category_name || null,
     category_slug: row.category_slug || null,
     main_image_url: row.main_image_url || null,
+    material_info: materialInfo,
   };
 }
 
@@ -96,7 +103,7 @@ export async function getProductsForUser(
 
   const hasMore = data.length > limit;
   const rawProducts = hasMore ? data.slice(0, limit) : data;
-  const products = rawProducts.map(transformProductRow);
+  const products = rawProducts.map((row) => transformProductRow(row));
   const nextCursor =
     hasMore && products.length > 0
       ? products[products.length - 1].created_at
@@ -112,6 +119,7 @@ export async function getProductsForUser(
 /**
  * Fetch a single product by ID (SERVER-SIDE)
  * Uses product_full_details view to ensure price security
+ * Also fetches material_info from product_material_info table
  */
 export async function getProductByIdForUser(
   id: string
@@ -123,22 +131,39 @@ export async function getProductByIdForUser(
     return null;
   }
 
-  const { data, error } = await supabase
-    .from('product_full_details')
-    .select('*')
-    .eq('product_id', productId) // Use product_id column (bigint)
-    .single();
+  // Fetch product details and material info in parallel
+  const [productResult, materialResult] = await Promise.all([
+    supabase
+      .from('product_full_details')
+      .select('*')
+      .eq('product_id', productId)
+      .single(),
+    supabase
+      .from('product_material_info')
+      .select('material_type, weight')
+      .eq('product_id', productId)
+      .order('material_type', { ascending: true }),
+  ]);
 
-  if (error) {
-    if (error.code === 'PGRST116') {
+  if (productResult.error) {
+    if (productResult.error.code === 'PGRST116') {
       // Not found
       return null;
     }
-    console.error('Error fetching product:', error);
-    throw error;
+    console.error('Error fetching product:', productResult.error);
+    throw productResult.error;
   }
 
-  return transformProductRow(data);
+  // Transform material info (ignore errors - material_info is optional)
+  const materialInfo: MaterialInfoForDisplay[] | undefined =
+    materialResult.data && materialResult.data.length > 0
+      ? materialResult.data.map((row) => ({
+          material_type: row.material_type,
+          weight: row.weight,
+        }))
+      : undefined;
+
+  return transformProductRow(productResult.data, materialInfo);
 }
 
 /**

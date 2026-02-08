@@ -41,6 +41,7 @@ export default async function CollectionsPage({
           categories={params.categories}
           materials={params.materials}
           sort={sort}
+          excludePureGold={true}
         />
       </div>
     </div>

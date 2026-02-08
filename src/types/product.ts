@@ -1,4 +1,12 @@
 /**
+ * Material Info for Product Display
+ */
+export interface MaterialInfoForDisplay {
+  material_type: string;
+  weight: number | null;
+}
+
+/**
  * Product Types for Frontend Display
  *
  * CRITICAL SECURITY RULES:
@@ -48,6 +56,12 @@ export interface ProductForDisplay {
 
   // Main image
   main_image_url?: string | null;
+
+  // Material info (from product_material_info table)
+  material_info?: MaterialInfoForDisplay[];
+
+  // Whether this product is pure gold only (24K exclusively)
+  is_pure_gold_only?: boolean;
 }
 
 /**

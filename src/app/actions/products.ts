@@ -12,6 +12,8 @@ export interface GetProductsParams {
   brand?: string;
   isNew?: boolean;
   isSale?: boolean;
+  excludePureGold?: boolean;
+  pureGoldOnly?: boolean;
   sort?: 'latest' | 'name';
 }
 
@@ -31,6 +33,8 @@ export async function getProducts({
   brand,
   isNew,
   isSale,
+  excludePureGold,
+  pureGoldOnly,
   sort = 'latest',
 }: GetProductsParams): Promise<GetProductsResult> {
   const supabase = await createClient();
@@ -55,7 +59,7 @@ export async function getProducts({
   if (materials) {
     const materialArray = materials.split(',').map((m) => m.trim()).filter(Boolean);
     if (materialArray.length > 0) {
-      query = query.in('material', materialArray);
+      query = query.overlaps('material_types', materialArray);
     }
   }
 
@@ -74,6 +78,16 @@ export async function getProducts({
   // Apply sale filter
   if (isSale) {
     query = query.eq('is_sale', true);
+  }
+
+  // Exclude pure gold products (24K only) from regular listings
+  if (excludePureGold) {
+    query = query.eq('is_pure_gold_only', false);
+  }
+
+  // Show only pure gold products
+  if (pureGoldOnly) {
+    query = query.eq('is_pure_gold_only', true);
   }
 
   // Apply sorting
@@ -117,6 +131,7 @@ export async function getProducts({
     category_name: p.category_name,
     category_slug: p.category_slug,
     main_image_url: p.main_image_url,
+    is_pure_gold_only: p.is_pure_gold_only ?? false,
   }));
 
   const hasMore = products.length === limit;

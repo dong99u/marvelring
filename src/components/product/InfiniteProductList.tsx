@@ -14,6 +14,8 @@ interface InfiniteProductListProps {
   isNew?: boolean;
   isSale?: boolean;
   sort?: 'latest' | 'name';
+  pureGoldOnly?: boolean;
+  excludePureGold?: boolean;
 }
 
 export default function InfiniteProductList({
@@ -24,6 +26,8 @@ export default function InfiniteProductList({
   isNew,
   isSale,
   sort = 'latest',
+  pureGoldOnly,
+  excludePureGold,
 }: InfiniteProductListProps) {
   const { products, isLoading, hasMore, error, observerTarget, totalCount } =
     useInfiniteProducts({
@@ -34,6 +38,8 @@ export default function InfiniteProductList({
       isNew,
       isSale,
       sort,
+      pureGoldOnly,
+      excludePureGold,
       pageSize: 24,
     });
 

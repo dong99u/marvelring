@@ -16,9 +16,10 @@ const categoryOptions: FilterOption[] = [
 ];
 
 const materialOptions: FilterOption[] = [
-  { value: 'yellow_gold', label: '옐로우 골드' },
-  { value: 'white_gold', label: '화이트 골드' },
-  { value: 'rose_gold', label: '로즈 골드' },
+  { value: '14K', label: '14K 골드' },
+  { value: '18K', label: '18K 골드' },
+  { value: 'WHITE_GOLD', label: '화이트 골드' },
+  { value: 'ROSE_GOLD', label: '로즈 골드' },
 ];
 
 export default function ProductFilters() {

@@ -12,6 +12,8 @@ interface UseInfiniteProductsParams {
   isNew?: boolean;
   isSale?: boolean;
   sort?: 'latest' | 'name';
+  pureGoldOnly?: boolean;
+  excludePureGold?: boolean;
   pageSize?: number;
 }
 
@@ -23,6 +25,8 @@ export function useInfiniteProducts({
   isNew,
   isSale,
   sort = 'latest',
+  pureGoldOnly,
+  excludePureGold,
   pageSize = 24,
 }: UseInfiniteProductsParams) {
   const [products, setProducts] = useState<ProductForDisplay[]>([]);
@@ -66,6 +70,8 @@ export function useInfiniteProducts({
         isNew,
         isSale,
         sort,
+        pureGoldOnly,
+        excludePureGold,
       };
 
       const result = await getProducts(params);
@@ -81,7 +87,7 @@ export function useInfiniteProducts({
     } finally {
       setIsLoading(false);
     }
-  }, [cursor, hasMore, pageSize, category, categories, materials, brand, isNew, isSale, sort]);
+  }, [cursor, hasMore, pageSize, category, categories, materials, brand, isNew, isSale, sort, pureGoldOnly, excludePureGold]);
 
   // Reset and load products when filters change
   useEffect(() => {
@@ -109,6 +115,8 @@ export function useInfiniteProducts({
           isNew,
           isSale,
           sort,
+          pureGoldOnly,
+          excludePureGold,
         };
 
         const result = await getProducts(params);
@@ -127,7 +135,7 @@ export function useInfiniteProducts({
     };
 
     loadInitial();
-  }, [category, categories, materials, brand, isNew, isSale, sort, pageSize]);
+  }, [category, categories, materials, brand, isNew, isSale, sort, pureGoldOnly, excludePureGold, pageSize]);
 
   // Intersection Observer for infinite scroll
   useEffect(() => {

@@ -5,7 +5,7 @@
  * Pre-populated form for editing existing products
  */
 
-import { useState, useTransition } from 'react'
+import React, { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateProduct } from '@/app/actions/admin'
 import type { Product, Category, Collection } from '@/types/database'
@@ -19,16 +19,39 @@ interface ProductEditFormProps {
   product: ProductWithRelations
   categories: Category[]
   collections: Collection[]
+  materialInfo: Array<{ material_type: string; weight: number | null }>
+  diamondInfo: Array<{ diamond_size: number; diamond_amount: number }>
 }
 
 export default function ProductEditForm({
   product,
   categories,
   collections,
+  materialInfo,
+  diamondInfo,
 }: ProductEditFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
+
+  const [checkedMaterials, setCheckedMaterials] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = { '14K': false, '18K': false, '24K': false }
+    materialInfo.forEach((m) => { initial[m.material_type] = true })
+    return initial
+  })
+
+  const [materialWeights, setMaterialWeights] = useState<Record<string, string>>(() => {
+    const initial: Record<string, string> = { '14K': '', '18K': '', '24K': '' }
+    materialInfo.forEach((m) => { initial[m.material_type] = m.weight?.toString() || '' })
+    return initial
+  })
+
+  const [diamondRows, setDiamondRows] = useState<Array<{ size: string; amount: string }>>(() =>
+    diamondInfo.map((d) => ({
+      size: d.diamond_size.toString(),
+      amount: d.diamond_amount.toString(),
+    }))
+  )
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -320,6 +343,135 @@ export default function ProductEditForm({
               />
             </div>
           </div>
+
+          {/* 소재 정보 */}
+          <div className="pt-4">
+            <h3 className="text-base font-semibold mb-2">소재 정보</h3>
+            <p className="text-sm text-gray-500 mb-4">지원하는 K수를 선택하고 각각의 중량을 입력하세요.</p>
+
+            <div className="space-y-4">
+              {(['14K', '18K', '24K'] as const).map((karat) => (
+                <div key={karat} className="flex items-center gap-4">
+                  <label className="flex items-center gap-2 w-24">
+                    <input
+                      type="checkbox"
+                      checked={checkedMaterials[karat]}
+                      onChange={(e) => {
+                        setCheckedMaterials((prev) => ({ ...prev, [karat]: e.target.checked }))
+                        if (!e.target.checked) {
+                          setMaterialWeights((prev) => ({ ...prev, [karat]: '' }))
+                        }
+                      }}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm font-medium">{karat}</span>
+                  </label>
+                  {checkedMaterials[karat] && (
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-gray-600">중량:</label>
+                      <input
+                        type="number"
+                        value={materialWeights[karat]}
+                        onChange={(e) => {
+                          setMaterialWeights((prev) => ({ ...prev, [karat]: e.target.value }))
+                        }}
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        className="w-32 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      />
+                      <span className="text-sm text-gray-500">g</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Hidden inputs for material data */}
+          {(['14K', '18K', '24K'] as const).map((karat) => (
+            <React.Fragment key={`hidden-${karat}`}>
+              <input type="hidden" name={`material_${karat}`} value={String(checkedMaterials[karat])} />
+              {checkedMaterials[karat] && materialWeights[karat] && (
+                <input type="hidden" name={`material_weight_${karat}`} value={materialWeights[karat]} />
+              )}
+            </React.Fragment>
+          ))}
+
+          {/* 다이아 정보 */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">다이아 정보</h2>
+            <p className="text-sm text-gray-500 mb-4">다이아몬드가 포함된 제품인 경우 사이즈와 수량을 입력하세요.</p>
+
+            <div className="space-y-3">
+              {diamondRows.map((row, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm text-gray-600 w-16">사이즈:</label>
+                    <input
+                      type="number"
+                      value={row.size}
+                      onChange={(e) => {
+                        setDiamondRows((prev) =>
+                          prev.map((r, i) => (i === index ? { ...r, size: e.target.value } : r))
+                        )
+                      }}
+                      step="0.001"
+                      min="0"
+                      placeholder="0.000"
+                      className="w-28 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    />
+                    <span className="text-sm text-gray-500">ct</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm text-gray-600 w-12">수량:</label>
+                    <input
+                      type="number"
+                      value={row.amount}
+                      onChange={(e) => {
+                        setDiamondRows((prev) =>
+                          prev.map((r, i) => (i === index ? { ...r, amount: e.target.value } : r))
+                        )
+                      }}
+                      step="1"
+                      min="1"
+                      placeholder="0"
+                      className="w-20 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    />
+                    <span className="text-sm text-gray-500">개</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setDiamondRows((prev) => prev.filter((_, i) => i !== index))}
+                    className="text-red-500 hover:text-red-700 text-sm font-medium"
+                  >
+                    삭제
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setDiamondRows((prev) => [...prev, { size: '', amount: '' }])}
+              className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors"
+            >
+              + 다이아 추가
+            </button>
+          </div>
+
+          {/* Hidden inputs for diamond data */}
+          <input type="hidden" name="diamond_count" value={String(diamondRows.length)} />
+          {diamondRows.map((row, index) => (
+            <React.Fragment key={`diamond-hidden-${index}`}>
+              {row.size && row.amount && (
+                <>
+                  <input type="hidden" name={`diamond_size_${index}`} value={row.size} />
+                  <input type="hidden" name={`diamond_amount_${index}`} value={row.amount} />
+                </>
+              )}
+            </React.Fragment>
+          ))}
 
           {/* Description */}
           <div>

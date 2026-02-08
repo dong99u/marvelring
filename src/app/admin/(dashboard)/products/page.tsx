@@ -25,11 +25,12 @@ interface Product {
 export default async function AdminProductsPage({
   searchParams,
 }: {
-  searchParams: { search?: string; page?: string }
+  searchParams: Promise<{ search?: string; page?: string }>
 }) {
   const supabase = await createClient()
-  const page = Number(searchParams.page) || 1
-  const search = searchParams.search || ''
+  const params = await searchParams
+  const page = Number(params.page) || 1
+  const search = params.search || ''
   const limit = 20
   const offset = (page - 1) * limit
 

@@ -5,6 +5,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import { fetchProductMaterialInfo, fetchProductDiamondInfo } from '@/app/actions/admin'
 import ProductEditForm from './ProductEditForm'
 import type { Product, Category, Collection } from '@/types/database'
 
@@ -97,6 +98,14 @@ export default async function ProductEditPage({ params }: PageProps) {
     )
   }
 
+  // Fetch material info
+  const materialResult = await fetchProductMaterialInfo(product.product_id)
+  const materialInfo = materialResult.success ? materialResult.data : []
+
+  // Fetch diamond info
+  const diamondResult = await fetchProductDiamondInfo(product.product_id)
+  const diamondInfo = diamondResult.success ? diamondResult.data : []
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">상품 수정</h1>
@@ -104,6 +113,8 @@ export default async function ProductEditPage({ params }: PageProps) {
         product={product as ProductWithRelations}
         categories={categories || []}
         collections={collections || []}
+        materialInfo={materialInfo || []}
+        diamondInfo={diamondInfo || []}
       />
     </div>
   )

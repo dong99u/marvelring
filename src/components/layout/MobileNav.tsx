@@ -161,6 +161,13 @@ export default function MobileNav({ collections, categories }: MobileNavProps) {
             ))}
 
             <Link
+              href="/pure-gold"
+              className="block min-h-12 px-6 py-3 text-base font-medium text-charcoal-light hover:bg-soft-ivory transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              순금
+            </Link>
+            <Link
               href="/sale"
               className="block min-h-12 px-6 py-3 text-base font-medium text-charcoal-light hover:bg-soft-ivory transition-colors"
               onClick={() => setIsOpen(false)}

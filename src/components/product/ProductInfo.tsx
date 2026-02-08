@@ -6,6 +6,11 @@
 import KakaoTalkButton from './KakaoTalkButton';
 import ProductBadges from './ProductBadges';
 
+interface MaterialInfo {
+  material_type: string;
+  weight: number | null;
+}
+
 interface ProductInfoProps {
   product: {
     product_name: string;
@@ -21,6 +26,7 @@ interface ProductInfoProps {
     kakao_link?: string | null;
     created_at: string;
     is_sale: boolean;
+    material_info?: MaterialInfo[];
   };
   diamondInfo?: {
     diamond_size?: string | null;
@@ -74,8 +80,30 @@ export default function ProductInfo({
 
       {/* Step Sections */}
       <div className="flex flex-col border-t border-gray-100">
-        {/* Step 01: Material & Weight */}
-        {product.weight && (
+        {/* Step 01: Material & Weight - Dynamic from material_info or fallback to legacy */}
+        {(product.material_info && product.material_info.length > 0) ? (
+          <div className="workbench-step">
+            <span className="step-number">01</span>
+            <div className="step-content">
+              <span className="config-label">Material &amp; Weight</span>
+              <div className={`grid gap-8 ${product.material_info.length === 1 ? 'grid-cols-1' : product.material_info.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+                {product.material_info.map((mat, index) => (
+                  <div key={mat.material_type} className={`flex flex-col gap-1 ${index > 0 ? 'border-l border-gray-100 pl-6' : ''}`}>
+                    <span className="text-[10px] text-charcoal-light/40 uppercase font-bold tracking-wider">
+                      {mat.material_type} Gold
+                    </span>
+                    <div className="config-value">
+                      {mat.weight ? `${mat.weight}g` : '-'}{' '}
+                      <span className="text-[11px] font-normal text-charcoal-light/40">
+                        (approx)
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : product.weight ? (
           <div className="workbench-step">
             <span className="step-number">01</span>
             <div className="step-content">
@@ -106,7 +134,7 @@ export default function ProductInfo({
               </div>
             </div>
           </div>
-        )}
+        ) : null}
 
         {/* Step 02: Size & Diamonds */}
         {(displaySize || diamondInfo) && (

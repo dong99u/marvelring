@@ -113,8 +113,49 @@ export async function createProduct(
       return { success: false, error: error.message }
     }
 
+    // Insert material info records
+    const materialTypes = ['14K', '18K', '24K'] as const
+    const materialRecords: { product_id: number; material_type: string; weight: number | null }[] = []
+
+    for (const type of materialTypes) {
+      const isChecked = formData.get(`material_${type}`) === 'true'
+      if (isChecked) {
+        const weightVal = formData.get(`material_weight_${type}`)
+        materialRecords.push({
+          product_id: data.product_id,
+          material_type: type,
+          weight: weightVal ? Number(weightVal) : null,
+        })
+      }
+    }
+
+    if (materialRecords.length > 0) {
+      await supabase.from('product_material_info').insert(materialRecords)
+    }
+
+    // Insert diamond info records
+    const diamondCount = Number(formData.get('diamond_count') || '0')
+    const diamondRecords: { product_id: number; diamond_size: number; diamond_amount: number }[] = []
+
+    for (let i = 0; i < diamondCount; i++) {
+      const size = formData.get(`diamond_size_${i}`)
+      const amount = formData.get(`diamond_amount_${i}`)
+      if (size && amount) {
+        diamondRecords.push({
+          product_id: data.product_id,
+          diamond_size: Number(size),
+          diamond_amount: Number(amount),
+        })
+      }
+    }
+
+    if (diamondRecords.length > 0) {
+      await supabase.from('product_diamond_info').insert(diamondRecords)
+    }
+
     revalidatePath('/admin/products')
     revalidatePath('/products')
+    revalidatePath('/pure-gold')
 
     return { success: true, data }
   } catch (error) {
@@ -178,8 +219,59 @@ export async function updateProduct(
       return { success: false, error: error.message }
     }
 
+    // Update material info: delete existing then insert new
+    await supabase
+      .from('product_material_info')
+      .delete()
+      .eq('product_id', productId)
+
+    const materialTypes = ['14K', '18K', '24K'] as const
+    const materialRecords: { product_id: number; material_type: string; weight: number | null }[] = []
+
+    for (const type of materialTypes) {
+      const isChecked = formData.get(`material_${type}`) === 'true'
+      if (isChecked) {
+        const weightVal = formData.get(`material_weight_${type}`)
+        materialRecords.push({
+          product_id: productId,
+          material_type: type,
+          weight: weightVal ? Number(weightVal) : null,
+        })
+      }
+    }
+
+    if (materialRecords.length > 0) {
+      await supabase.from('product_material_info').insert(materialRecords)
+    }
+
+    // Update diamond info: delete existing then insert new
+    await supabase
+      .from('product_diamond_info')
+      .delete()
+      .eq('product_id', productId)
+
+    const diamondCount = Number(formData.get('diamond_count') || '0')
+    const diamondRecords: { product_id: number; diamond_size: number; diamond_amount: number }[] = []
+
+    for (let i = 0; i < diamondCount; i++) {
+      const size = formData.get(`diamond_size_${i}`)
+      const amount = formData.get(`diamond_amount_${i}`)
+      if (size && amount) {
+        diamondRecords.push({
+          product_id: productId,
+          diamond_size: Number(size),
+          diamond_amount: Number(amount),
+        })
+      }
+    }
+
+    if (diamondRecords.length > 0) {
+      await supabase.from('product_diamond_info').insert(diamondRecords)
+    }
+
     revalidatePath('/admin/products')
     revalidatePath('/products')
+    revalidatePath('/pure-gold')
 
     return { success: true, data }
   } catch (error) {
@@ -489,6 +581,64 @@ export async function deleteCollection(
   } catch (error) {
     return {
       success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+    }
+  }
+}
+
+// ============================================================================
+// PRODUCT MATERIAL INFO
+// ============================================================================
+
+/**
+ * Fetch product material info by product ID
+ */
+export async function fetchProductMaterialInfo(productId: number) {
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('product_material_info')
+      .select('product_material_info_id, product_id, material_type, weight, purity')
+      .eq('product_id', productId)
+      .order('material_type')
+
+    if (error) {
+      return { success: false as const, error: error.message }
+    }
+
+    return { success: true as const, data: data || [] }
+  } catch (error) {
+    return {
+      success: false as const,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+    }
+  }
+}
+
+// ============================================================================
+// PRODUCT DIAMOND INFO
+// ============================================================================
+
+/**
+ * Fetch product diamond info by product ID
+ */
+export async function fetchProductDiamondInfo(productId: number) {
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('product_diamond_info')
+      .select('product_diamond_info_id, product_id, diamond_size, diamond_amount')
+      .eq('product_id', productId)
+      .order('diamond_size')
+
+    if (error) {
+      return { success: false as const, error: error.message }
+    }
+
+    return { success: true as const, data: data || [] }
+  } catch (error) {
+    return {
+      success: false as const,
       error: error instanceof Error ? error.message : 'Unknown error occurred',
     }
   }
