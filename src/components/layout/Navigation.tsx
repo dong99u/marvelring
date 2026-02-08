@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
 
 const categories = [
   { id: 'ring', label: '반지' },
@@ -19,38 +18,14 @@ interface Collection {
 
 type SubNavType = 'collections' | 'fashion' | null;
 
-export default function Navigation() {
+interface NavigationProps {
+  collections: Collection[];
+}
+
+export default function Navigation({ collections }: NavigationProps) {
   const pathname = usePathname();
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [isLoadingCollections, setIsLoadingCollections] = useState(true);
   const [activeSubNav, setActiveSubNav] = useState<SubNavType>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Fetch collections on mount
-  useEffect(() => {
-    const fetchCollections = async () => {
-      try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('collection')
-          .select('brand_name, slug')
-          .order('display_order');
-
-        if (error) {
-          console.error('Error fetching collections:', error);
-          return;
-        }
-
-        setCollections(data || []);
-      } catch (error) {
-        console.error('Failed to fetch collections:', error);
-      } finally {
-        setIsLoadingCollections(false);
-      }
-    };
-
-    fetchCollections();
-  }, []);
 
   const handleMouseEnter = (subNavType: SubNavType) => {
     if (timeoutRef.current) {
@@ -134,9 +109,7 @@ export default function Navigation() {
           <div className="flex items-center justify-center gap-x-8 py-4">
             {activeSubNav === 'collections' && (
               <>
-                {isLoadingCollections ? (
-                  <div className="text-sm text-charcoal-light/60">Loading...</div>
-                ) : collections.length > 0 ? (
+                {collections.length > 0 ? (
                   collections.map((collection) => (
                     <Link
                       key={collection.slug}
