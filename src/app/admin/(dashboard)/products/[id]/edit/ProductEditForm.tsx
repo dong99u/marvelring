@@ -9,6 +9,7 @@ import React, { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateProduct, deleteProductImage } from '@/app/actions/admin'
 import type { Product, Category, Collection } from '@/types/database'
+import { isValidMediaFile, isVideoFile, isVideoUrl, validateVideoDuration, ACCEPT_MEDIA_INPUT, MAX_FILE_SIZE_MB, MAX_VIDEO_DURATION_SECONDS } from '@/lib/utils/media'
 
 interface ProductWithRelations extends Product {
   category: Category | null
@@ -70,14 +71,24 @@ export default function ProductEditForm({
   const [newImagePreviews, setNewImagePreviews] = useState<string[]>([])
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([])
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
-    const validFiles = files.filter(
-      (file) => file.size <= 20 * 1024 * 1024 && file.type.startsWith('image/')
-    )
+    const validFiles = files.filter((file) => isValidMediaFile(file))
 
-    const newPreviews = validFiles.map((file) => URL.createObjectURL(file))
-    setNewImageFiles((prev) => [...prev, ...validFiles])
+    const validatedFiles: File[] = []
+    for (const file of validFiles) {
+      if (isVideoFile(file)) {
+        const validDuration = await validateVideoDuration(file)
+        if (!validDuration) {
+          setError(`영상은 ${MAX_VIDEO_DURATION_SECONDS}초 이하만 가능합니다.`)
+          continue
+        }
+      }
+      validatedFiles.push(file)
+    }
+
+    const newPreviews = validatedFiles.map((file) => URL.createObjectURL(file))
+    setNewImageFiles((prev) => [...prev, ...validatedFiles])
     setNewImagePreviews((prev) => [...prev, ...newPreviews])
   }
 
@@ -534,9 +545,9 @@ export default function ProductEditForm({
 
           {/* 상품 이미지 */}
           <div className="pt-4">
-            <h3 className="text-base font-semibold mb-2">상품 이미지</h3>
+            <h3 className="text-base font-semibold mb-2">상품 미디어</h3>
             <p className="text-sm text-gray-500 mb-4">
-              상품 이미지를 관리하세요. (최대 20MB, JPG/PNG/WebP)
+              상품 이미지/영상을 관리하세요. (최대 {MAX_FILE_SIZE_MB}MB, 영상 {MAX_VIDEO_DURATION_SECONDS}초 이내)
             </p>
 
             {/* Existing images */}
@@ -547,11 +558,19 @@ export default function ProductEditForm({
                     <div className={`aspect-square rounded-lg overflow-hidden border-2 ${
                       image.is_main ? 'border-blue-500' : 'border-gray-200'
                     }`}>
-                      <img
-                        src={image.image_url}
-                        alt={image.title || '상품 이미지'}
-                        className="w-full h-full object-cover"
-                      />
+                      {isVideoUrl(image.image_url) ? (
+                        <video
+                          src={image.image_url}
+                          className="w-full h-full object-cover"
+                          muted
+                        />
+                      ) : (
+                        <img
+                          src={image.image_url}
+                          alt={image.title || '상품 이미지'}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </div>
                     <div className="absolute top-2 right-2">
                       <button
@@ -578,11 +597,19 @@ export default function ProductEditForm({
                 {newImagePreviews.map((preview, index) => (
                   <div key={`new-${index}`} className="relative group">
                     <div className="aspect-square rounded-lg overflow-hidden border-2 border-dashed border-green-300">
-                      <img
-                        src={preview}
-                        alt={`새 이미지 ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
+                      {isVideoFile(newImageFiles[index]) ? (
+                        <video
+                          src={preview}
+                          className="w-full h-full object-cover"
+                          muted
+                        />
+                      ) : (
+                        <img
+                          src={preview}
+                          alt={`새 이미지 ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </div>
                     <div className="absolute top-2 right-2">
                       <button
@@ -602,10 +629,10 @@ export default function ProductEditForm({
             )}
 
             <label className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
-              + 이미지 추가
+              + 미디어 추가
               <input
                 type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
+                accept={ACCEPT_MEDIA_INPUT}
                 multiple
                 onChange={handleImageSelect}
                 className="hidden"

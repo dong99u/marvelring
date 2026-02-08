@@ -44,6 +44,9 @@ export async function POST(request: Request) {
       .from('product-images')
       .getPublicUrl(uploadData.path)
 
+    // Determine media_type from MIME type
+    const mediaType = file.type.startsWith('video/') ? 'video' : 'image'
+
     // Insert record in product_image table
     const { data: imageRecord, error: dbError } = await supabase
       .from('product_image')
@@ -52,6 +55,7 @@ export async function POST(request: Request) {
         image_url: urlData.publicUrl,
         display_order: displayOrder ? Number(displayOrder) : 0,
         is_main: isMain === 'true',
+        media_type: mediaType,
       })
       .select()
       .single()
@@ -69,6 +73,7 @@ export async function POST(request: Request) {
       url: urlData.publicUrl,
       imageId: imageRecord.id,
       path: uploadData.path,
+      mediaType,
     })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'File upload failed'

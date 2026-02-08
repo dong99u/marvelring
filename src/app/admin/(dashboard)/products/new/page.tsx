@@ -13,6 +13,7 @@ import {
   fetchCollections,
 } from '@/app/actions/admin'
 import type { Category, Collection } from '@/types/database'
+import { isValidMediaFile, isVideoFile, validateVideoDuration, ACCEPT_MEDIA_INPUT, MAX_FILE_SIZE_MB, MAX_VIDEO_DURATION_SECONDS } from '@/lib/utils/media'
 
 export default function NewProductPage() {
   const router = useRouter()
@@ -101,18 +102,28 @@ export default function NewProductPage() {
     }
   }
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
-    const validFiles = files.filter(
-      (file) => file.size <= 20 * 1024 * 1024 && file.type.startsWith('image/')
-    )
+    const validFiles = files.filter((file) => isValidMediaFile(file))
 
     if (validFiles.length !== files.length) {
-      setError('일부 파일이 제외되었습니다. (20MB 이하 이미지만 가능)')
+      setError(`일부 파일이 제외되었습니다. (${MAX_FILE_SIZE_MB}MB 이하 이미지/영상만 가능)`)
     }
 
-    const newPreviews = validFiles.map((file) => URL.createObjectURL(file))
-    setImageFiles((prev) => [...prev, ...validFiles])
+    const validatedFiles: File[] = []
+    for (const file of validFiles) {
+      if (isVideoFile(file)) {
+        const validDuration = await validateVideoDuration(file)
+        if (!validDuration) {
+          setError(`영상은 ${MAX_VIDEO_DURATION_SECONDS}초 이하만 가능합니다.`)
+          continue
+        }
+      }
+      validatedFiles.push(file)
+    }
+
+    const newPreviews = validatedFiles.map((file) => URL.createObjectURL(file))
+    setImageFiles((prev) => [...prev, ...validatedFiles])
     setImagePreviews((prev) => [...prev, ...newPreviews])
   }
 
@@ -586,11 +597,11 @@ export default function NewProductPage() {
           </button>
         </div>
 
-        {/* 상품 이미지 */}
+        {/* 상품 미디어 */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">상품 이미지</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">상품 미디어</h2>
           <p className="text-sm text-gray-500 mb-4">
-            상품 이미지를 등록하세요. 첫 번째 이미지가 대표 이미지로 설정됩니다. (최대 20MB, JPG/PNG/WebP)
+            상품 이미지 또는 영상을 등록하세요. 첫 번째가 대표로 설정됩니다. (최대 {MAX_FILE_SIZE_MB}MB, JPG/PNG/WebP/MP4/WebM, 영상 {MAX_VIDEO_DURATION_SECONDS}초 이내)
           </p>
 
           {imagePreviews.length > 0 && (
@@ -600,11 +611,19 @@ export default function NewProductPage() {
                   <div className={`aspect-square rounded-lg overflow-hidden border-2 ${
                     index === mainImageIndex ? 'border-blue-500' : 'border-gray-200'
                   }`}>
-                    <img
-                      src={preview}
-                      alt={`상품 이미지 ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
+                    {isVideoFile(imageFiles[index]) ? (
+                      <video
+                        src={preview}
+                        className="w-full h-full object-cover"
+                        muted
+                      />
+                    ) : (
+                      <img
+                        src={preview}
+                        alt={`상품 이미지 ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                   </div>
                   <div className="absolute top-2 right-2 flex gap-1">
                     <button
@@ -632,10 +651,10 @@ export default function NewProductPage() {
           )}
 
           <label className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
-            + 이미지 추가
+            + 미디어 추가
             <input
               type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
+              accept={ACCEPT_MEDIA_INPUT}
               multiple
               onChange={handleImageSelect}
               className="hidden"

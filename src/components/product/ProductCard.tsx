@@ -5,6 +5,7 @@ import Image from 'next/image';
 import ProductBadges from '@/components/product/ProductBadges';
 import PriceDisplay from '@/components/product/PriceDisplay';
 import { useAuth } from '@/hooks/useAuth';
+import { isVideoUrl } from '@/lib/utils/media';
 import type { ProductForDisplay } from '@/types/product';
 
 export interface ProductCardProps {
@@ -24,13 +25,24 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative w-full aspect-square bg-marble-grey mb-4 md:mb-6 overflow-hidden">
         {product.main_image_url ? (
-          <Image
-            src={product.main_image_url}
-            alt={product.product_name}
-            fill
-            className="object-cover transform group-hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          />
+          isVideoUrl(product.main_image_url) ? (
+            <video
+              src={product.main_image_url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <Image
+              src={product.main_image_url}
+              alt={product.product_name}
+              fill
+              className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            />
+          )
         ) : (
           <div className="w-full h-full flex items-center justify-center text-charcoal-light/20 text-sm">
             No Image

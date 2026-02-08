@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import type { Swiper as SwiperType, SwiperModule } from 'swiper/types';
+import { isVideoUrl } from '@/lib/utils/media';
 
 // Dynamic import for Swiper (client-only, reduces initial bundle)
 const Swiper = dynamic(
@@ -93,14 +94,24 @@ export default function ImageGallery({
             {images.map((image, index) => (
               <SwiperSlide key={index}>
                 <div className="relative w-full h-full">
-                  <Image
-                    src={image}
-                    alt={`${productName} - Image ${index + 1}`}
-                    fill
-                    className="object-cover"
-                    priority={index === 0}
-                    sizes="100vw"
-                  />
+                  {isVideoUrl(image) ? (
+                    <video
+                      src={image}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      controls
+                      playsInline
+                      preload="metadata"
+                    />
+                  ) : (
+                    <Image
+                      src={image}
+                      alt={`${productName} - Image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      priority={index === 0}
+                      sizes="100vw"
+                    />
+                  )}
                 </div>
               </SwiperSlide>
             ))}
@@ -110,13 +121,15 @@ export default function ImageGallery({
         )}
 
         {/* Zoom Button */}
-        <button
-          onClick={() => setIsZoomed(true)}
-          className="absolute bottom-4 right-4 min-h-12 min-w-12 bg-white/90 backdrop-blur-sm shadow-xl flex items-center justify-center rounded-full text-charcoal-light hover:text-gold-muted transition-all z-10 cursor-zoom-in"
-          aria-label="Zoom image"
-        >
-          <span className="material-symbols-outlined text-xl">zoom_in</span>
-        </button>
+        {!isVideoUrl(currentImage) && (
+          <button
+            onClick={() => setIsZoomed(true)}
+            className="absolute bottom-4 right-4 min-h-12 min-w-12 bg-white/90 backdrop-blur-sm shadow-xl flex items-center justify-center rounded-full text-charcoal-light hover:text-gold-muted transition-all z-10 cursor-zoom-in"
+            aria-label="Zoom image"
+          >
+            <span className="material-symbols-outlined text-xl">zoom_in</span>
+          </button>
+        )}
 
         {/* B2B Exclusive Badge */}
         <div className="absolute top-4 left-4">
@@ -131,24 +144,36 @@ export default function ImageGallery({
         {/* Main Image */}
         <div className="relative group w-full h-fit bg-soft-ivory overflow-hidden border border-gray-100">
           <div className="relative w-full aspect-[4/5]">
-            <Image
-              src={currentImage}
-              alt={`${productName} - Image ${selectedIndex + 1}`}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              priority={selectedIndex === 0}
-              sizes="(max-width: 1024px) 50vw, 58vw"
-            />
+            {isVideoUrl(currentImage) ? (
+              <video
+                src={currentImage}
+                className="w-full h-full object-cover"
+                controls
+                playsInline
+                preload="metadata"
+              />
+            ) : (
+              <Image
+                src={currentImage}
+                alt={`${productName} - Image ${selectedIndex + 1}`}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                priority={selectedIndex === 0}
+                sizes="(max-width: 1024px) 50vw, 58vw"
+              />
+            )}
           </div>
 
           {/* Zoom Button */}
-          <button
-            onClick={() => setIsZoomed(true)}
-            className="absolute bottom-8 right-8 min-h-12 min-w-12 w-14 h-14 bg-white/90 backdrop-blur-sm shadow-xl flex items-center justify-center rounded-full text-charcoal-light hover:text-gold-muted transition-all z-10 cursor-zoom-in"
-            aria-label="Zoom image"
-          >
-            <span className="material-symbols-outlined text-2xl">zoom_in</span>
-          </button>
+          {!isVideoUrl(currentImage) && (
+            <button
+              onClick={() => setIsZoomed(true)}
+              className="absolute bottom-8 right-8 min-h-12 min-w-12 w-14 h-14 bg-white/90 backdrop-blur-sm shadow-xl flex items-center justify-center rounded-full text-charcoal-light hover:text-gold-muted transition-all z-10 cursor-zoom-in"
+              aria-label="Zoom image"
+            >
+              <span className="material-symbols-outlined text-2xl">zoom_in</span>
+            </button>
+          )}
 
           {/* B2B Exclusive Badge */}
           <div className="absolute top-8 left-8">
@@ -171,13 +196,29 @@ export default function ImageGallery({
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <Image
-                  src={image}
-                  alt={`${productName} thumbnail ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="80px"
-                />
+                {isVideoUrl(image) ? (
+                  <>
+                    <video
+                      src={image}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      muted
+                      preload="metadata"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <span className="material-symbols-outlined text-white text-sm">
+                        play_arrow
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <Image
+                    src={image}
+                    alt={`${productName} thumbnail ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="80px"
+                  />
+                )}
               </button>
             ))}
           </div>
@@ -198,13 +239,23 @@ export default function ImageGallery({
             <span className="material-symbols-outlined text-2xl">close</span>
           </button>
           <div className="relative w-full max-w-5xl aspect-[4/5]">
-            <Image
-              src={currentImage}
-              alt={`${productName} - Zoomed`}
-              fill
-              className="object-contain"
-              sizes="(max-width: 1280px) 100vw, 1280px"
-            />
+            {isVideoUrl(currentImage) ? (
+              <video
+                src={currentImage}
+                className="w-full h-full object-contain"
+                controls
+                playsInline
+                autoPlay
+              />
+            ) : (
+              <Image
+                src={currentImage}
+                alt={`${productName} - Zoomed`}
+                fill
+                className="object-contain"
+                sizes="(max-width: 1280px) 100vw, 1280px"
+              />
+            )}
           </div>
         </div>
       )}
