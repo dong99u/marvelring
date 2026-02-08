@@ -23,6 +23,8 @@ export interface GetProductsResult {
   nextCursor: number | null;
   hasMore: boolean;
   totalCount: number;
+  isLoggedIn: boolean;
+  isApproved: boolean;
 }
 
 export async function getProducts({
@@ -40,6 +42,18 @@ export async function getProducts({
   sort = 'latest',
 }: GetProductsParams): Promise<GetProductsResult> {
   const supabase = await createClient();
+
+  // Check auth state server-side
+  const { data: { user } } = await supabase.auth.getUser();
+  let isApproved = false;
+  if (user?.email) {
+    const { data: memberData } = await supabase
+      .from('member')
+      .select('approval_status')
+      .eq('email', user.email)
+      .single();
+    isApproved = memberData?.approval_status === 'APPROVED';
+  }
 
   let query = supabase.from('product_full_details').select('*', { count: 'exact' });
 
@@ -149,5 +163,7 @@ export async function getProducts({
     nextCursor,
     hasMore,
     totalCount: count ?? 0,
+    isLoggedIn: !!user,
+    isApproved,
   };
 }

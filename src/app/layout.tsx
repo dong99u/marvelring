@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Noto_Sans_KR, Playfair_Display } from "next/font/google";
 import { ToastProvider } from "@/components/ui/ToastProvider";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -22,9 +23,26 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: "마블링 B2B | 사업자 맞춤형 서비스 허브",
   description: "사업자를 위한 맞춤형 서비스 허브",
   authors: [{ name: "박동규", url: "https://dong99u.github.io/" }],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: "마블링 B2B",
+    title: "마블링 B2B | 사업자 맞춤형 서비스 허브",
+    description: "사업자를 위한 맞춤형 서비스 허브",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "마블링 B2B | 사업자 맞춤형 서비스 허브",
+    description: "사업자를 위한 맞춤형 서비스 허브",
+  },
 };
 
 export default function RootLayout({

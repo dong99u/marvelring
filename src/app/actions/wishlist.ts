@@ -72,3 +72,90 @@ export async function checkWishlistStatus(productId: string): Promise<boolean> {
 
   return !!data;
 }
+
+export async function getWishlistProducts(): Promise<{
+  id: string;
+  collection_id: string | null;
+  category_id: string | null;
+  product_name: string;
+  product_code: string;
+  base_labor_cost: number | null;
+  stone_setting_cost: number | null;
+  weight: number | null;
+  ring_size: string | null;
+  size: string | null;
+  description: string | null;
+  additional_information: string | null;
+  is_sale: boolean;
+  is_new: boolean;
+  created_at: string;
+  updated_at: string;
+  price: number | null;
+  brand_name?: string | null;
+  collection_slug?: string | null;
+  collection_logo?: string | null;
+  category_name?: string | null;
+  category_slug?: string | null;
+  main_image_url?: string | null;
+}[]> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return [];
+  }
+
+  // Step 1: Get wishlist product IDs
+  const { data: wishlistItems, error: wishlistError } = await supabase
+    .from('member_wishlist')
+    .select('product_id')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (wishlistError || !wishlistItems || wishlistItems.length === 0) {
+    return [];
+  }
+
+  const productIds = wishlistItems.map((item) => item.product_id);
+
+  // Step 2: Fetch product details from secure view
+  const { data: products, error: productError } = await supabase
+    .from('product_full_details')
+    .select('*')
+    .in('product_id', productIds);
+
+  if (productError || !products) {
+    return [];
+  }
+
+  // Maintain wishlist order (most recently added first)
+  const productMap = new Map(products.map((p) => [p.product_id, p]));
+  return productIds
+    .map((pid) => productMap.get(pid))
+    .filter(Boolean)
+    .map((row: any) => ({
+      id: row.product_id?.toString() || '',
+      collection_id: row.collection_id?.toString() || null,
+      category_id: row.category_id?.toString() || null,
+      product_name: row.product_name,
+      product_code: row.product_code,
+      base_labor_cost: row.base_labor_cost,
+      stone_setting_cost: row.stone_setting_cost,
+      weight: row.weight,
+      ring_size: row.ring_size,
+      size: row.size,
+      description: row.description,
+      additional_information: row.additional_information,
+      is_sale: row.is_sale,
+      is_new: row.is_new ?? false,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+      price: row.display_price,
+      brand_name: row.collection_name || null,
+      collection_slug: row.collection_slug || null,
+      collection_logo: row.collection_logo || null,
+      category_name: row.category_name || null,
+      category_slug: row.category_slug || null,
+      main_image_url: row.main_image_url || null,
+    }));
+}

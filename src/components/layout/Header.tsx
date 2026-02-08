@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, Diamond } from 'lucide-react';
+import { Search, Diamond, Heart } from 'lucide-react';
 import MobileNav from './MobileNav';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/ToastProvider';
@@ -72,6 +72,14 @@ export default function Header({ collections, categories }: HeaderProps) {
         >
           {user ? '로그아웃' : '로그인'}
         </button>
+        {user && (
+          <Link
+            href="/mypage/wishlist"
+            className="min-h-12 min-w-12 flex items-center justify-center text-charcoal-light/60 hover:text-charcoal-light transition-colors"
+          >
+            <Heart size={20} />
+          </Link>
+        )}
         <button className="min-h-12 min-w-12 flex items-center justify-center text-charcoal-light/60 hover:text-charcoal-light transition-colors">
           <Search size={20} />
         </button>

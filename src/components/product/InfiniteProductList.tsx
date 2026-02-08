@@ -31,7 +31,7 @@ export default function InfiniteProductList({
   excludePureGold,
   requireCollection,
 }: InfiniteProductListProps) {
-  const { products, isLoading, hasMore, error, observerTarget, totalCount } =
+  const { products, isLoading, hasMore, error, observerTarget, totalCount, isLoggedIn, isApproved } =
     useInfiniteProducts({
       category,
       categories,
@@ -62,7 +62,7 @@ export default function InfiniteProductList({
   return (
     <div>
       <ProductListHeader title="" totalCount={totalCount} />
-      <ProductGrid products={products} />
+      <ProductGrid products={products} isLoggedIn={isLoggedIn} isApproved={isApproved} />
 
       {/* Loading skeletons */}
       {isLoading && (

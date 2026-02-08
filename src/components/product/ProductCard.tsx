@@ -10,13 +10,15 @@ import type { ProductForDisplay } from '@/types/product';
 
 export interface ProductCardProps {
   product: ProductForDisplay;
+  isLoggedIn?: boolean;
+  isApproved?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, isLoggedIn: isLoggedInProp, isApproved: isApprovedProp }: ProductCardProps) {
   const { user, member } = useAuth();
 
-  const isLoggedIn = !!user;
-  const isApproved = member?.approval_status === 'APPROVED';
+  const isLoggedIn = isLoggedInProp ?? !!user;
+  const isApproved = isApprovedProp ?? (member?.approval_status === 'APPROVED');
 
   return (
     <Link

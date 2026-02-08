@@ -37,6 +37,8 @@ export function useInfiniteProducts({
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isApproved, setIsApproved] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   // loadMore function that doesn't depend on cursor/hasMore/isLoading from closure
@@ -83,6 +85,8 @@ export function useInfiniteProducts({
       setHasMore(result.hasMore);
       setCursor(result.nextCursor || 0);
       setTotalCount(result.totalCount);
+      setIsLoggedIn(result.isLoggedIn);
+      setIsApproved(result.isApproved);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error('Failed to load products')
@@ -129,6 +133,8 @@ export function useInfiniteProducts({
         setHasMore(result.hasMore);
         setCursor(result.nextCursor || 0);
         setTotalCount(result.totalCount);
+        setIsLoggedIn(result.isLoggedIn);
+        setIsApproved(result.isApproved);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error('Failed to load products')
@@ -172,5 +178,7 @@ export function useInfiniteProducts({
     error,
     observerTarget,
     totalCount,
+    isLoggedIn,
+    isApproved,
   };
 }
