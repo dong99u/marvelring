@@ -19,6 +19,7 @@ export interface GetProductsResult {
   products: ProductForDisplay[];
   nextCursor: number | null;
   hasMore: boolean;
+  totalCount: number;
 }
 
 export async function getProducts({
@@ -34,7 +35,7 @@ export async function getProducts({
 }: GetProductsParams): Promise<GetProductsResult> {
   const supabase = await createClient();
 
-  let query = supabase.from('product_full_details').select('*');
+  let query = supabase.from('product_full_details').select('*', { count: 'exact' });
 
   // Apply single category filter
   if (category) {
@@ -85,7 +86,7 @@ export async function getProducts({
   // Apply pagination using offset
   query = query.range(cursor, cursor + limit - 1);
 
-  const { data: rawProducts, error } = await query;
+  const { data: rawProducts, error, count } = await query;
 
   if (error) {
     console.error('Error fetching products:', error);
@@ -125,5 +126,6 @@ export async function getProducts({
     products,
     nextCursor,
     hasMore,
+    totalCount: count ?? 0,
   };
 }

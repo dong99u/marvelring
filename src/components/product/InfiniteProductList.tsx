@@ -2,6 +2,7 @@
 
 import { useInfiniteProducts } from '@/hooks/useInfiniteProducts';
 import ProductGrid from './ProductGrid';
+import ProductListHeader from './ProductListHeader';
 import ProductSkeleton from './ProductSkeleton';
 import EmptyState from './EmptyState';
 
@@ -24,7 +25,7 @@ export default function InfiniteProductList({
   isSale,
   sort = 'latest',
 }: InfiniteProductListProps) {
-  const { products, isLoading, hasMore, error, observerTarget } =
+  const { products, isLoading, hasMore, error, observerTarget, totalCount } =
     useInfiniteProducts({
       category,
       categories,
@@ -51,6 +52,7 @@ export default function InfiniteProductList({
 
   return (
     <div>
+      <ProductListHeader title="" totalCount={totalCount} />
       <ProductGrid products={products} />
 
       {/* Loading skeletons */}

@@ -30,6 +30,7 @@ export function useInfiniteProducts({
   const [error, setError] = useState<Error | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   // loadMore function that doesn't depend on cursor/hasMore/isLoading from closure
@@ -72,6 +73,7 @@ export function useInfiniteProducts({
       setProducts((prev) => [...prev, ...result.products]);
       setHasMore(result.hasMore);
       setCursor(result.nextCursor || 0);
+      setTotalCount(result.totalCount);
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error('Failed to load products')
@@ -114,6 +116,7 @@ export function useInfiniteProducts({
         setProducts(result.products);
         setHasMore(result.hasMore);
         setCursor(result.nextCursor || 0);
+        setTotalCount(result.totalCount);
       } catch (err) {
         setError(
           err instanceof Error ? err : new Error('Failed to load products')
@@ -156,5 +159,6 @@ export function useInfiniteProducts({
     loadMore,
     error,
     observerTarget,
+    totalCount,
   };
 }

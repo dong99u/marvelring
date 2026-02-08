@@ -3,7 +3,6 @@ import {
   InfiniteProductList,
   ProductFilters,
   ProductSortDropdown,
-  ProductListHeader,
   FilterSkeleton,
 } from '@/components/product';
 
@@ -35,7 +34,6 @@ export default async function FashionPage({
         </div>
       </aside>
       <div className="flex-1 pl-0 md:pl-8">
-        <ProductListHeader title="" totalCount={0} />
         <InfiniteProductList
           key={filterKey}
           category={params.category}
