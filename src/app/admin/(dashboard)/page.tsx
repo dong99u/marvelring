@@ -65,7 +65,7 @@ export default async function AdminDashboardPage() {
     supabase.from('collection').select('*', { count: 'exact', head: true }),
     supabase
       .from('member')
-      .select('id, username, email, business_type, created_at')
+      .select('member_id, username, email, business_type, created_at')
       .eq('approval_status', 'PENDING')
       .order('created_at', { ascending: false })
       .limit(5),
@@ -137,7 +137,7 @@ export default async function AdminDashboardPage() {
           <div className="space-y-3">
             {recentPending.map((member) => (
               <div
-                key={member.id}
+                key={member.member_id}
                 className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <div className="flex-1">

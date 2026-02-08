@@ -180,9 +180,12 @@ export default async function AdminUsersPage({
                   <tr key={member.member_id} className="hover:bg-gray-50 transition-colors">
                     {/* Username */}
                     <td className="px-4 py-4">
-                      <div className="text-sm font-medium text-gray-900">
+                      <Link
+                        href={`/admin/users/${member.member_id}`}
+                        className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                      >
                         {member.username}
-                      </div>
+                      </Link>
                     </td>
 
                     {/* Email */}
@@ -225,16 +228,15 @@ export default async function AdminUsersPage({
                     {/* Actions */}
                     <td className="px-4 py-4">
                       <div className="flex gap-2 justify-center">
-                        {member.approval_status === 'PENDING' ? (
+                        {member.approval_status === 'PENDING' && (
                           <ApprovalActions memberId={member.member_id} inline />
-                        ) : (
-                          <Link
-                            href={`/admin/users/${member.member_id}`}
-                            className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
-                          >
-                            상세보기
-                          </Link>
                         )}
+                        <Link
+                          href={`/admin/users/${member.member_id}`}
+                          className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+                        >
+                          상세보기
+                        </Link>
                       </div>
                     </td>
                   </tr>

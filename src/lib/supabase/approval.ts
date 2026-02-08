@@ -27,8 +27,11 @@ export interface MemberData {
   company_name: string | null
   ceo_name: string | null
   biz_reg_num: string | null
+  biz_reg_image_url: string | null
   business_type: 'WHOLESALE' | 'RETAIL'
   approval_status: ApprovalStatus
+  approved_at: string | null
+  rejected_reason: string | null
   zip_code: string | null
   main_address: string | null
   detail_address: string | null
