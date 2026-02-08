@@ -4,15 +4,13 @@ import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const categories = [
-  { id: 'ring', label: '반지' },
-  { id: 'necklace', label: '목걸이' },
-  { id: 'earring', label: '귀걸이' },
-  { id: 'bracelet', label: '팔찌' },
-];
-
 interface Collection {
   brand_name: string;
+  slug: string;
+}
+
+interface Category {
+  category_name: string;
   slug: string;
 }
 
@@ -20,9 +18,10 @@ type SubNavType = 'collections' | 'fashion' | null;
 
 interface NavigationProps {
   collections: Collection[];
+  categories: Category[];
 }
 
-export default function Navigation({ collections }: NavigationProps) {
+export default function Navigation({ collections, categories }: NavigationProps) {
   const pathname = usePathname();
   const [activeSubNav, setActiveSubNav] = useState<SubNavType>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -127,15 +126,19 @@ export default function Navigation({ collections }: NavigationProps) {
 
             {activeSubNav === 'fashion' && (
               <>
-                {categories.map((category) => (
-                  <Link
-                    key={category.id}
-                    href={`/fashion?category=${category.id}`}
-                    className="text-sm text-charcoal-light/70 hover:text-gold-muted transition-colors whitespace-nowrap"
-                  >
-                    {category.label}
-                  </Link>
-                ))}
+                {categories.length > 0 ? (
+                  categories.map((category) => (
+                    <Link
+                      key={category.slug}
+                      href={`/fashion?category=${category.slug}`}
+                      className="text-sm text-charcoal-light/70 hover:text-gold-muted transition-colors whitespace-nowrap"
+                    >
+                      {category.category_name}
+                    </Link>
+                  ))
+                ) : (
+                  <div className="text-sm text-charcoal-light/60">No categories available</div>
+                )}
               </>
             )}
           </div>
