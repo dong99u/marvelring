@@ -37,5 +37,5 @@ supabase/.temp/
 # OS specific
 .DS_Store
 
-# Misplaced files
-Users/
+# Misplaced absolute path files
+/Users/
