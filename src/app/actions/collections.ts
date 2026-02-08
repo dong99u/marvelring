@@ -59,7 +59,7 @@ export async function updateCollectionAction(
       logo_url: formData.logo_url || null,
       display_order: formData.display_order,
     })
-    .eq('id', collectionId)
+    .eq('collection_id', collectionId)
     .select()
     .single()
 
@@ -93,7 +93,7 @@ export async function deleteCollectionAction(collectionId: string) {
   const { error } = await supabase
     .from('collection')
     .delete()
-    .eq('id', collectionId)
+    .eq('collection_id', collectionId)
 
   if (error) {
     return { success: false, error: error.message }

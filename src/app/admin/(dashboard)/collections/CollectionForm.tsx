@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react'
 import { createCollectionAction, updateCollectionAction } from '@/app/actions/collections'
 
 type Collection = {
-  id: string
+  collection_id: string
   brand_name: string
   slug: string
   logo_url: string | null
@@ -51,7 +51,7 @@ export function CollectionForm({ collection, onClose }: CollectionFormProps) {
 
     try {
       const result = isEditing
-        ? await updateCollectionAction(collection.id, formData)
+        ? await updateCollectionAction(collection.collection_id, formData)
         : await createCollectionAction(formData)
 
       if (result.error) {

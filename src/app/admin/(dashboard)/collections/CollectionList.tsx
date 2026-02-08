@@ -11,7 +11,7 @@ import { CollectionForm } from './CollectionForm'
 import { deleteCollectionAction } from '@/app/actions/collections'
 
 type Collection = {
-  id: string
+  collection_id: string
   brand_name: string
   slug: string
   logo_url: string | null
@@ -99,7 +99,7 @@ export function CollectionList({ collections }: CollectionListProps) {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {collections.map((collection) => (
-                <tr key={collection.id} className="hover:bg-gray-50">
+                <tr key={collection.slug} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     {collection.logo_url ? (
                       <div className="relative w-12 h-12">
@@ -144,11 +144,11 @@ export function CollectionList({ collections }: CollectionListProps) {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(collection.id, collection.brand_name)}
-                      disabled={deletingId === collection.id}
+                      onClick={() => handleDelete(collection.collection_id, collection.brand_name)}
+                      disabled={deletingId === collection.collection_id}
                       className="text-red-600 hover:text-red-900 disabled:opacity-50"
                     >
-                      {deletingId === collection.id ? 'Deleting...' : 'Delete'}
+                      {deletingId === collection.collection_id ? 'Deleting...' : 'Delete'}
                     </button>
                   </td>
                 </tr>
