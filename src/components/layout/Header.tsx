@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Search, Diamond, Heart } from 'lucide-react';
 import MobileNav from './MobileNav';
 import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/components/ui/ToastProvider';
 
 interface Collection {
   brand_name: string;
@@ -23,24 +22,8 @@ interface HeaderProps {
 }
 
 export default function Header({ collections, categories }: HeaderProps) {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  const { showToast } = useToast();
-
-  const handleAuthClick = async () => {
-    if (user) {
-      try {
-        await signOut();
-        // Hard redirect to fully reset all server/client state
-        window.location.href = '/';
-      } catch (error) {
-        console.error('Logout failed:', error);
-        showToast('로그아웃에 실패했습니다', 'error');
-      }
-    } else {
-      router.push('/login');
-    }
-  };
 
   return (
     <header className="sticky top-0 flex items-center justify-between bg-white px-4 md:px-6 lg:px-10 py-4 md:py-6 z-50 border-b border-gray-100">
@@ -65,12 +48,24 @@ export default function Header({ collections, categories }: HeaderProps) {
         >
           파트너십 안내
         </Link>
-        <button
-          onClick={handleAuthClick}
-          className="min-h-12 flex items-center text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light transition-colors"
-        >
-          {user ? '로그아웃' : '로그인'}
-        </button>
+        {user ? (
+          <form action="/auth/signout" method="post">
+            <input type="hidden" name="redirect" value="/" />
+            <button
+              type="submit"
+              className="min-h-12 flex items-center text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light transition-colors"
+            >
+              로그아웃
+            </button>
+          </form>
+        ) : (
+          <button
+            onClick={() => router.push('/login')}
+            className="min-h-12 flex items-center text-[12px] font-semibold tracking-widest text-charcoal-light/40 hover:text-charcoal-light transition-colors"
+          >
+            로그인
+          </button>
+        )}
         {user && (
           <Link
             href="/mypage/wishlist"

@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/components/ui/ToastProvider';
 
 interface Collection {
   brand_name: string;
@@ -35,25 +34,8 @@ interface MobileNavProps {
 export default function MobileNav({ collections, categories }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  const { showToast } = useToast();
-
-  const handleAuthClick = async () => {
-    setIsOpen(false);
-    if (user) {
-      try {
-        await signOut();
-        // Hard redirect to fully reset all server/client state
-        window.location.href = '/';
-      } catch (error) {
-        console.error('Logout failed:', error);
-        showToast('로그아웃에 실패했습니다', 'error');
-      }
-    } else {
-      router.push('/login');
-    }
-  };
 
   const toggleSection = (title: string) => {
     setExpandedSection(expandedSection === title ? null : title);
@@ -205,12 +187,27 @@ export default function MobileNav({ collections, categories }: MobileNavProps) {
             >
               파트너십 안내
             </Link>
-            <button
-              onClick={handleAuthClick}
-              className="block w-full min-h-12 px-4 py-3 text-center text-sm font-semibold tracking-widest text-white bg-charcoal-light hover:bg-charcoal-hover rounded"
-            >
-              {user ? '로그아웃' : '로그인'}
-            </button>
+            {user ? (
+              <form action="/auth/signout" method="post">
+                <input type="hidden" name="redirect" value="/" />
+                <button
+                  type="submit"
+                  className="block w-full min-h-12 px-4 py-3 text-center text-sm font-semibold tracking-widest text-white bg-charcoal-light hover:bg-charcoal-hover rounded"
+                >
+                  로그아웃
+                </button>
+              </form>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  router.push('/login');
+                }}
+                className="block w-full min-h-12 px-4 py-3 text-center text-sm font-semibold tracking-widest text-white bg-charcoal-light hover:bg-charcoal-hover rounded"
+              >
+                로그인
+              </button>
+            )}
           </div>
         </div>
       </div>

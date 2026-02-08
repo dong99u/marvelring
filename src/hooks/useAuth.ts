@@ -139,15 +139,18 @@ export function useAuth() {
   }, [])
 
   const signOut = useCallback(async () => {
-    // Clear local state first to ensure UI updates immediately
     setUser(null)
     setMember(null)
 
-    // Clear client-side session (localStorage, in-memory tokens)
-    await supabase.auth.signOut({ scope: 'local' })
-
-    // Call server-side API to clear httpOnly cookies
+    // Server clears cookies first (while browser still sends them with request)
     await fetch('/api/auth/logout', { method: 'POST' })
+
+    // Client cleanup - don't throw if session already gone
+    try {
+      await supabase.auth.signOut({ scope: 'local' })
+    } catch {
+      // Server already cleared session, safe to ignore
+    }
   }, [supabase])
 
   return {
