@@ -21,7 +21,9 @@ export async function POST(request: Request) {
     // Upload file to storage
     const arrayBuffer = await file.arrayBuffer()
     const uint8Array = new Uint8Array(arrayBuffer)
-    const fileName = `${productId}/${Date.now()}-${file.name}`
+    // Sanitize filename: extract extension, use timestamp as name
+    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
+    const fileName = `${productId}/${Date.now()}.${ext}`
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('product-images')
