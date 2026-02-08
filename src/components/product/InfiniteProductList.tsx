@@ -16,6 +16,7 @@ interface InfiniteProductListProps {
   sort?: 'latest' | 'name';
   pureGoldOnly?: boolean;
   excludePureGold?: boolean;
+  requireCollection?: boolean;
 }
 
 export default function InfiniteProductList({
@@ -28,6 +29,7 @@ export default function InfiniteProductList({
   sort = 'latest',
   pureGoldOnly,
   excludePureGold,
+  requireCollection,
 }: InfiniteProductListProps) {
   const { products, isLoading, hasMore, error, observerTarget, totalCount } =
     useInfiniteProducts({
@@ -40,6 +42,7 @@ export default function InfiniteProductList({
       sort,
       pureGoldOnly,
       excludePureGold,
+      requireCollection,
       pageSize: 24,
     });
 

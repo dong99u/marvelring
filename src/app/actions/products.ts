@@ -14,6 +14,7 @@ export interface GetProductsParams {
   isSale?: boolean;
   excludePureGold?: boolean;
   pureGoldOnly?: boolean;
+  requireCollection?: boolean;
   sort?: 'latest' | 'name';
 }
 
@@ -35,6 +36,7 @@ export async function getProducts({
   isSale,
   excludePureGold,
   pureGoldOnly,
+  requireCollection,
   sort = 'latest',
 }: GetProductsParams): Promise<GetProductsResult> {
   const supabase = await createClient();
@@ -88,6 +90,11 @@ export async function getProducts({
   // Show only pure gold products
   if (pureGoldOnly) {
     query = query.eq('is_pure_gold_only', true);
+  }
+
+  // Only show products that belong to a collection
+  if (requireCollection) {
+    query = query.not('collection_id', 'is', null);
   }
 
   // Apply sorting
