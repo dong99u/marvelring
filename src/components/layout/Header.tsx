@@ -7,7 +7,22 @@ import MobileNav from './MobileNav';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/ToastProvider';
 
-export default function Header() {
+interface Collection {
+  brand_name: string;
+  slug: string;
+}
+
+interface Category {
+  category_name: string;
+  slug: string;
+}
+
+interface HeaderProps {
+  collections: Collection[];
+  categories: Category[];
+}
+
+export default function Header({ collections, categories }: HeaderProps) {
   const { user, signOut } = useAuth();
   const router = useRouter();
   const { showToast } = useToast();
@@ -32,7 +47,7 @@ export default function Header() {
     <header className="sticky top-0 flex items-center justify-between bg-white px-4 md:px-6 lg:px-10 py-4 md:py-6 z-50 border-b border-gray-100">
       {/* Mobile Menu */}
       <div className="lg:hidden">
-        <MobileNav />
+        <MobileNav collections={collections} categories={categories} />
       </div>
 
       {/* Logo */}

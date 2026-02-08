@@ -14,7 +14,7 @@ export default async function MainLayout({
 
   return (
     <div className="relative flex min-h-screen w-full flex-col">
-      <Header />
+      <Header collections={collections ?? []} categories={categories ?? []} />
       <Navigation collections={collections ?? []} categories={categories ?? []} />
       <main className="flex-1">{children}</main>
       <Footer />
