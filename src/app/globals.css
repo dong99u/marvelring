@@ -126,37 +126,45 @@
     @apply border border-gray-100 flex flex-col items-start p-6 md:p-10 transition-all hover:bg-white hover:shadow-2xl hover:shadow-gray-200/50 hover:border-primary/20 bg-soft-ivory/30;
   }
 
-  /* Product Detail Page - Workbench Styles */
-  .workbench-step {
-    @apply border-b border-gray-100 py-5 flex items-start gap-4 transition-all hover:bg-soft-ivory/50 px-2;
+  /* Product Detail Page - Elegant Card-Based Styles */
+  .product-info-card {
+    @apply bg-soft-ivory/30 border border-gray-100 p-6 transition-all hover:shadow-lg hover:shadow-gray-200/30 hover:border-gold-muted/30;
   }
 
-  .step-number {
-    @apply text-[10px] font-bold text-gold-muted/40 w-5 mt-0.5 font-sans;
+  .product-info-card-title {
+    @apply text-[13px] font-bold text-charcoal-light uppercase tracking-[0.15em];
   }
 
-  .step-content {
-    @apply flex-1;
+  .product-info-label {
+    @apply text-[11px] font-bold text-charcoal-light/50 uppercase tracking-wider;
   }
 
-  .config-label {
-    @apply text-[10px] font-bold text-gold-muted uppercase tracking-[0.2em] mb-2 block;
+  .product-info-value {
+    @apply text-[20px] text-charcoal-light font-bold tracking-tight;
   }
 
-  .config-value {
-    @apply text-[14px] text-charcoal-light font-medium;
+  .product-info-sublabel {
+    @apply text-[10px] text-charcoal-light/40 font-light tracking-wide;
   }
 
-  .config-sub-value {
-    @apply text-[12px] text-charcoal-light/50 font-normal mt-0.5 leading-tight;
+  .product-info-detail-label {
+    @apply text-[13px] text-charcoal-light/70 font-medium;
   }
 
-  .price-summary-card {
-    @apply bg-charcoal-light text-white p-8 mt-10 shadow-2xl relative overflow-hidden;
+  .product-info-detail-value {
+    @apply text-[14px] text-charcoal-light font-bold;
   }
 
-  .spec-tag {
-    @apply text-[10px] font-bold text-charcoal-light/60 bg-gray-50 border border-gray-200 px-2 py-1 rounded-sm mr-1.5 inline-block;
+  .product-info-tag {
+    @apply text-[10px] font-bold text-charcoal-light/70 bg-white border border-gray-200 px-3 py-1.5 rounded-full transition-colors hover:bg-gold-muted/10 hover:border-gold-muted/30;
+  }
+
+  .price-summary-card-elegant {
+    @apply bg-gradient-to-br from-charcoal-light to-charcoal-deep text-white p-8 lg:p-10 mt-10 shadow-2xl shadow-charcoal-light/20 relative overflow-hidden;
+  }
+
+  .product-info-action-btn {
+    @apply border border-gray-200 hover:border-gold-muted hover:bg-soft-ivory/50 py-3 px-4 text-[11px] font-bold tracking-widest uppercase transition-all text-charcoal-light/70 hover:text-charcoal-light flex items-center justify-center gap-2;
   }
 
   .sub-nav-item {

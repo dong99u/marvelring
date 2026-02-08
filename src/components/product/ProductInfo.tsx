@@ -1,6 +1,6 @@
 /**
  * Product Info Component
- * Displays product specifications in step sections
+ * Displays product specifications with elegant card-based layout
  */
 
 import KakaoTalkButton from './KakaoTalkButton';
@@ -52,10 +52,10 @@ export default function ProductInfo({
   return (
     <div className="lg:col-span-5 flex flex-col h-full">
       {/* Header */}
-      <div className="mb-6">
-        <div className="flex justify-between items-start mb-2">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-3xl font-light text-charcoal-light tracking-tight">
+      <div className="mb-8">
+        <div className="flex justify-between items-start mb-3">
+          <div className="flex flex-col gap-3">
+            <h2 className="text-3xl lg:text-4xl font-light text-charcoal-light tracking-tight leading-tight">
               {product.product_name}
             </h2>
             <ProductBadges
@@ -63,158 +63,154 @@ export default function ProductInfo({
               isSale={product.is_sale}
             />
           </div>
-          <span className="text-[11px] font-bold text-charcoal-light/40 bg-gray-100 px-2 py-1 rounded whitespace-nowrap">
-            #{product.product_code}
-          </span>
+          <div className="flex flex-col items-end gap-1">
+            <span className="text-[9px] font-bold text-charcoal-light/30 uppercase tracking-widest">
+              Product Code
+            </span>
+            <span className="text-[13px] font-bold text-charcoal-light/50 font-mono">
+              {product.product_code}
+            </span>
+          </div>
         </div>
+
         {product.description && (
-          <>
-            <div className="flex items-center gap-4 border-b border-gray-100 pb-4 mb-4">
-              <span className="text-[13px] text-primary font-bold uppercase tracking-widest">
-                Description
-              </span>
-            </div>
-            <p className="text-[13px] text-charcoal-light/70 leading-relaxed font-light">
+          <div className="mt-6 pt-6 border-t border-gold-muted/20">
+            <p className="text-[14px] text-charcoal-light/75 leading-relaxed font-light">
               {product.description}
             </p>
-          </>
+          </div>
         )}
       </div>
 
-      {/* Step Sections */}
-      <div className="flex flex-col border-t border-gray-100">
-        {/* Step 01: Material & Weight - Dynamic from material_info or fallback to legacy */}
+      {/* Specification Cards */}
+      <div className="flex flex-col gap-4 mb-8">
+
+        {/* Material & Weight Card */}
         {(product.material_info && product.material_info.length > 0) ? (
-          <div className="workbench-step">
-            <span className="step-number">01</span>
-            <div className="step-content">
-              <span className="config-label">Material &amp; Weight</span>
-              <div className={`grid gap-8 ${product.material_info.length === 1 ? 'grid-cols-1' : product.material_info.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
-                {product.material_info.map((mat, index) => (
-                  <div key={mat.material_type} className={`flex flex-col gap-1 ${index > 0 ? 'border-l border-gray-100 pl-6' : ''}`}>
-                    <span className="text-[10px] text-charcoal-light/40 uppercase font-bold tracking-wider">
-                      {mat.material_type} Gold
-                    </span>
-                    <div className="config-value">
-                      {mat.weight ? `${mat.weight}g` : '-'}{' '}
-                      <span className="text-[11px] font-normal text-charcoal-light/40">
-                        (approx)
-                      </span>
-                    </div>
+          <div className="product-info-card">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="material-symbols-outlined text-gold-muted text-[20px]">
+                science
+              </span>
+              <h3 className="product-info-card-title">Material & Weight</h3>
+            </div>
+            <div className={`grid gap-6 ${product.material_info.length === 1 ? 'grid-cols-1' : product.material_info.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+              {product.material_info.map((mat, index) => (
+                <div key={mat.material_type} className={`flex flex-col gap-2 ${index > 0 ? 'border-l border-gray-200 pl-6' : ''}`}>
+                  <span className="product-info-label">
+                    {mat.material_type} Gold
+                  </span>
+                  <div className="product-info-value">
+                    {mat.weight ? `${mat.weight}g` : '-'}
                   </div>
-                ))}
-              </div>
+                  <span className="product-info-sublabel">
+                    approximate weight
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         ) : product.weight ? (
-          <div className="workbench-step">
-            <span className="step-number">01</span>
-            <div className="step-content">
-              <span className="config-label">Material &amp; Weight</span>
-              <div className="grid grid-cols-2 gap-8">
-                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] text-charcoal-light/40 uppercase font-bold tracking-wider">
-                    14K Gold
-                  </span>
-                  <div className="config-value">
-                    {product.weight}g{' '}
-                    <span className="text-[11px] font-normal text-charcoal-light/40">
-                      (approx)
-                    </span>
-                  </div>
+          <div className="product-info-card">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="material-symbols-outlined text-gold-muted text-[20px]">
+                science
+              </span>
+              <h3 className="product-info-card-title">Material & Weight</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="flex flex-col gap-2">
+                <span className="product-info-label">14K Gold</span>
+                <div className="product-info-value">{product.weight}g</div>
+                <span className="product-info-sublabel">approximate weight</span>
+              </div>
+              <div className="flex flex-col gap-2 border-l border-gray-200 pl-6">
+                <span className="product-info-label">18K Gold</span>
+                <div className="product-info-value">
+                  {(product.weight * 1.52).toFixed(1)}g
                 </div>
-                <div className="flex flex-col gap-1 border-l border-gray-100 pl-6">
-                  <span className="text-[10px] text-charcoal-light/40 uppercase font-bold tracking-wider">
-                    18K Gold
-                  </span>
-                  <div className="config-value">
-                    {(product.weight * 1.52).toFixed(1)}g{' '}
-                    <span className="text-[11px] font-normal text-charcoal-light/40">
-                      (approx)
-                    </span>
-                  </div>
-                </div>
+                <span className="product-info-sublabel">approximate weight</span>
               </div>
             </div>
           </div>
         ) : null}
 
-        {/* Step 02: Size & Diamonds */}
+        {/* Size & Diamonds Card */}
         {(displaySize || diamondInfo) && (
-          <div className="workbench-step">
-            <span className="step-number">02</span>
-            <div className="step-content">
-              <span className="config-label">Size &amp; Diamonds</span>
-              <div className="grid grid-cols-1 gap-3">
-                {displaySize && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+          <div className="product-info-card">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="material-symbols-outlined text-gold-muted text-[20px]">
+                {displaySize ? 'ring_volume' : 'diamond'}
+              </span>
+              <h3 className="product-info-card-title">
+                {displaySize && diamondInfo ? 'Size & Diamonds' : displaySize ? 'Ring Size' : 'Diamond Details'}
+              </h3>
+            </div>
+            <div className="flex flex-col gap-4">
+              {displaySize && (
+                <div className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-soft-ivory flex items-center justify-center">
                       <span className="material-symbols-outlined text-gold-muted text-[16px]">
                         ring_volume
                       </span>
-                      <span className="text-[13px] text-charcoal-light font-medium">
-                        Ring Size (호수)
-                      </span>
                     </div>
-                    <span className="text-[13px] font-bold text-charcoal-light">
-                      {displaySize}
-                    </span>
+                    <span className="product-info-detail-label">Ring Size (호수)</span>
                   </div>
-                )}
-                {diamondInfo &&
-                  (diamondInfo.diamond_size || diamondInfo.diamond_amount) && (
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                  <span className="product-info-detail-value">{displaySize}</span>
+                </div>
+              )}
+              {diamondInfo &&
+                (diamondInfo.diamond_size || diamondInfo.diamond_amount) && (
+                  <div className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-soft-ivory flex items-center justify-center">
                         <span className="material-symbols-outlined text-gold-muted text-[16px]">
                           diamond
                         </span>
-                        <span className="text-[13px] text-charcoal-light font-medium">
-                          Diamond Info
-                        </span>
                       </div>
-                      <span className="text-[13px] font-bold text-charcoal-light">
-                        {diamondInfo.diamond_amount}ea / {diamondInfo.diamond_size}
-                      </span>
+                      <span className="product-info-detail-label">Diamond Info</span>
                     </div>
-                  )}
-              </div>
+                    <span className="product-info-detail-value">
+                      {diamondInfo.diamond_amount}ea / {diamondInfo.diamond_size}
+                    </span>
+                  </div>
+                )}
             </div>
           </div>
         )}
 
-        {/* Step 03: Detailed Costs */}
-        {(product.base_labor_cost || product.stone_setting_cost) && (
-          <div className="workbench-step">
-            <span className="step-number">03</span>
-            <div className="step-content">
-              <span className="config-label">Detailed Costs</span>
-              <div className="grid grid-cols-2 gap-y-2 mb-3 bg-gray-50/50 p-3 rounded-sm">
-                {product.base_labor_cost && (
-                  <>
-                    <div className="text-[12px] text-charcoal-light/60">
-                      기본공임비
-                    </div>
-                    <div className="text-[12px] font-bold text-right text-charcoal-light">
-                      {product.base_labor_cost.toLocaleString()}원
-                    </div>
-                  </>
-                )}
-                {product.stone_setting_cost && (
-                  <>
-                    <div className="text-[12px] text-charcoal-light/60">
-                      알공임비 (Setting)
-                    </div>
-                    <div className="text-[12px] font-bold text-right text-charcoal-light">
-                      {product.stone_setting_cost.toLocaleString()}원
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="flex justify-between items-center px-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal-light/40">
+        {/* Labor Costs Card - ONLY VISIBLE TO APPROVED USERS */}
+        {isLoggedIn && isApproved && (product.base_labor_cost || product.stone_setting_cost) && (
+          <div className="product-info-card bg-soft-ivory/50 border-gold-muted/20">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="material-symbols-outlined text-gold-muted text-[20px]">
+                construction
+              </span>
+              <h3 className="product-info-card-title">Labor Costs</h3>
+            </div>
+            <div className="flex flex-col gap-3">
+              {product.base_labor_cost && (
+                <div className="flex items-center justify-between py-2">
+                  <span className="product-info-detail-label">기본공임비</span>
+                  <span className="product-info-detail-value">
+                    {product.base_labor_cost.toLocaleString()}원
+                  </span>
+                </div>
+              )}
+              {product.stone_setting_cost && (
+                <div className="flex items-center justify-between py-2">
+                  <span className="product-info-detail-label">알공임비 (Setting)</span>
+                  <span className="product-info-detail-value">
+                    {product.stone_setting_cost.toLocaleString()}원
+                  </span>
+                </div>
+              )}
+              <div className="flex items-center justify-between pt-3 mt-2 border-t border-gold-muted/20">
+                <span className="text-[12px] font-bold uppercase tracking-wider text-charcoal-light/50">
                   Total Labor Cost
                 </span>
-                <span className="text-[14px] font-bold text-gold-muted">
+                <span className="text-[18px] font-bold text-gold-muted">
                   {totalLaborCost.toLocaleString()}원
                 </span>
               </div>
@@ -222,52 +218,56 @@ export default function ProductInfo({
           </div>
         )}
 
-        {/* Step 04: Special Notes */}
-        <div className="workbench-step border-none pb-0">
-          <span className="step-number">04</span>
-          <div className="step-content">
-            <span className="config-label">Special Notes</span>
-            <div className="mb-2">
-              <span className="spec-tag">각인비 포함</span>
-              <span className="spec-tag">도금비 별도</span>
-              <span className="spec-tag">주문 제작</span>
+        {/* Additional Information */}
+        {product.additional_information && (
+          <div className="product-info-card bg-white border-gray-200">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="material-symbols-outlined text-gold-muted text-[20px]">
+                info
+              </span>
+              <h3 className="product-info-card-title">추가 사항</h3>
             </div>
-            {product.additional_information && (
-              <p className="text-[11px] text-charcoal-light/50 leading-relaxed italic">
-                {product.additional_information}
-              </p>
-            )}
+            <p className="text-[13px] text-charcoal-light/70 leading-relaxed">
+              {product.additional_information}
+            </p>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Price Summary Card */}
-      <div className="price-summary-card">
-        <div className="absolute -right-10 -top-10 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-        <div className="flex flex-col gap-1 relative z-10">
-          <div className="flex justify-between items-end">
-            <div className="flex flex-col">
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-1">
-                Total Price
-              </span>
-              <span className="text-md font-light text-white/80">
-                총 제품 가격
-              </span>
-            </div>
-            <div className="text-right">
-              {isLoggedIn && isApproved && product.price !== null ? (
-                <span className="text-[32px] font-bold tracking-tight text-white leading-none">
-                  {product.price.toLocaleString()}원
+      <div className="price-summary-card-elegant">
+        <div className="absolute -right-10 -top-10 w-32 h-32 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-gold-muted/10 rounded-full blur-3xl"></div>
+        <div className="flex flex-col gap-3 relative z-10">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="material-symbols-outlined text-primary text-[24px]">
+              payments
+            </span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-primary">
+              Total Price
+            </span>
+          </div>
+          <div className="flex flex-col gap-1">
+            {isLoggedIn && isApproved && product.price !== null ? (
+              <>
+                <span className="text-[36px] lg:text-[42px] font-bold tracking-tight text-white leading-none">
+                  {product.price.toLocaleString()}
+                  <span className="text-[20px] font-light ml-1">원</span>
                 </span>
-              ) : (
-                <p className="text-[14px] text-white/70 italic">
+                <span className="text-[13px] font-light text-white/60 mt-1">
+                  총 제품 가격
+                </span>
+              </>
+            ) : (
+              <div className="py-4">
+                <p className="text-[15px] text-white/80 font-light leading-relaxed">
                   가격은 로그인 후 확인하실 수 있습니다
                 </p>
-              )}
-            </div>
+              </div>
+            )}
           </div>
-          <p className="text-[10px] text-white/30 text-right mt-2 tracking-wide">
-            * 금 시세 및 옵션 선택에 따라 최종 금액은 변동될 수 있습니다.
+          <p className="text-[10px] text-white/40 mt-3 pt-3 border-t border-white/10 tracking-wide leading-relaxed">
+            금 시세 및 옵션 선택에 따라 최종 금액은 변동될 수 있습니다.
           </p>
         </div>
       </div>
@@ -280,8 +280,11 @@ export default function ProductInfo({
           isApproved={isApproved}
         />
         <div className="grid grid-cols-2 gap-3">
-          <button className="border border-gray-200 hover:border-gold-muted py-3 text-[11px] font-bold tracking-widest uppercase transition-colors text-charcoal-light/60">
-            스펙시트 다운로드
+          <button className="product-info-action-btn">
+            <span className="material-symbols-outlined text-[16px]">
+              download
+            </span>
+            <span>스펙시트</span>
           </button>
           <WishlistButton productId={productId} isLoggedIn={isLoggedIn} />
         </div>
