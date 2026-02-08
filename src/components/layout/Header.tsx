@@ -31,9 +31,8 @@ export default function Header({ collections, categories }: HeaderProps) {
     if (user) {
       try {
         await signOut();
-        showToast('로그아웃 되었습니다', 'success');
-        router.refresh();
-        router.push('/');
+        // Hard redirect to fully reset all server/client state
+        window.location.href = '/';
       } catch (error) {
         console.error('Logout failed:', error);
         showToast('로그아웃에 실패했습니다', 'error');
