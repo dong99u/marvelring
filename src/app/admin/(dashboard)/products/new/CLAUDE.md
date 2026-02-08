@@ -7,5 +7,6 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #1881 | 11:06 PM | 🔵 | Complete Upload Size Limit Architecture Confirmed | ~411 |
 | #1874 | 11:04 PM | 🔵 | Product Image Upload Uses Per-File Size Validation | ~409 |
 </claude-mem-context>

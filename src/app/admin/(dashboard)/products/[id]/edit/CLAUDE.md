@@ -7,5 +7,6 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #1881 | 11:06 PM | 🔵 | Complete Upload Size Limit Architecture Confirmed | ~411 |
 | #1875 | 11:04 PM | 🔵 | Product Edit Form Confirms Per-File Size Validation | ~350 |
 </claude-mem-context>
