@@ -24,6 +24,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "마블링 B2B | 사업자 맞춤형 서비스 허브",
   description: "사업자를 위한 맞춤형 서비스 허브",
+  authors: [{ name: "박동규", url: "https://dong99u.github.io/" }],
 };
 
 export default function RootLayout({
