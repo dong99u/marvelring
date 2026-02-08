@@ -643,3 +643,82 @@ export async function fetchProductDiamondInfo(productId: number) {
     }
   }
 }
+
+// ============================================================================
+// PRODUCT IMAGES
+// ============================================================================
+
+/**
+ * Fetch product images by product ID
+ */
+export async function fetchProductImages(productId: number) {
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('product_image')
+      .select('id, product_id, image_url, title, description, display_order, is_main')
+      .eq('product_id', productId)
+      .order('display_order', { ascending: true })
+
+    if (error) {
+      return { success: false as const, error: error.message }
+    }
+
+    return { success: true as const, data: data || [] }
+  } catch (error) {
+    return {
+      success: false as const,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+    }
+  }
+}
+
+/**
+ * Delete a product image (removes from storage and database)
+ */
+export async function deleteProductImage(imageId: number): Promise<ActionResult<void>> {
+  try {
+    const supabase = await createClient()
+
+    // First get the image record to find the storage path
+    const { data: image, error: fetchError } = await supabase
+      .from('product_image')
+      .select('image_url')
+      .eq('id', imageId)
+      .single()
+
+    if (fetchError || !image) {
+      return { success: false, error: 'Image not found' }
+    }
+
+    // Extract storage path from URL
+    const url = new URL(image.image_url)
+    const pathMatch = url.pathname.match(/\/storage\/v1\/object\/public\/product-images\/(.+)/)
+    if (pathMatch) {
+      // Use admin client for storage deletion (bypasses RLS)
+      const { createAdminClient } = await import('@/lib/supabase/admin')
+      const adminSupabase = createAdminClient()
+      await adminSupabase.storage.from('product-images').remove([pathMatch[1]])
+    }
+
+    // Delete database record
+    const { error: deleteError } = await supabase
+      .from('product_image')
+      .delete()
+      .eq('id', imageId)
+
+    if (deleteError) {
+      return { success: false, error: deleteError.message }
+    }
+
+    revalidatePath('/admin/products')
+    revalidatePath('/products')
+
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+    }
+  }
+}

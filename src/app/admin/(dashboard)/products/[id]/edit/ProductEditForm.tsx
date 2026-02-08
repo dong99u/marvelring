@@ -7,12 +7,22 @@
 
 import React, { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { updateProduct } from '@/app/actions/admin'
+import { updateProduct, deleteProductImage } from '@/app/actions/admin'
 import type { Product, Category, Collection } from '@/types/database'
 
 interface ProductWithRelations extends Product {
   category: Category | null
   collection: Collection | null
+}
+
+interface ProductImage {
+  id: number
+  product_id: number
+  image_url: string
+  title: string | null
+  description: string | null
+  display_order: number
+  is_main: boolean
 }
 
 interface ProductEditFormProps {
@@ -21,6 +31,7 @@ interface ProductEditFormProps {
   collections: Collection[]
   materialInfo: Array<{ material_type: string; weight: number | null }>
   diamondInfo: Array<{ diamond_size: number; diamond_amount: number }>
+  productImages: ProductImage[]
 }
 
 export default function ProductEditForm({
@@ -29,6 +40,7 @@ export default function ProductEditForm({
   collections,
   materialInfo,
   diamondInfo,
+  productImages,
 }: ProductEditFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -53,6 +65,33 @@ export default function ProductEditForm({
     }))
   )
 
+  const [existingImages, setExistingImages] = useState<ProductImage[]>(productImages)
+  const [newImageFiles, setNewImageFiles] = useState<File[]>([])
+  const [newImagePreviews, setNewImagePreviews] = useState<string[]>([])
+  const [deletedImageIds, setDeletedImageIds] = useState<number[]>([])
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    const validFiles = files.filter(
+      (file) => file.size <= 20 * 1024 * 1024 && file.type.startsWith('image/')
+    )
+
+    const newPreviews = validFiles.map((file) => URL.createObjectURL(file))
+    setNewImageFiles((prev) => [...prev, ...validFiles])
+    setNewImagePreviews((prev) => [...prev, ...newPreviews])
+  }
+
+  const removeNewImage = (index: number) => {
+    URL.revokeObjectURL(newImagePreviews[index])
+    setNewImageFiles((prev) => prev.filter((_, i) => i !== index))
+    setNewImagePreviews((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const removeExistingImage = (imageId: number) => {
+    setDeletedImageIds((prev) => [...prev, imageId])
+    setExistingImages((prev) => prev.filter((img) => img.id !== imageId))
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
@@ -63,6 +102,26 @@ export default function ProductEditForm({
       const result = await updateProduct(product.product_id, formData)
 
       if (result.success) {
+        // Delete removed images
+        for (const imageId of deletedImageIds) {
+          await deleteProductImage(imageId)
+        }
+
+        // Upload new images
+        const startOrder = existingImages.length
+        for (let i = 0; i < newImageFiles.length; i++) {
+          const uploadFormData = new FormData()
+          uploadFormData.append('file', newImageFiles[i])
+          uploadFormData.append('productId', String(product.product_id))
+          uploadFormData.append('displayOrder', String(startOrder + i))
+          uploadFormData.append('isMain', 'false')
+
+          await fetch('/api/admin/products/upload', {
+            method: 'POST',
+            body: uploadFormData,
+          })
+        }
+
         router.push('/admin/products')
         router.refresh()
       } else {
@@ -472,6 +531,93 @@ export default function ProductEditForm({
               )}
             </React.Fragment>
           ))}
+
+          {/* 상품 이미지 */}
+          <div className="pt-4">
+            <h3 className="text-base font-semibold mb-2">상품 이미지</h3>
+            <p className="text-sm text-gray-500 mb-4">
+              상품 이미지를 관리하세요. (최대 20MB, JPG/PNG/WebP)
+            </p>
+
+            {/* Existing images */}
+            {existingImages.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                {existingImages.map((image) => (
+                  <div key={image.id} className="relative group">
+                    <div className={`aspect-square rounded-lg overflow-hidden border-2 ${
+                      image.is_main ? 'border-blue-500' : 'border-gray-200'
+                    }`}>
+                      <img
+                        src={image.image_url}
+                        alt={image.title || '상품 이미지'}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute top-2 right-2">
+                      <button
+                        type="button"
+                        onClick={() => removeExistingImage(image.id)}
+                        className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        X
+                      </button>
+                    </div>
+                    {image.is_main && (
+                      <span className="mt-1 block w-full text-xs py-1 text-center bg-blue-500 text-white rounded">
+                        대표 이미지
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* New image previews */}
+            {newImagePreviews.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                {newImagePreviews.map((preview, index) => (
+                  <div key={`new-${index}`} className="relative group">
+                    <div className="aspect-square rounded-lg overflow-hidden border-2 border-dashed border-green-300">
+                      <img
+                        src={preview}
+                        alt={`새 이미지 ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute top-2 right-2">
+                      <button
+                        type="button"
+                        onClick={() => removeNewImage(index)}
+                        className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        X
+                      </button>
+                    </div>
+                    <span className="mt-1 block w-full text-xs py-1 text-center bg-green-100 text-green-700 rounded">
+                      새 이미지
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <label className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
+              + 이미지 추가
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                multiple
+                onChange={handleImageSelect}
+                className="hidden"
+                disabled={isPending}
+              />
+            </label>
+            {(existingImages.length + newImageFiles.length) > 0 && (
+              <span className="ml-3 text-sm text-gray-500">
+                총 {existingImages.length + newImageFiles.length}개
+              </span>
+            )}
+          </div>
 
           {/* Description */}
           <div>

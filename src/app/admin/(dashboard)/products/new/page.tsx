@@ -44,6 +44,9 @@ export default function NewProductPage() {
   })
 
   const [diamondRows, setDiamondRows] = useState<Array<{ size: string; amount: string }>>([])
+  const [imageFiles, setImageFiles] = useState<File[]>([])
+  const [imagePreviews, setImagePreviews] = useState<string[]>([])
+  const [mainImageIndex, setMainImageIndex] = useState<number>(0)
 
   // Options state
   const [categories, setCategories] = useState<Category[]>([])
@@ -95,6 +98,32 @@ export default function NewProductPage() {
       setFormData((prev) => ({ ...prev, [name]: checked }))
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }))
+    }
+  }
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    const validFiles = files.filter(
+      (file) => file.size <= 20 * 1024 * 1024 && file.type.startsWith('image/')
+    )
+
+    if (validFiles.length !== files.length) {
+      setError('일부 파일이 제외되었습니다. (20MB 이하 이미지만 가능)')
+    }
+
+    const newPreviews = validFiles.map((file) => URL.createObjectURL(file))
+    setImageFiles((prev) => [...prev, ...validFiles])
+    setImagePreviews((prev) => [...prev, ...newPreviews])
+  }
+
+  const removeImage = (index: number) => {
+    URL.revokeObjectURL(imagePreviews[index])
+    setImageFiles((prev) => prev.filter((_, i) => i !== index))
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index))
+    if (mainImageIndex === index) {
+      setMainImageIndex(0)
+    } else if (mainImageIndex > index) {
+      setMainImageIndex((prev) => prev - 1)
     }
   }
 
@@ -177,6 +206,27 @@ export default function NewProductPage() {
         setError(result.error || 'Failed to create product')
         setIsSubmitting(false)
         return
+      }
+
+      // Upload images if any
+      if (imageFiles.length > 0 && result.data) {
+        const productId = result.data.product_id
+        for (let i = 0; i < imageFiles.length; i++) {
+          const uploadFormData = new FormData()
+          uploadFormData.append('file', imageFiles[i])
+          uploadFormData.append('productId', String(productId))
+          uploadFormData.append('displayOrder', String(i))
+          uploadFormData.append('isMain', String(i === mainImageIndex))
+
+          const uploadResponse = await fetch('/api/admin/products/upload', {
+            method: 'POST',
+            body: uploadFormData,
+          })
+
+          if (!uploadResponse.ok) {
+            console.error('Image upload failed:', await uploadResponse.text())
+          }
+        }
       }
 
       // Success - redirect to products list
@@ -534,6 +584,67 @@ export default function NewProductPage() {
           >
             + 다이아 추가
           </button>
+        </div>
+
+        {/* 상품 이미지 */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">상품 이미지</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            상품 이미지를 등록하세요. 첫 번째 이미지가 대표 이미지로 설정됩니다. (최대 20MB, JPG/PNG/WebP)
+          </p>
+
+          {imagePreviews.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+              {imagePreviews.map((preview, index) => (
+                <div key={index} className="relative group">
+                  <div className={`aspect-square rounded-lg overflow-hidden border-2 ${
+                    index === mainImageIndex ? 'border-blue-500' : 'border-gray-200'
+                  }`}>
+                    <img
+                      src={preview}
+                      alt={`상품 이미지 ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute top-2 right-2 flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      X
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setMainImageIndex(index)}
+                    className={`mt-1 w-full text-xs py-1 rounded ${
+                      index === mainImageIndex
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {index === mainImageIndex ? '대표 이미지' : '대표로 설정'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <label className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
+            + 이미지 추가
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              multiple
+              onChange={handleImageSelect}
+              className="hidden"
+              disabled={isSubmitting}
+            />
+          </label>
+          {imageFiles.length > 0 && (
+            <span className="ml-3 text-sm text-gray-500">{imageFiles.length}개 선택됨</span>
+          )}
         </div>
 
         {/* Description Section */}
