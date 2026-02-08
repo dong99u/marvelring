@@ -143,12 +143,14 @@ export function useAuth() {
     setUser(null)
     setMember(null)
 
-    // Sign out with local scope for SSR cookie handling
-    const { error } = await supabase.auth.signOut({ scope: 'local' })
-    if (error) {
-      console.error('Sign out error:', error)
-      throw error
+    // Call server-side API to clear cookies
+    const response = await fetch('/api/auth/logout', { method: 'POST' })
+    if (!response.ok) {
+      throw new Error('로그아웃에 실패했습니다.')
     }
+
+    // Also clear client-side session
+    await supabase.auth.signOut({ scope: 'local' })
   }, [supabase])
 
   return {
