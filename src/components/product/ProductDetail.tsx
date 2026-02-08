@@ -50,6 +50,7 @@ export default function ProductDetail({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <ImageGallery images={displayImages} productName={product.product_name} />
           <ProductInfo
+            productId={product.id}
             product={product}
             diamondInfo={{
               diamond_size: undefined, // TODO: Add to schema if needed

@@ -189,6 +189,10 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  .fill-icon {
+    font-variation-settings: 'FILL' 1;
+  }
 }
 
 /* Login page video shimmer animation */

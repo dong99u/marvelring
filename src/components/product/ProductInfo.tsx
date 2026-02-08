@@ -5,6 +5,7 @@
 
 import KakaoTalkButton from './KakaoTalkButton';
 import ProductBadges from './ProductBadges';
+import WishlistButton from './WishlistButton';
 
 interface MaterialInfo {
   material_type: string;
@@ -12,6 +13,7 @@ interface MaterialInfo {
 }
 
 interface ProductInfoProps {
+  productId: string;
   product: {
     product_name: string;
     product_code: string;
@@ -37,6 +39,7 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({
+  productId,
   product,
   diamondInfo,
   isLoggedIn,
@@ -280,12 +283,7 @@ export default function ProductInfo({
           <button className="border border-gray-200 hover:border-gold-muted py-3 text-[11px] font-bold tracking-widest uppercase transition-colors text-charcoal-light/60">
             스펙시트 다운로드
           </button>
-          <button className="border border-gray-200 hover:border-gold-muted py-3 text-[11px] font-bold tracking-widest uppercase transition-colors flex items-center justify-center gap-2 text-charcoal-light/60">
-            <span className="material-symbols-outlined text-[14px]">
-              favorite
-            </span>{' '}
-            관심저장
-          </button>
+          <WishlistButton productId={productId} isLoggedIn={isLoggedIn} />
         </div>
       </div>
     </div>
