@@ -22,3 +22,22 @@ export function getSiteUrl(): string {
 
   return normalizeSiteUrl(configuredUrl)
 }
+
+export function isSearchIndexingAllowed(): boolean {
+  const vercelEnv = process.env.VERCEL_ENV
+
+  // On Vercel, index only production deployments.
+  if (vercelEnv) {
+    return vercelEnv === 'production'
+  }
+
+  // Outside Vercel, default to blocking local/dev-style hosts.
+  const siteUrl = getSiteUrl()
+  const hostname = new URL(siteUrl).hostname
+
+  if (hostname === 'localhost' || hostname.endsWith('.localhost')) {
+    return false
+  }
+
+  return true
+}

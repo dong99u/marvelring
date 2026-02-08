@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Noto_Sans_KR, Playfair_Display } from "next/font/google";
 import { ToastProvider } from "@/components/ui/ToastProvider";
-import { getSiteUrl } from "@/lib/site-url";
+import { getSiteUrl, isSearchIndexingAllowed } from "@/lib/site-url";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -21,6 +21,8 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
+
+const isIndexable = isSearchIndexingAllowed();
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
@@ -43,6 +45,21 @@ export const metadata: Metadata = {
     title: "마블링 B2B | 사업자 맞춤형 서비스 허브",
     description: "사업자를 위한 맞춤형 서비스 허브",
   },
+  robots: isIndexable
+    ? {
+        index: true,
+        follow: true,
+      }
+    : {
+        index: false,
+        follow: false,
+        nocache: true,
+        googleBot: {
+          index: false,
+          follow: false,
+          noimageindex: true,
+        },
+      },
 };
 
 export default function RootLayout({

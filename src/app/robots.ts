@@ -1,10 +1,20 @@
 import type { MetadataRoute } from 'next'
-import { getSiteUrl } from '@/lib/site-url'
+import { getSiteUrl, isSearchIndexingAllowed } from '@/lib/site-url'
 
 const PRIVATE_PATHS = ['/admin/', '/api/', '/login', '/signup', '/mypage/']
 
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = getSiteUrl()
+  const isIndexable = isSearchIndexingAllowed()
+
+  if (!isIndexable) {
+    return {
+      rules: {
+        userAgent: '*',
+        disallow: '/',
+      },
+    }
+  }
 
   return {
     rules: [

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { getSiteUrl } from '@/lib/site-url'
+import { getSiteUrl, isSearchIndexingAllowed } from '@/lib/site-url'
 
 const STATIC_ROUTES: Array<{
   path: string
@@ -22,6 +22,10 @@ const STATIC_ROUTES: Array<{
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (!isSearchIndexingAllowed()) {
+    return []
+  }
+
   const siteUrl = getSiteUrl()
   const now = new Date()
 
