@@ -14,7 +14,7 @@ type Collection = {
   collection_id: string
   brand_name: string
   slug: string
-  logo_url: string | null
+  logo_image_url: string | null
   display_order: number
   created_at: string
   products?: { count: number }[]
@@ -101,10 +101,10 @@ export function CollectionList({ collections }: CollectionListProps) {
               {collections.map((collection) => (
                 <tr key={collection.slug} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {collection.logo_url ? (
+                    {collection.logo_image_url ? (
                       <div className="relative w-12 h-12">
                         <Image
-                          src={collection.logo_url}
+                          src={collection.logo_image_url}
                           alt={collection.brand_name}
                           fill
                           className="object-contain"

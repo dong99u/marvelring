@@ -11,7 +11,7 @@ import { revalidatePath } from 'next/cache'
 export interface CollectionFormData {
   brand_name: string
   slug: string
-  logo_url: string
+  logo_image_url: string
   display_order: number
 }
 
@@ -27,7 +27,7 @@ export async function createCollectionAction(formData: CollectionFormData) {
       {
         brand_name: formData.brand_name,
         slug: formData.slug,
-        logo_url: formData.logo_url || null,
+        logo_image_url: formData.logo_image_url || null,
         display_order: formData.display_order,
       },
     ])
@@ -56,7 +56,7 @@ export async function updateCollectionAction(
     .update({
       brand_name: formData.brand_name,
       slug: formData.slug,
-      logo_url: formData.logo_url || null,
+      logo_image_url: formData.logo_image_url || null,
       display_order: formData.display_order,
     })
     .eq('collection_id', collectionId)

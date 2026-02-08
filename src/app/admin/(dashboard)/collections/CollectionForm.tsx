@@ -12,7 +12,7 @@ type Collection = {
   collection_id: string
   brand_name: string
   slug: string
-  logo_url: string | null
+  logo_image_url: string | null
   display_order: number
 }
 
@@ -25,7 +25,7 @@ export function CollectionForm({ collection, onClose }: CollectionFormProps) {
   const [formData, setFormData] = useState({
     brand_name: collection?.brand_name || '',
     slug: collection?.slug || '',
-    logo_url: collection?.logo_url || '',
+    logo_image_url: collection?.logo_image_url || '',
     display_order: collection?.display_order || 0,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -126,14 +126,14 @@ export function CollectionForm({ collection, onClose }: CollectionFormProps) {
             </div>
 
             <div>
-              <label htmlFor="logo_url" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="logo_image_url" className="block text-sm font-medium text-gray-700 mb-1">
                 Logo URL
               </label>
               <input
                 type="url"
-                id="logo_url"
-                name="logo_url"
-                value={formData.logo_url}
+                id="logo_image_url"
+                name="logo_image_url"
+                value={formData.logo_image_url}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="https://example.com/logo.png"
