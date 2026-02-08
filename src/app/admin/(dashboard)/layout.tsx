@@ -66,6 +66,7 @@ export default async function AdminLayout({
             <NavLink href="/admin/products" icon="inventory_2">상품 관리</NavLink>
             <NavLink href="/admin/categories" icon="category">카테고리 관리</NavLink>
             <NavLink href="/admin/collections" icon="collections">컬렉션 관리</NavLink>
+            <NavLink href="/admin/notices" icon="campaign">공지사항 관리</NavLink>
           </div>
         </nav>
       </header>
@@ -85,6 +86,7 @@ export default async function AdminLayout({
           <NavLink href="/admin/products" icon="inventory_2">상품 관리</NavLink>
           <NavLink href="/admin/categories" icon="category">카테고리 관리</NavLink>
           <NavLink href="/admin/collections" icon="collections">컬렉션 관리</NavLink>
+          <NavLink href="/admin/notices" icon="campaign">공지사항 관리</NavLink>
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-boutique-silver">
