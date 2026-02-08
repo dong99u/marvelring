@@ -143,14 +143,11 @@ export function useAuth() {
     setUser(null)
     setMember(null)
 
-    // Call server-side API to clear cookies
-    const response = await fetch('/api/auth/logout', { method: 'POST' })
-    if (!response.ok) {
-      throw new Error('로그아웃에 실패했습니다.')
-    }
-
-    // Also clear client-side session
+    // Clear client-side session (localStorage, in-memory tokens)
     await supabase.auth.signOut({ scope: 'local' })
+
+    // Call server-side API to clear httpOnly cookies
+    await fetch('/api/auth/logout', { method: 'POST' })
   }, [supabase])
 
   return {
