@@ -5,19 +5,23 @@ import { useRouter } from 'next/navigation';
 import { Search, Diamond } from 'lucide-react';
 import MobileNav from './MobileNav';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/components/ui/ToastProvider';
 
 export default function Header() {
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const { showToast } = useToast();
 
   const handleAuthClick = async () => {
     if (user) {
       try {
         await signOut();
+        showToast('로그아웃 되었습니다', 'success');
         router.refresh();
         router.push('/');
       } catch (error) {
         console.error('Logout failed:', error);
+        showToast('로그아웃에 실패했습니다', 'error');
       }
     } else {
       router.push('/login');

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Noto_Sans_KR, Playfair_Display } from "next/font/google";
+import { ToastProvider } from "@/components/ui/ToastProvider";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -39,7 +40,9 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
-        {children}
+        <ToastProvider>
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );

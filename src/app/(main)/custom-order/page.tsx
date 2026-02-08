@@ -1,6 +1,8 @@
 import { HeadphonesIcon, Palette, Diamond, Truck, MessageCircle, Phone } from 'lucide-react';
 
 export default function CustomOrderPage() {
+  const kakaoLink = process.env.NEXT_PUBLIC_DEFAULT_KAKAO_LINK || '#';
+
   return (
     <main className="flex-1 w-full max-w-[800px] mx-auto px-6 py-20">
       {/* Hero Section */}
@@ -119,10 +121,15 @@ export default function CustomOrderPage() {
               </p>
             </div>
           </div>
-          <button className="w-full md:w-auto px-10 h-[64px] bg-gold-muted hover:bg-[#967d50] text-white text-[18px] font-bold rounded-xl transition-all flex items-center justify-center gap-3 shadow-md">
+          <a
+            href={kakaoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full md:w-auto px-10 h-[64px] bg-gold-muted hover:bg-[#967d50] text-white text-[18px] font-bold rounded-xl transition-all flex items-center justify-center gap-3 shadow-md"
+          >
             <MessageCircle className="w-5 h-5" />
             상담하기
-          </button>
+          </a>
         </div>
 
         {/* Phone Consultation Card */}

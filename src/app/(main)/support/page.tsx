@@ -1,6 +1,8 @@
 import Link from 'next/link';
 
 export default function SupportPage() {
+  const kakaoLink = process.env.NEXT_PUBLIC_DEFAULT_KAKAO_LINK || '#';
+
   return (
     <main className="flex-1 w-full max-w-[1000px] mx-auto px-6 py-16">
       {/* Header */}
@@ -35,7 +37,7 @@ export default function SupportPage() {
           </div>
 
           <Link
-            href="https://pf.kakao.com/_your_channel_id/chat"
+            href={kakaoLink}
             target="_blank"
             rel="noopener noreferrer"
             className="block w-full py-3.5 px-6 bg-gold-muted text-white text-[15px] font-medium rounded-lg hover:bg-gold-muted/90 transition-colors text-center"

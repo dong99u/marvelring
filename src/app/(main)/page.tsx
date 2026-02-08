@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function LandingPage() {
+  const kakaoLink = process.env.NEXT_PUBLIC_DEFAULT_KAKAO_LINK || '#';
+
   return (
     <>
       {/* Hero Section with Marble Background */}
@@ -164,14 +166,19 @@ export default function LandingPage() {
           <h3 className="text-xl md:text-2xl font-light mb-8 md:mb-10 tracking-tight text-center">
             비즈니스 파트너 전용 상담 채널
           </h3>
-          <button className="group flex items-center justify-center gap-3 md:gap-4 bg-[#FEE500]/90 hover:bg-[#FEE500] px-10 md:px-16 py-5 md:py-6 transition-all w-full md:w-auto">
+          <a
+            href={kakaoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-center gap-3 md:gap-4 bg-[#FEE500]/90 hover:bg-[#FEE500] px-10 md:px-16 py-5 md:py-6 transition-all w-full md:w-auto"
+          >
             <span className="material-symbols-outlined text-black font-light text-xl md:text-2xl">
               chat_bubble
             </span>
             <span className="text-xs md:text-sm font-bold text-black tracking-wider">
               카카오톡 도매 문의 및 상담
             </span>
-          </button>
+          </a>
           <p className="mt-8 md:mt-10 text-[10px] md:text-[11px] text-charcoal-light/40 tracking-[0.2em] uppercase leading-loose text-center">
             영업시간 내 상담 시 1시간 이내 답변을 원칙으로 합니다 <br />
             (평일 09:00 - 18:00)

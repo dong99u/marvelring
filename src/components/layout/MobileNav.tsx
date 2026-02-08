@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/components/ui/ToastProvider';
 
 interface NavSection {
   title: string;
@@ -44,16 +45,19 @@ export default function MobileNav() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const { showToast } = useToast();
 
   const handleAuthClick = async () => {
     setIsOpen(false);
     if (user) {
       try {
         await signOut();
+        showToast('로그아웃 되었습니다', 'success');
         router.refresh();
         router.push('/');
       } catch (error) {
         console.error('Logout failed:', error);
+        showToast('로그아웃에 실패했습니다', 'error');
       }
     } else {
       router.push('/login');
