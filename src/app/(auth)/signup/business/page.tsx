@@ -126,8 +126,16 @@ export default function SignupStep2Page() {
     }
   }
 
+  const formatBizRegNum = (value: string): string => {
+    const digits = value.replace(/\D/g, '').slice(0, 10)
+    if (digits.length <= 3) return digits
+    if (digits.length <= 5) return `${digits.slice(0, 3)}-${digits.slice(3)}`
+    return `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`
+  }
+
   const handleChange = (field: string, value: string | 'WHOLESALE' | 'RETAIL') => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    const formatted = field === 'bizRegNum' ? formatBizRegNum(value) : value
+    setFormData((prev) => ({ ...prev, [field]: formatted }))
     // Clear error when user starts typing/selecting
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: '' }))
