@@ -1,6 +1,16 @@
 /**
  * Create Admin User Script
- * Run with: npx tsx scripts/create-admin.ts
+ *
+ * Usage:
+ *   ADMIN_USERNAME=myuser ADMIN_PASSWORD=mypass npx tsx scripts/create-admin.ts
+ *
+ * Required env vars (in .env.local):
+ *   - NEXT_PUBLIC_SUPABASE_URL
+ *   - SUPABASE_SERVICE_ROLE_KEY
+ *
+ * Required env vars (passed at runtime):
+ *   - ADMIN_USERNAME
+ *   - ADMIN_PASSWORD
  */
 
 import { config } from 'dotenv'
@@ -11,11 +21,19 @@ config({ path: '.env.local' })
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const adminUsername = process.env.ADMIN_USERNAME
+const adminPassword = process.env.ADMIN_PASSWORD
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Missing environment variables:')
+  console.error('Missing Supabase environment variables:')
   console.error('- NEXT_PUBLIC_SUPABASE_URL')
   console.error('- SUPABASE_SERVICE_ROLE_KEY')
+  process.exit(1)
+}
+
+if (!adminUsername || !adminPassword) {
+  console.error('Missing admin credentials. Pass them as environment variables:')
+  console.error('  ADMIN_USERNAME=myuser ADMIN_PASSWORD=mypass npx tsx scripts/create-admin.ts')
   process.exit(1)
 }
 
@@ -28,20 +46,19 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey, {
 
 async function createAdminUser() {
   const email = 'admin@marvelring.com'
-  const password = 'admin'
 
   console.log('Creating admin user...')
 
   // 1. Create auth user using Admin API
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({
     email,
-    password,
+    password: adminPassword,
     email_confirm: true,
     app_metadata: {
       role: 'admin',
     },
     user_metadata: {
-      username: 'admin',
+      username: adminUsername,
     },
   })
 
@@ -56,7 +73,7 @@ async function createAdminUser() {
   const { data: memberData, error: memberError } = await supabase
     .from('member')
     .insert({
-      username: 'admin',
+      username: adminUsername,
       email,
       password: 'SUPABASE_AUTH',
       role: 'ROLE_ADMIN',
@@ -83,8 +100,8 @@ async function createAdminUser() {
   console.log('Member created:', memberData.member_id)
   console.log('')
   console.log('=== Admin Account Created ===')
+  console.log('Username:', adminUsername)
   console.log('Email:', email)
-  console.log('Password:', password)
   console.log('============================')
 }
 
