@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import SignupProgress from '@/components/auth/SignupProgress'
 import BusinessTypeSelector from '@/components/auth/BusinessTypeSelector'
+import AddressSearch from '@/components/auth/AddressSearch'
 
 export default function SignupStep2Page() {
   const router = useRouter()
@@ -298,53 +299,16 @@ export default function SignupStep2Page() {
               Location
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2">
-                <label
-                  className="block text-[13px] font-medium text-black mb-2 tracking-wide uppercase"
-                  htmlFor="address-main"
-                >
-                  주소 (Address)
-                </label>
-                <input
-                  className={`
-                    w-full h-[56px] px-4 bg-white border text-[15px] text-black
-                    focus:ring-1 focus:ring-black outline-none transition-all placeholder-gray-400 rounded-none
-                    ${errors.addressMain ? 'border-red-500 focus:ring-red-500' : 'border-black focus:border-black'}
-                  `}
-                  id="address-main"
-                  name="address-main"
-                  type="text"
-                  placeholder="기본 주소 검색"
-                  value={formData.addressMain}
-                  onChange={(e) => handleChange('addressMain', e.target.value)}
-                />
-                {errors.addressMain && <p className="mt-1 text-xs text-red-500">{errors.addressMain}</p>}
-              </div>
-
-              <div>
-                <label
-                  className="block text-[13px] font-medium text-black mb-2 tracking-wide uppercase"
-                  htmlFor="zipcode"
-                >
-                  우편번호 (Zip)
-                </label>
-                <input
-                  className={`
-                    w-full h-[56px] px-4 bg-white border text-[15px] text-black
-                    focus:ring-1 focus:ring-black outline-none transition-all placeholder-gray-400 rounded-none
-                    ${errors.zipCode ? 'border-red-500 focus:ring-red-500' : 'border-black focus:border-black'}
-                  `}
-                  id="zipcode"
-                  name="zipcode"
-                  type="text"
-                  placeholder="00000"
-                  value={formData.zipCode}
-                  onChange={(e) => handleChange('zipCode', e.target.value)}
-                />
-                {errors.zipCode && <p className="mt-1 text-xs text-red-500">{errors.zipCode}</p>}
-              </div>
-            </div>
+            <AddressSearch
+              addressMain={formData.addressMain}
+              zipCode={formData.zipCode}
+              onAddressSelect={(address, zip) => {
+                setFormData(prev => ({ ...prev, addressMain: address, zipCode: zip }))
+                setErrors(prev => ({ ...prev, addressMain: '', zipCode: '' }))
+              }}
+              error={errors.addressMain}
+              zipCodeError={errors.zipCode}
+            />
 
             <div>
               <label
