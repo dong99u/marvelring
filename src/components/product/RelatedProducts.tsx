@@ -59,8 +59,9 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                     src={product.main_image_url}
                     alt={product.product_name}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="object-cover transform-gpu group-hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    quality={90}
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-gray-100">

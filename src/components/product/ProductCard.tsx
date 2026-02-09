@@ -41,8 +41,9 @@ export default function ProductCard({ product, isLoggedIn: isLoggedInProp, isApp
               src={product.main_image_url}
               alt={product.product_name}
               fill
-              className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+              className="object-cover transform-gpu group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              quality={90}
             />
           )
         ) : (

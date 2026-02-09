@@ -36,6 +36,8 @@ interface ImageGalleryProps {
   productName: string;
 }
 
+const PRODUCT_IMAGE_QUALITY = 90;
+
 export default function ImageGallery({
   images,
   productName,
@@ -107,9 +109,10 @@ export default function ImageGallery({
                       src={image}
                       alt={`${productName} - Image ${index + 1}`}
                       fill
-                      className="object-cover"
+                      className="object-cover transform-gpu"
                       priority={index === 0}
                       sizes="100vw"
+                      quality={PRODUCT_IMAGE_QUALITY}
                     />
                   )}
                 </div>
@@ -157,9 +160,10 @@ export default function ImageGallery({
                 src={currentImage}
                 alt={`${productName} - Image ${selectedIndex + 1}`}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-105 transform-gpu"
                 priority={selectedIndex === 0}
                 sizes="(max-width: 1024px) 50vw, 58vw"
+                quality={PRODUCT_IMAGE_QUALITY}
               />
             )}
           </div>
@@ -215,8 +219,9 @@ export default function ImageGallery({
                     src={image}
                     alt={`${productName} thumbnail ${index + 1}`}
                     fill
-                    className="object-cover"
+                    className="object-cover transform-gpu"
                     sizes="80px"
+                    quality={PRODUCT_IMAGE_QUALITY}
                   />
                 )}
               </button>
@@ -252,8 +257,9 @@ export default function ImageGallery({
                 src={currentImage}
                 alt={`${productName} - Zoomed`}
                 fill
-                className="object-contain"
+                className="object-contain transform-gpu"
                 sizes="(max-width: 1280px) 100vw, 1280px"
+                quality={PRODUCT_IMAGE_QUALITY}
               />
             )}
           </div>

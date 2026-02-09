@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
+    // Allow higher-quality outputs for jewelry product images.
+    qualities: [75, 85, 90, 95],
     remotePatterns: [
       {
         protocol: 'https',
