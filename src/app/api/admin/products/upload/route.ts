@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       url: urlData.publicUrl,
-      imageId: imageRecord.id,
+      imageId: imageRecord.product_image_id,
       path: uploadData.path,
       mediaType,
     })

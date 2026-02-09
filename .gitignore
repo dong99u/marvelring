@@ -37,5 +37,8 @@ supabase/.temp/
 # OS specific
 .DS_Store
 
+# TypeScript incremental build info
+*.tsbuildinfo
+
 # Misplaced absolute path files
 /Users/

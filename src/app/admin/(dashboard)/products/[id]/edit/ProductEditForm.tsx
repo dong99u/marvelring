@@ -5,9 +5,14 @@
  * Pre-populated form for editing existing products
  */
 
-import React, { useState, useTransition } from 'react'
+import React, { useRef, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { updateProduct, deleteProductImage } from '@/app/actions/admin'
+import {
+  updateProduct,
+  deleteProductImage,
+  updateProductImageOrders,
+  syncProductMainImage,
+} from '@/app/actions/admin'
 import type { Product, Category, Collection } from '@/types/database'
 import { isValidMediaFile, isVideoFile, isVideoUrl, validateVideoDuration, ACCEPT_MEDIA_INPUT, MAX_FILE_SIZE_MB, MAX_VIDEO_DURATION_SECONDS } from '@/lib/utils/media'
 
@@ -17,13 +22,14 @@ interface ProductWithRelations extends Product {
 }
 
 interface ProductImage {
-  id: number
+  product_image_id: number
   product_id: number
   image_url: string
   title: string | null
   description: string | null
   display_order: number
   is_main: boolean
+  media_type?: string | null
 }
 
 interface ProductPricingFormValues {
@@ -44,6 +50,12 @@ interface ProductEditFormProps {
   diamondInfo: Array<{ diamond_size: number; diamond_amount: number }>
   productImages: ProductImage[]
 }
+
+type MediaKey = `e:${number}` | `n:${string}`
+
+type MediaItem =
+  | { key: MediaKey; kind: 'existing'; image: ProductImage }
+  | { key: MediaKey; kind: 'new'; file: File; previewUrl: string }
 
 export default function ProductEditForm({
   product,
@@ -77,13 +89,35 @@ export default function ProductEditForm({
     }))
   )
 
-  const [existingImages, setExistingImages] = useState<ProductImage[]>(productImages)
-  const [newImageFiles, setNewImageFiles] = useState<File[]>([])
-  const [newImagePreviews, setNewImagePreviews] = useState<string[]>([])
+  const initialSortedImages = [...productImages].sort(
+    (a, b) =>
+      a.display_order - b.display_order ||
+      a.product_image_id - b.product_image_id
+  )
+  const initialMainImage =
+    initialSortedImages.find((image) => image.is_main) || initialSortedImages[0]
+
+  const newMediaCounterRef = useRef(0)
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>(() =>
+    initialSortedImages.map((image) => ({
+      key: `e:${image.product_image_id}`,
+      kind: 'existing',
+      image,
+    }))
+  )
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([])
+  const [replacementFiles, setReplacementFiles] = useState<Record<number, File>>({})
+  const [replacementPreviews, setReplacementPreviews] = useState<Record<number, string>>({})
+  const [draggingMediaKey, setDraggingMediaKey] = useState<MediaKey | null>(null)
+  const [dragOverMediaKey, setDragOverMediaKey] = useState<MediaKey | null>(null)
+  const [mainMediaKey, setMainMediaKey] = useState<MediaKey | null>(
+    initialMainImage ? `e:${initialMainImage.product_image_id}` : null
+  )
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null)
     const files = Array.from(e.target.files || [])
+    e.currentTarget.value = ''
     const validFiles = files.filter((file) => isValidMediaFile(file))
 
     const validatedFiles: File[] = []
@@ -98,20 +132,171 @@ export default function ProductEditForm({
       validatedFiles.push(file)
     }
 
-    const newPreviews = validatedFiles.map((file) => URL.createObjectURL(file))
-    setNewImageFiles((prev) => [...prev, ...validatedFiles])
-    setNewImagePreviews((prev) => [...prev, ...newPreviews])
+    const newItems: MediaItem[] = validatedFiles.map((file) => {
+      newMediaCounterRef.current += 1
+      const key = `n:${Date.now()}-${newMediaCounterRef.current}` as MediaKey
+      return {
+        key,
+        kind: 'new',
+        file,
+        previewUrl: URL.createObjectURL(file),
+      }
+    })
+
+    setMediaItems((prev) => [...prev, ...newItems])
   }
 
-  const removeNewImage = (index: number) => {
-    URL.revokeObjectURL(newImagePreviews[index])
-    setNewImageFiles((prev) => prev.filter((_, i) => i !== index))
-    setNewImagePreviews((prev) => prev.filter((_, i) => i !== index))
+  const removeMediaItem = (key: MediaKey) => {
+    setMediaItems((prev) => {
+      const item = prev.find((it) => it.key === key)
+      if (!item) {
+        return prev
+      }
+
+      if (item.kind === 'new') {
+        URL.revokeObjectURL(item.previewUrl)
+      }
+
+      return prev.filter((it) => it.key !== key)
+    })
+
+    if (key.startsWith('e:')) {
+      const id = Number(key.slice(2))
+      setDeletedImageIds((prev) => [...prev, id])
+      setReplacementFiles((prev) => {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      })
+      setReplacementPreviews((prev) => {
+        const next = { ...prev }
+        if (next[id]) {
+          URL.revokeObjectURL(next[id])
+        }
+        delete next[id]
+        return next
+      })
+    }
+
+    setMainMediaKey((prev) => (prev === key ? null : prev))
   }
 
-  const removeExistingImage = (imageId: number) => {
-    setDeletedImageIds((prev) => [...prev, imageId])
-    setExistingImages((prev) => prev.filter((img) => img.id !== imageId))
+  const replaceNewMediaItem = async (
+    key: MediaKey,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setError(null)
+    const file = e.target.files?.[0]
+    e.currentTarget.value = ''
+
+    if (!file) {
+      return
+    }
+
+    if (!isValidMediaFile(file)) {
+      setError('지원하지 않는 파일 형식입니다.')
+      return
+    }
+
+    if (isVideoFile(file)) {
+      const validDuration = await validateVideoDuration(file)
+      if (!validDuration) {
+        setError(`영상은 ${MAX_VIDEO_DURATION_SECONDS}초 이하만 가능합니다.`)
+        return
+      }
+    }
+
+    const previewUrl = URL.createObjectURL(file)
+    setMediaItems((prev) =>
+      prev.map((it) => {
+        if (it.key !== key || it.kind !== 'new') {
+          return it
+        }
+        URL.revokeObjectURL(it.previewUrl)
+        return { ...it, file, previewUrl }
+      })
+    )
+  }
+
+  const handleReplaceExistingImage = async (
+    imageId: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setError(null)
+    const file = e.target.files?.[0]
+    e.currentTarget.value = ''
+
+    if (!file) {
+      return
+    }
+
+    if (!isValidMediaFile(file)) {
+      setError('지원하지 않는 파일 형식입니다.')
+      return
+    }
+
+    if (isVideoFile(file)) {
+      const validDuration = await validateVideoDuration(file)
+      if (!validDuration) {
+        setError(`영상은 ${MAX_VIDEO_DURATION_SECONDS}초 이하만 가능합니다.`)
+        return
+      }
+    }
+
+    const previewUrl = URL.createObjectURL(file)
+
+    setReplacementPreviews((prev) => {
+      if (prev[imageId]) {
+        URL.revokeObjectURL(prev[imageId])
+      }
+      return { ...prev, [imageId]: previewUrl }
+    })
+    setReplacementFiles((prev) => ({ ...prev, [imageId]: file }))
+  }
+
+  const clearReplacement = (imageId: number) => {
+    setReplacementFiles((prev) => {
+      const next = { ...prev }
+      delete next[imageId]
+      return next
+    })
+    setReplacementPreviews((prev) => {
+      const next = { ...prev }
+      if (next[imageId]) {
+        URL.revokeObjectURL(next[imageId])
+      }
+      delete next[imageId]
+      return next
+    })
+  }
+
+  const reorderMediaItems = (dragKey: MediaKey, targetKey: MediaKey) => {
+    setMediaItems((prev) => {
+      const fromIndex = prev.findIndex((it) => it.key === dragKey)
+      const toIndex = prev.findIndex((it) => it.key === targetKey)
+      if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) {
+        return prev
+      }
+
+      const next = [...prev]
+      const [moved] = next.splice(fromIndex, 1)
+      next.splice(toIndex, 0, moved)
+      return next
+    })
+  }
+
+  const moveMediaItem = (key: MediaKey, delta: number) => {
+    setMediaItems((prev) => {
+      const fromIndex = prev.findIndex((it) => it.key === key)
+      const toIndex = fromIndex + delta
+      if (fromIndex === -1 || toIndex < 0 || toIndex >= prev.length) {
+        return prev
+      }
+      const next = [...prev]
+      const [moved] = next.splice(fromIndex, 1)
+      next.splice(toIndex, 0, moved)
+      return next
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -124,28 +309,145 @@ export default function ProductEditForm({
       const result = await updateProduct(product.product_id, formData)
 
       if (result.success) {
-        // Delete removed images
-        for (const imageId of deletedImageIds) {
-          await deleteProductImage(imageId)
+        try {
+          const deletedSet = new Set(deletedImageIds)
+          const replacedImageIdMap = new Map<number, number>()
+          const uploadedNewMediaIdMap = new Map<MediaKey, number>()
+
+          // Delete removed images
+          for (const imageId of deletedImageIds) {
+            const deleteResult = await deleteProductImage(imageId)
+            if (!deleteResult.success) {
+              throw new Error(deleteResult.error || '기존 미디어 삭제에 실패했습니다.')
+            }
+          }
+
+          // Replace existing + upload new based on unified order (mediaItems)
+          for (let i = 0; i < mediaItems.length; i++) {
+            const item = mediaItems[i]
+
+            if (item.kind === 'existing') {
+              const oldId = item.image.product_image_id
+              if (deletedSet.has(oldId)) {
+                continue
+              }
+
+              const replacementFile = replacementFiles[oldId]
+              if (!replacementFile) {
+                continue
+              }
+
+              const deleteResult = await deleteProductImage(oldId)
+              if (!deleteResult.success) {
+                throw new Error(deleteResult.error || '기존 미디어 교체에 실패했습니다.')
+              }
+
+              const uploadFormData = new FormData()
+              uploadFormData.append('file', replacementFile)
+              uploadFormData.append('productId', String(product.product_id))
+              uploadFormData.append('displayOrder', String(i))
+              uploadFormData.append('isMain', 'false')
+
+              const uploadResponse = await fetch('/api/admin/products/upload', {
+                method: 'POST',
+                body: uploadFormData,
+              })
+
+              if (!uploadResponse.ok) {
+                const payload = await uploadResponse
+                  .json()
+                  .catch(() => ({ error: '교체 미디어 업로드에 실패했습니다.' }))
+                throw new Error(payload.error || '교체 미디어 업로드에 실패했습니다.')
+              }
+
+              const payload = await uploadResponse.json()
+              replacedImageIdMap.set(oldId, Number(payload.imageId))
+              continue
+            }
+
+            // item.kind === 'new'
+            const uploadFormData = new FormData()
+            uploadFormData.append('file', item.file)
+            uploadFormData.append('productId', String(product.product_id))
+            uploadFormData.append('displayOrder', String(i))
+            uploadFormData.append('isMain', 'false')
+
+            const uploadResponse = await fetch('/api/admin/products/upload', {
+              method: 'POST',
+              body: uploadFormData,
+            })
+
+            if (!uploadResponse.ok) {
+              const payload = await uploadResponse
+                .json()
+                .catch(() => ({ error: '새 미디어 업로드에 실패했습니다.' }))
+              throw new Error(payload.error || '새 미디어 업로드에 실패했습니다.')
+            }
+
+            const payload = await uploadResponse.json()
+            uploadedNewMediaIdMap.set(item.key, Number(payload.imageId))
+          }
+
+          const finalOrderedImageIds = [
+            ...mediaItems
+              .map((item) => {
+                if (item.kind === 'existing') {
+                  const oldId = item.image.product_image_id
+                  if (deletedSet.has(oldId)) {
+                    return null
+                  }
+                  return replacedImageIdMap.get(oldId) ?? oldId
+                }
+                return uploadedNewMediaIdMap.get(item.key) ?? null
+              })
+              .filter((imageId): imageId is number => imageId !== null),
+          ]
+
+          const orderResult = await updateProductImageOrders(
+            product.product_id,
+            finalOrderedImageIds.map((imageId, index) => ({
+              imageId,
+              displayOrder: index,
+            }))
+          )
+
+          if (!orderResult.success) {
+            throw new Error(orderResult.error || '미디어 순서 저장에 실패했습니다.')
+          }
+
+          let preferredMainImageId: number | null = null
+
+          if (mainMediaKey) {
+            if (mainMediaKey.startsWith('e:')) {
+              const selectedId = Number(mainMediaKey.slice(2))
+              if (replacedImageIdMap.has(selectedId)) {
+                preferredMainImageId = replacedImageIdMap.get(selectedId) || null
+              } else if (!deletedSet.has(selectedId)) {
+                preferredMainImageId = selectedId
+              }
+            } else {
+              preferredMainImageId = uploadedNewMediaIdMap.get(mainMediaKey) || null
+            }
+          }
+
+          const syncResult = await syncProductMainImage(
+            product.product_id,
+            preferredMainImageId
+          )
+
+          if (!syncResult.success) {
+            throw new Error(syncResult.error || '대표 미디어 설정에 실패했습니다.')
+          }
+
+          router.push('/admin/products')
+          router.refresh()
+        } catch (mediaError) {
+          setError(
+            mediaError instanceof Error
+              ? mediaError.message
+              : '미디어 저장 중 오류가 발생했습니다.'
+          )
         }
-
-        // Upload new images
-        const startOrder = existingImages.length
-        for (let i = 0; i < newImageFiles.length; i++) {
-          const uploadFormData = new FormData()
-          uploadFormData.append('file', newImageFiles[i])
-          uploadFormData.append('productId', String(product.product_id))
-          uploadFormData.append('displayOrder', String(startOrder + i))
-          uploadFormData.append('isMain', 'false')
-
-          await fetch('/api/admin/products/upload', {
-            method: 'POST',
-            body: uploadFormData,
-          })
-        }
-
-        router.push('/admin/products')
-        router.refresh()
       } else {
         setError(result.error || '상품 수정에 실패했습니다.')
       }
@@ -594,82 +896,245 @@ export default function ProductEditForm({
             <p className="text-sm text-gray-500 mb-4">
               상품 이미지/영상을 관리하세요. (최대 {MAX_FILE_SIZE_MB}MB, 영상 {MAX_VIDEO_DURATION_SECONDS}초 이내)
             </p>
-
-            {/* Existing images */}
-            {existingImages.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                {existingImages.map((image) => (
-                  <div key={image.id} className="relative group">
-                    <div className={`aspect-square rounded-lg overflow-hidden border-2 ${
-                      image.is_main ? 'border-blue-500' : 'border-gray-200'
-                    }`}>
-                      {isVideoUrl(image.image_url) ? (
-                        <video
-                          src={image.image_url}
-                          className="w-full h-full object-cover"
-                          muted
-                        />
-                      ) : (
-                        <img
-                          src={image.image_url}
-                          alt={image.title || '상품 이미지'}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="absolute top-2 right-2">
-                      <button
-                        type="button"
-                        onClick={() => removeExistingImage(image.id)}
-                        className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        X
-                      </button>
-                    </div>
-                    {image.is_main && (
-                      <span className="mt-1 block w-full text-xs py-1 text-center bg-blue-500 text-white rounded">
-                        대표 이미지
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
+            {mediaItems.length > 1 && (
+              <p className="text-xs text-gray-500 mb-3">
+                미디어는 드래그해서 순서를 바꾸거나, 앞으로/뒤로 버튼으로 순서를 조정할 수 있습니다.
+              </p>
             )}
 
-            {/* New image previews */}
-            {newImagePreviews.length > 0 && (
+            {mediaItems.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                {newImagePreviews.map((preview, index) => (
-                  <div key={`new-${index}`} className="relative group">
-                    <div className="aspect-square rounded-lg overflow-hidden border-2 border-dashed border-green-300">
-                      {isVideoFile(newImageFiles[index]) ? (
-                        <video
-                          src={preview}
-                          className="w-full h-full object-cover"
-                          muted
-                        />
-                      ) : (
-                        <img
-                          src={preview}
-                          alt={`새 이미지 ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
+                {mediaItems.map((item, index) => {
+                  const isMain = mainMediaKey === item.key
+                  const isDragging = draggingMediaKey === item.key
+                  const isDropTarget =
+                    dragOverMediaKey === item.key && draggingMediaKey !== item.key
+
+                  const previewIsVideo =
+                    item.kind === 'existing'
+                      ? replacementFiles[item.image.product_image_id]
+                        ? isVideoFile(replacementFiles[item.image.product_image_id])
+                        : isVideoUrl(item.image.image_url)
+                      : isVideoFile(item.file)
+
+                  const previewUrl =
+                    item.kind === 'existing'
+                      ? replacementPreviews[item.image.product_image_id] ||
+                        item.image.image_url
+                      : item.previewUrl
+
+                  const existingId =
+                    item.kind === 'existing' ? item.image.product_image_id : null
+                  const replacementFile =
+                    existingId !== null ? replacementFiles[existingId] : null
+
+                  return (
+                    <div
+                      key={item.key}
+                      className={`space-y-2 ${isDragging ? 'opacity-70' : ''}`}
+                      onDragOver={(e) => {
+                        if (!draggingMediaKey) return
+                        e.preventDefault()
+                        setDragOverMediaKey(item.key)
+                      }}
+                      onDragLeave={() => {
+                        if (dragOverMediaKey === item.key) {
+                          setDragOverMediaKey(null)
+                        }
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault()
+                        const dragKey = (e.dataTransfer.getData('text/plain') || draggingMediaKey) as MediaKey | ''
+                        if (dragKey && dragKey !== item.key) {
+                          reorderMediaItems(dragKey as MediaKey, item.key)
+                        }
+                        setDraggingMediaKey(null)
+                        setDragOverMediaKey(null)
+                      }}
+                    >
+                      <div
+                        className={`relative aspect-square rounded-lg overflow-hidden border-2 ${
+                          isMain
+                            ? 'border-blue-500'
+                            : isDropTarget
+                              ? 'border-indigo-500 border-dashed'
+                              : 'border-gray-200'
+                        } ${isDropTarget ? 'ring-2 ring-indigo-200' : ''}`}
+                      >
+                        <span className="absolute mt-1 ml-1 z-10 text-[11px] px-1.5 py-0.5 rounded bg-black/65 text-white">
+                          {index + 1}
+                        </span>
+
+                        <span
+                          className="absolute top-1 right-1 z-10 inline-flex items-center gap-1 px-2 py-1 rounded bg-white/85 border border-gray-200 text-[11px] text-gray-700"
+                          draggable
+                          onDragStart={(e) => {
+                            setDraggingMediaKey(item.key)
+                            setDragOverMediaKey(null)
+                            e.dataTransfer.setData('text/plain', item.key)
+                            e.dataTransfer.effectAllowed = 'move'
+                          }}
+                          onDragEnd={() => {
+                            setDraggingMediaKey(null)
+                            setDragOverMediaKey(null)
+                          }}
+                          title="드래그해서 순서 변경"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">
+                            drag_indicator
+                          </span>
+                          <span className="hidden sm:inline">이동</span>
+                        </span>
+
+                        {previewIsVideo ? (
+                          <video
+                            src={previewUrl}
+                            className="w-full h-full object-cover"
+                            muted
+                          />
+                        ) : (
+                          <img
+                            src={previewUrl}
+                            alt={
+                              item.kind === 'existing'
+                                ? item.image.title || '상품 이미지'
+                                : `새 미디어 ${index + 1}`
+                            }
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-1">
+                        {item.kind === 'existing' ? (
+                          <>
+                            <label
+                              htmlFor={`replace-media-${existingId}`}
+                              className="text-xs py-1 text-center rounded border border-blue-300 text-blue-700 hover:bg-blue-50 cursor-pointer"
+                            >
+                              교체
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => setMainMediaKey(item.key)}
+                              className={`text-xs py-1 rounded border ${
+                                isMain
+                                  ? 'border-blue-500 bg-blue-500 text-white'
+                                  : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                              }`}
+                            >
+                              {isMain ? '대표 이미지' : '대표로 설정'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => removeMediaItem(item.key)}
+                              className="text-xs py-1 rounded border border-red-300 text-red-700 hover:bg-red-50"
+                            >
+                              삭제
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveMediaItem(item.key, -1)}
+                              disabled={index === 0}
+                              className="text-xs py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                              앞으로
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveMediaItem(item.key, 1)}
+                              disabled={index === mediaItems.length - 1}
+                              className="text-xs py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                              뒤로
+                            </button>
+                            {replacementFile ? (
+                              <button
+                                type="button"
+                                onClick={() => clearReplacement(existingId as number)}
+                                className="text-xs py-1 rounded border border-amber-300 text-amber-700 hover:bg-amber-50"
+                              >
+                                교체 취소
+                              </button>
+                            ) : (
+                              <div className="text-xs py-1 rounded border border-gray-200 text-gray-400 text-center">
+                                원본 유지
+                              </div>
+                            )}
+                            <input
+                              id={`replace-media-${existingId}`}
+                              type="file"
+                              accept={ACCEPT_MEDIA_INPUT}
+                              className="hidden"
+                              onChange={(e) =>
+                                handleReplaceExistingImage(existingId as number, e)
+                              }
+                              disabled={isPending}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <label
+                              htmlFor={`replace-new-media-${item.key}`}
+                              className="text-xs py-1 text-center rounded border border-blue-300 text-blue-700 hover:bg-blue-50 cursor-pointer"
+                            >
+                              변경
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => setMainMediaKey(item.key)}
+                              className={`text-xs py-1 rounded border ${
+                                isMain
+                                  ? 'border-blue-500 bg-blue-500 text-white'
+                                  : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                              }`}
+                            >
+                              {isMain ? '대표 이미지' : '대표로 설정'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => removeMediaItem(item.key)}
+                              className="text-xs py-1 rounded border border-red-300 text-red-700 hover:bg-red-50"
+                            >
+                              삭제
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveMediaItem(item.key, -1)}
+                              disabled={index === 0}
+                              className="text-xs py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                              앞으로
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveMediaItem(item.key, 1)}
+                              disabled={index === mediaItems.length - 1}
+                              className="text-xs py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                            >
+                              뒤로
+                            </button>
+                            <div className="text-xs py-1 rounded border border-green-200 text-green-700 text-center bg-green-50">
+                              새 미디어
+                            </div>
+                            <input
+                              id={`replace-new-media-${item.key}`}
+                              type="file"
+                              accept={ACCEPT_MEDIA_INPUT}
+                              className="hidden"
+                              onChange={(e) => replaceNewMediaItem(item.key, e)}
+                              disabled={isPending}
+                            />
+                          </>
+                        )}
+                      </div>
+
+                      {item.kind === 'existing' && replacementFile && (
+                        <p className="text-[11px] text-amber-700">교체 예정</p>
                       )}
                     </div>
-                    <div className="absolute top-2 right-2">
-                      <button
-                        type="button"
-                        onClick={() => removeNewImage(index)}
-                        className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        X
-                      </button>
-                    </div>
-                    <span className="mt-1 block w-full text-xs py-1 text-center bg-green-100 text-green-700 rounded">
-                      새 이미지
-                    </span>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
 
@@ -684,9 +1149,9 @@ export default function ProductEditForm({
                 disabled={isPending}
               />
             </label>
-            {(existingImages.length + newImageFiles.length) > 0 && (
+            {mediaItems.length > 0 && (
               <span className="ml-3 text-sm text-gray-500">
-                총 {existingImages.length + newImageFiles.length}개
+                총 {mediaItems.length}개
               </span>
             )}
           </div>

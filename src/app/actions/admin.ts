@@ -782,7 +782,7 @@ export async function fetchProductImages(productId: number) {
     const supabase = await createClient()
     const { data, error } = await supabase
       .from('product_image')
-      .select('id, product_id, image_url, title, description, display_order, is_main')
+      .select('product_image_id, product_id, image_url, title, description, display_order, is_main, media_type')
       .eq('product_id', productId)
       .order('display_order', { ascending: true })
 
@@ -810,7 +810,7 @@ export async function deleteProductImage(imageId: number): Promise<ActionResult<
     const { data: image, error: fetchError } = await supabase
       .from('product_image')
       .select('image_url')
-      .eq('id', imageId)
+      .eq('product_image_id', imageId)
       .single()
 
     if (fetchError || !image) {
@@ -831,7 +831,7 @@ export async function deleteProductImage(imageId: number): Promise<ActionResult<
     const { error: deleteError } = await supabase
       .from('product_image')
       .delete()
-      .eq('id', imageId)
+      .eq('product_image_id', imageId)
 
     if (deleteError) {
       return { success: false, error: deleteError.message }
@@ -839,6 +839,110 @@ export async function deleteProductImage(imageId: number): Promise<ActionResult<
 
     revalidatePath('/admin/products')
     revalidatePath('/products')
+
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+    }
+  }
+}
+
+/**
+ * Update display order for product images.
+ */
+export async function updateProductImageOrders(
+  productId: number,
+  imageOrders: Array<{ imageId: number; displayOrder: number }>
+): Promise<ActionResult<void>> {
+  try {
+    const supabase = await createClient()
+
+    for (const order of imageOrders) {
+      const { error } = await supabase
+        .from('product_image')
+        .update({ display_order: order.displayOrder })
+        .eq('product_id', productId)
+        .eq('product_image_id', order.imageId)
+
+      if (error) {
+        return { success: false, error: error.message }
+      }
+    }
+
+    revalidatePath('/admin/products')
+    revalidatePath('/products')
+    revalidatePath('/pure-gold')
+
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+    }
+  }
+}
+
+/**
+ * Normalize product main image.
+ * - If preferredImageId exists in product images, set it as main.
+ * - Otherwise, set the first image by display_order as main.
+ * - If no images remain, clears main flags and exits.
+ */
+export async function syncProductMainImage(
+  productId: number,
+  preferredImageId?: number | null
+): Promise<ActionResult<void>> {
+  try {
+    const supabase = await createClient()
+
+    const { data: images, error: fetchError } = await supabase
+      .from('product_image')
+      .select('product_image_id')
+      .eq('product_id', productId)
+      .order('display_order', { ascending: true })
+      .order('product_image_id', { ascending: true })
+
+    if (fetchError) {
+      return { success: false, error: fetchError.message }
+    }
+
+    if (!images || images.length === 0) {
+      return { success: true }
+    }
+
+    const preferredExists =
+      preferredImageId !== null &&
+      preferredImageId !== undefined &&
+      images.some((image) => image.product_image_id === preferredImageId)
+
+    const targetImageId = preferredExists
+      ? Number(preferredImageId)
+      : images[0].product_image_id
+
+    const { error: resetError } = await supabase
+      .from('product_image')
+      .update({ is_main: false })
+      .eq('product_id', productId)
+
+    if (resetError) {
+      return { success: false, error: resetError.message }
+    }
+
+    const { error: setMainError } = await supabase
+      .from('product_image')
+      .update({ is_main: true })
+      .eq('product_id', productId)
+      .eq('product_image_id', targetImageId)
+
+    if (setMainError) {
+      return { success: false, error: setMainError.message }
+    }
+
+    revalidatePath('/admin/products')
+    revalidatePath('/products')
+    revalidatePath('/pure-gold')
 
     return { success: true }
   } catch (error) {
