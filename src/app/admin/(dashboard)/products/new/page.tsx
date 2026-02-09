@@ -24,8 +24,6 @@ export default function NewProductPage() {
     product_code: '',
     category_id: '',
     collection_id: '',
-    base_labor_cost: '',
-    stone_setting_cost: '',
     weight: '',
     ring_size: '',
     size: '',
@@ -33,6 +31,10 @@ export default function NewProductPage() {
     additional_information: '',
     retail_price: '',
     wholesale_price: '',
+    retail_base_labor_cost: '',
+    retail_stone_setting_cost: '',
+    wholesale_base_labor_cost: '',
+    wholesale_stone_setting_cost: '',
     sale_price: '',
     is_sale: false,
     is_new: false,
@@ -158,11 +160,20 @@ export default function NewProductPage() {
       if (formData.collection_id) {
         formDataObj.append('collection_id', formData.collection_id)
       }
-      if (formData.base_labor_cost) {
-        formDataObj.append('base_labor_cost', formData.base_labor_cost)
+      if (formData.retail_base_labor_cost) {
+        formDataObj.append('retail_base_labor_cost', formData.retail_base_labor_cost)
       }
-      if (formData.stone_setting_cost) {
-        formDataObj.append('stone_setting_cost', formData.stone_setting_cost)
+      if (formData.retail_stone_setting_cost) {
+        formDataObj.append('retail_stone_setting_cost', formData.retail_stone_setting_cost)
+      }
+      if (formData.wholesale_base_labor_cost) {
+        formDataObj.append('wholesale_base_labor_cost', formData.wholesale_base_labor_cost)
+      }
+      if (formData.wholesale_stone_setting_cost) {
+        formDataObj.append(
+          'wholesale_stone_setting_cost',
+          formData.wholesale_stone_setting_cost
+        )
       }
       if (formData.weight) {
         formDataObj.append('weight', formData.weight)
@@ -383,48 +394,6 @@ export default function NewProductPage() {
             상품 사양
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label
-                htmlFor="base_labor_cost"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                기본공임 (원)
-              </label>
-              <input
-                type="number"
-                id="base_labor_cost"
-                name="base_labor_cost"
-                value={formData.base_labor_cost}
-                onChange={handleChange}
-                min="0"
-                step="1000"
-                disabled={isSubmitting}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
-                placeholder="0"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="stone_setting_cost"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                알공임 (원)
-              </label>
-              <input
-                type="number"
-                id="stone_setting_cost"
-                name="stone_setting_cost"
-                value={formData.stone_setting_cost}
-                onChange={handleChange}
-                min="0"
-                step="1000"
-                disabled={isSubmitting}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
-                placeholder="0"
-              />
-            </div>
-
             <div>
               <label
                 htmlFor="weight"
@@ -715,74 +684,160 @@ export default function NewProductPage() {
         {/* Pricing Section */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">가격 정보</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label
-                htmlFor="retail_price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                소매가 (원) *
-              </label>
-              <input
-                type="number"
-                id="retail_price"
-                name="retail_price"
-                value={formData.retail_price}
-                onChange={handleChange}
-                required
-                min="0"
-                step="1000"
-                disabled={isSubmitting}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
-                placeholder="0"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="border border-gray-200 rounded-lg p-4 space-y-3">
+              <h3 className="text-sm font-semibold text-gray-900">소매(리테일)</h3>
+              <div>
+                <label
+                  htmlFor="retail_price"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  소매가 (원) *
+                </label>
+                <input
+                  type="number"
+                  id="retail_price"
+                  name="retail_price"
+                  value={formData.retail_price}
+                  onChange={handleChange}
+                  required
+                  min="0"
+                  step="1000"
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="retail_base_labor_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  기본공임 (원)
+                </label>
+                <input
+                  type="number"
+                  id="retail_base_labor_cost"
+                  name="retail_base_labor_cost"
+                  value={formData.retail_base_labor_cost}
+                  onChange={handleChange}
+                  min="0"
+                  step="1000"
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="retail_stone_setting_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  알공임 (원)
+                </label>
+                <input
+                  type="number"
+                  id="retail_stone_setting_cost"
+                  name="retail_stone_setting_cost"
+                  value={formData.retail_stone_setting_cost}
+                  onChange={handleChange}
+                  min="0"
+                  step="1000"
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                  placeholder="0"
+                />
+              </div>
             </div>
 
-            <div>
-              <label
-                htmlFor="wholesale_price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                도매가 (원) *
-              </label>
-              <input
-                type="number"
-                id="wholesale_price"
-                name="wholesale_price"
-                value={formData.wholesale_price}
-                onChange={handleChange}
-                required
-                min="0"
-                step="1000"
-                disabled={isSubmitting}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
-                placeholder="0"
-              />
+            <div className="border border-gray-200 rounded-lg p-4 space-y-3">
+              <h3 className="text-sm font-semibold text-gray-900">도매(홀세일)</h3>
+              <div>
+                <label
+                  htmlFor="wholesale_price"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  도매가 (원) *
+                </label>
+                <input
+                  type="number"
+                  id="wholesale_price"
+                  name="wholesale_price"
+                  value={formData.wholesale_price}
+                  onChange={handleChange}
+                  required
+                  min="0"
+                  step="1000"
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="wholesale_base_labor_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  기본공임 (원)
+                </label>
+                <input
+                  type="number"
+                  id="wholesale_base_labor_cost"
+                  name="wholesale_base_labor_cost"
+                  value={formData.wholesale_base_labor_cost}
+                  onChange={handleChange}
+                  min="0"
+                  step="1000"
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="wholesale_stone_setting_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  알공임 (원)
+                </label>
+                <input
+                  type="number"
+                  id="wholesale_stone_setting_cost"
+                  name="wholesale_stone_setting_cost"
+                  value={formData.wholesale_stone_setting_cost}
+                  onChange={handleChange}
+                  min="0"
+                  step="1000"
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                  placeholder="0"
+                />
+              </div>
             </div>
+          </div>
 
-            <div>
-              <label
-                htmlFor="sale_price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                세일가 (원)
-              </label>
-              <input
-                type="number"
-                id="sale_price"
-                name="sale_price"
-                value={formData.sale_price}
-                onChange={handleChange}
-                min="0"
-                step="1000"
-                disabled={isSubmitting || !formData.is_sale}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
-                placeholder="0"
-              />
-              <p className="mt-1 text-xs text-gray-500">
-                세일 활성화 시 입력 가능
-              </p>
-            </div>
+          <div className="mt-4">
+            <label
+              htmlFor="sale_price"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              세일가 (원)
+            </label>
+            <input
+              type="number"
+              id="sale_price"
+              name="sale_price"
+              value={formData.sale_price}
+              onChange={handleChange}
+              min="0"
+              step="1000"
+              disabled={isSubmitting || !formData.is_sale}
+              className="w-full md:w-1/2 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+              placeholder="0"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              세일 활성화 시 입력 가능
+            </p>
           </div>
 
           <div className="flex gap-6 mt-4">

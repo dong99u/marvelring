@@ -26,8 +26,18 @@ interface ProductImage {
   is_main: boolean
 }
 
+interface ProductPricingFormValues {
+  retail_price: number
+  wholesale_price: number
+  retail_base_labor_cost: number | null
+  retail_stone_setting_cost: number | null
+  wholesale_base_labor_cost: number | null
+  wholesale_stone_setting_cost: number | null
+}
+
 interface ProductEditFormProps {
   product: ProductWithRelations
+  pricing: ProductPricingFormValues
   categories: Category[]
   collections: Collection[]
   materialInfo: Array<{ material_type: string; weight: number | null }>
@@ -37,6 +47,7 @@ interface ProductEditFormProps {
 
 export default function ProductEditForm({
   product,
+  pricing,
   categories,
   collections,
   materialInfo,
@@ -249,45 +260,117 @@ export default function ProductEditForm({
             가격 정보
           </h2>
 
-          <div className="grid grid-cols-2 gap-4">
-            {/* Retail Price */}
-            <div>
-              <label
-                htmlFor="retail_price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                소매가 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                id="retail_price"
-                name="retail_price"
-                required
-                min="0"
-                step="1000"
-                defaultValue={product.retail_price}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="border border-gray-200 rounded-lg p-4 space-y-3">
+              <h3 className="text-sm font-semibold text-gray-900">소매(리테일)</h3>
+              <div>
+                <label
+                  htmlFor="retail_price"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  소매가 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="retail_price"
+                  name="retail_price"
+                  required
+                  min="0"
+                  step="1000"
+                  defaultValue={pricing.retail_price}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="retail_base_labor_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  기본 공임비
+                </label>
+                <input
+                  type="number"
+                  id="retail_base_labor_cost"
+                  name="retail_base_labor_cost"
+                  min="0"
+                  step="1000"
+                  defaultValue={pricing.retail_base_labor_cost ?? ''}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="retail_stone_setting_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  알 공임 비용
+                </label>
+                <input
+                  type="number"
+                  id="retail_stone_setting_cost"
+                  name="retail_stone_setting_cost"
+                  min="0"
+                  step="1000"
+                  defaultValue={pricing.retail_stone_setting_cost ?? ''}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                />
+              </div>
             </div>
 
-            {/* Wholesale Price */}
-            <div>
-              <label
-                htmlFor="wholesale_price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                도매가 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                id="wholesale_price"
-                name="wholesale_price"
-                required
-                min="0"
-                step="1000"
-                defaultValue={product.wholesale_price}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-              />
+            <div className="border border-gray-200 rounded-lg p-4 space-y-3">
+              <h3 className="text-sm font-semibold text-gray-900">도매(홀세일)</h3>
+              <div>
+                <label
+                  htmlFor="wholesale_price"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  도매가 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="wholesale_price"
+                  name="wholesale_price"
+                  required
+                  min="0"
+                  step="1000"
+                  defaultValue={pricing.wholesale_price}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="wholesale_base_labor_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  기본 공임비
+                </label>
+                <input
+                  type="number"
+                  id="wholesale_base_labor_cost"
+                  name="wholesale_base_labor_cost"
+                  min="0"
+                  step="1000"
+                  defaultValue={pricing.wholesale_base_labor_cost ?? ''}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="wholesale_stone_setting_cost"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  알 공임 비용
+                </label>
+                <input
+                  type="number"
+                  id="wholesale_stone_setting_cost"
+                  name="wholesale_stone_setting_cost"
+                  min="0"
+                  step="1000"
+                  defaultValue={pricing.wholesale_stone_setting_cost ?? ''}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                />
+              </div>
             </div>
           </div>
 
@@ -317,45 +400,7 @@ export default function ProductEditForm({
             상품 상세
           </h2>
 
-          <div className="grid grid-cols-2 gap-4">
-            {/* Base Labor Cost */}
-            <div>
-              <label
-                htmlFor="base_labor_cost"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                기본 공임비
-              </label>
-              <input
-                type="number"
-                id="base_labor_cost"
-                name="base_labor_cost"
-                min="0"
-                step="1000"
-                defaultValue={product.base_labor_cost || ''}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            {/* Stone Setting Cost */}
-            <div>
-              <label
-                htmlFor="stone_setting_cost"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                스톤 세팅 비용
-              </label>
-              <input
-                type="number"
-                id="stone_setting_cost"
-                name="stone_setting_cost"
-                min="0"
-                step="1000"
-                defaultValue={product.stone_setting_cost || ''}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {/* Weight */}
             <div>
               <label

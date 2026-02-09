@@ -146,7 +146,10 @@ export async function getProducts({
     is_new: p.is_new ?? false,
     created_at: p.created_at,
     updated_at: p.updated_at,
-    price: p.display_price ? Number(p.display_price) : null,
+    price:
+      p.display_price === null || p.display_price === undefined
+        ? null
+        : Number(p.display_price),
     brand_name: p.collection_name,
     collection_slug: p.collection_slug,
     category_name: p.category_name,

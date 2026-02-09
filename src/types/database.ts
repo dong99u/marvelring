@@ -77,8 +77,6 @@ export interface Product {
   category_id: number
   product_name: string
   product_code: string
-  base_labor_cost: number | null
-  stone_setting_cost: number | null
   weight: number | null
   ring_size: number | null
   size: number | null
@@ -89,6 +87,21 @@ export interface Product {
   is_sale: boolean
   is_new: boolean
   sale_price: number | null
+  created_at: string
+  updated_at: string
+}
+
+/**
+ * ProductBusinessPricing (상품별 거래유형 가격/공임)
+ * Per-business-type pricing and labor costs for each product
+ */
+export interface ProductBusinessPricing {
+  product_business_pricing_id: number
+  product_id: number
+  business_type: BusinessType
+  price: number
+  base_labor_cost: number | null
+  stone_setting_cost: number | null
   created_at: string
   updated_at: string
 }

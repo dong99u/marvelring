@@ -14,6 +14,15 @@ interface ProductWithRelations extends Product {
   collection: Collection | null
 }
 
+interface ProductPricingFormValues {
+  retail_price: number
+  wholesale_price: number
+  retail_base_labor_cost: number | null
+  retail_stone_setting_cost: number | null
+  wholesale_base_labor_cost: number | null
+  wholesale_stone_setting_cost: number | null
+}
+
 interface PageProps {
   params: Promise<{ id: string }>
 }
@@ -110,11 +119,43 @@ export default async function ProductEditPage({ params }: PageProps) {
   const imageResult = await fetchProductImages(product.product_id)
   const productImages = imageResult.success ? imageResult.data : []
 
+  // Fetch per-business-type pricing/labor
+  const { data: pricingRows, error: pricingError } = await supabase
+    .from('product_business_pricing')
+    .select('business_type, price, base_labor_cost, stone_setting_cost')
+    .eq('product_id', product.product_id)
+
+  if (pricingError) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-6">상품 수정</h1>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-red-800">
+            가격/공임 정보를 불러오는데 실패했습니다: {pricingError.message}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  const retailPricing = pricingRows?.find((row) => row.business_type === 'RETAIL')
+  const wholesalePricing = pricingRows?.find((row) => row.business_type === 'WHOLESALE')
+
+  const pricing: ProductPricingFormValues = {
+    retail_price: retailPricing?.price ?? product.retail_price,
+    wholesale_price: wholesalePricing?.price ?? product.wholesale_price,
+    retail_base_labor_cost: retailPricing?.base_labor_cost ?? null,
+    retail_stone_setting_cost: retailPricing?.stone_setting_cost ?? null,
+    wholesale_base_labor_cost: wholesalePricing?.base_labor_cost ?? null,
+    wholesale_stone_setting_cost: wholesalePricing?.stone_setting_cost ?? null,
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">상품 수정</h1>
       <ProductEditForm
         product={product as ProductWithRelations}
+        pricing={pricing}
         categories={categories || []}
         collections={collections || []}
         materialInfo={materialInfo || []}

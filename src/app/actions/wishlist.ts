@@ -130,32 +130,39 @@ export async function getWishlistProducts(): Promise<{
 
   // Maintain wishlist order (most recently added first)
   const productMap = new Map(products.map((p) => [p.product_id, p]));
+  type ProductFullDetailsRow = (typeof products)[number];
   return productIds
     .map((pid) => productMap.get(pid))
     .filter(Boolean)
-    .map((row: any) => ({
-      id: row.product_id?.toString() || '',
-      collection_id: row.collection_id?.toString() || null,
-      category_id: row.category_id?.toString() || null,
-      product_name: row.product_name,
-      product_code: row.product_code,
-      base_labor_cost: row.base_labor_cost,
-      stone_setting_cost: row.stone_setting_cost,
-      weight: row.weight,
-      ring_size: row.ring_size,
-      size: row.size,
-      description: row.description,
-      additional_information: row.additional_information,
-      is_sale: row.is_sale,
-      is_new: row.is_new ?? false,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
-      price: row.display_price,
-      brand_name: row.collection_name || null,
-      collection_slug: row.collection_slug || null,
-      collection_logo: row.collection_logo || null,
-      category_name: row.category_name || null,
-      category_slug: row.category_slug || null,
-      main_image_url: row.main_image_url || null,
-    }));
+    .map((row) => {
+      const typedRow = row as ProductFullDetailsRow;
+      return {
+        id: typedRow.product_id?.toString() || '',
+        collection_id: typedRow.collection_id?.toString() || null,
+        category_id: typedRow.category_id?.toString() || null,
+        product_name: typedRow.product_name,
+        product_code: typedRow.product_code,
+        base_labor_cost: typedRow.base_labor_cost,
+        stone_setting_cost: typedRow.stone_setting_cost,
+        weight: typedRow.weight,
+        ring_size: typedRow.ring_size,
+        size: typedRow.size,
+        description: typedRow.description,
+        additional_information: typedRow.additional_information,
+        is_sale: typedRow.is_sale,
+        is_new: typedRow.is_new ?? false,
+        created_at: typedRow.created_at,
+        updated_at: typedRow.updated_at,
+        price:
+          typedRow.display_price === null || typedRow.display_price === undefined
+            ? null
+            : Number(typedRow.display_price),
+        brand_name: typedRow.collection_name || null,
+        collection_slug: typedRow.collection_slug || null,
+        collection_logo: typedRow.collection_logo || null,
+        category_name: typedRow.category_name || null,
+        category_slug: typedRow.category_slug || null,
+        main_image_url: typedRow.main_image_url || null,
+      };
+    });
 }

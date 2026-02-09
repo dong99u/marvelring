@@ -14,6 +14,48 @@ export interface ActionResult<T = unknown> {
   data?: T
 }
 
+type BusinessType = 'WHOLESALE' | 'RETAIL'
+
+interface BusinessPricingPayload {
+  business_type: BusinessType
+  price: number
+  base_labor_cost: number | null
+  stone_setting_cost: number | null
+}
+
+function parseOptionalNumber(formData: FormData, ...keys: string[]): number | null {
+  for (const key of keys) {
+    const rawValue = formData.get(key)
+    if (rawValue !== null && rawValue !== '') {
+      const numericValue = Number(rawValue)
+      return Number.isNaN(numericValue) ? null : numericValue
+    }
+  }
+  return null
+}
+
+async function upsertBusinessPricing(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  productId: number,
+  pricingPayload: BusinessPricingPayload[]
+): Promise<ActionResult<void>> {
+  const { error } = await supabase
+    .from('product_business_pricing')
+    .upsert(
+      pricingPayload.map((pricing) => ({
+        product_id: productId,
+        ...pricing,
+      })),
+      { onConflict: 'product_id,business_type' }
+    )
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  return { success: true }
+}
+
 // ============================================================================
 // PRODUCTS
 // ============================================================================
@@ -71,6 +113,29 @@ export async function createProduct(
 ): Promise<ActionResult<Product>> {
   try {
     const supabase = await createClient()
+    const retailPrice = Number(formData.get('retail_price'))
+    const wholesalePrice = Number(formData.get('wholesale_price'))
+
+    if (Number.isNaN(retailPrice) || Number.isNaN(wholesalePrice)) {
+      return { success: false, error: '소매가/도매가는 숫자로 입력해야 합니다.' }
+    }
+
+    const retailBaseLaborCost = parseOptionalNumber(
+      formData,
+      'retail_base_labor_cost'
+    )
+    const retailStoneSettingCost = parseOptionalNumber(
+      formData,
+      'retail_stone_setting_cost'
+    )
+    const wholesaleBaseLaborCost = parseOptionalNumber(
+      formData,
+      'wholesale_base_labor_cost'
+    )
+    const wholesaleStoneSettingCost = parseOptionalNumber(
+      formData,
+      'wholesale_stone_setting_cost'
+    )
 
     // Extract product data from FormData
     const productData = {
@@ -80,12 +145,6 @@ export async function createProduct(
       category_id: Number(formData.get('category_id')),
       product_name: formData.get('product_name') as string,
       product_code: formData.get('product_code') as string,
-      base_labor_cost: formData.get('base_labor_cost')
-        ? Number(formData.get('base_labor_cost'))
-        : null,
-      stone_setting_cost: formData.get('stone_setting_cost')
-        ? Number(formData.get('stone_setting_cost'))
-        : null,
       weight: formData.get('weight') ? Number(formData.get('weight')) : null,
       ring_size: formData.get('ring_size')
         ? Number(formData.get('ring_size'))
@@ -94,8 +153,8 @@ export async function createProduct(
       description: (formData.get('description') as string) || null,
       additional_information:
         (formData.get('additional_information') as string) || null,
-      retail_price: Number(formData.get('retail_price')),
-      wholesale_price: Number(formData.get('wholesale_price')),
+      retail_price: retailPrice,
+      wholesale_price: wholesalePrice,
       is_sale: formData.get('is_sale') === 'true',
       is_new: formData.get('is_new') === 'true',
       sale_price: formData.get('sale_price')
@@ -111,6 +170,32 @@ export async function createProduct(
 
     if (error) {
       return { success: false, error: error.message }
+    }
+
+    const pricingUpsertResult = await upsertBusinessPricing(supabase, data.product_id, [
+      {
+        business_type: 'RETAIL',
+        price: retailPrice,
+        base_labor_cost: retailBaseLaborCost,
+        stone_setting_cost: retailStoneSettingCost,
+      },
+      {
+        business_type: 'WHOLESALE',
+        price: wholesalePrice,
+        base_labor_cost: wholesaleBaseLaborCost,
+        stone_setting_cost: wholesaleStoneSettingCost,
+      },
+    ])
+
+    if (!pricingUpsertResult.success) {
+      // Keep create flow atomic-ish: remove product row if pricing save fails.
+      await supabase.from('product').delete().eq('product_id', data.product_id)
+      return {
+        success: false,
+        error:
+          pricingUpsertResult.error ||
+          '거래유형별 가격/공임 정보를 저장하는 중 오류가 발생했습니다.',
+      }
     }
 
     // Insert material info records
@@ -175,6 +260,29 @@ export async function updateProduct(
 ): Promise<ActionResult<Product>> {
   try {
     const supabase = await createClient()
+    const retailPrice = Number(formData.get('retail_price'))
+    const wholesalePrice = Number(formData.get('wholesale_price'))
+
+    if (Number.isNaN(retailPrice) || Number.isNaN(wholesalePrice)) {
+      return { success: false, error: '소매가/도매가는 숫자로 입력해야 합니다.' }
+    }
+
+    const retailBaseLaborCost = parseOptionalNumber(
+      formData,
+      'retail_base_labor_cost'
+    )
+    const retailStoneSettingCost = parseOptionalNumber(
+      formData,
+      'retail_stone_setting_cost'
+    )
+    const wholesaleBaseLaborCost = parseOptionalNumber(
+      formData,
+      'wholesale_base_labor_cost'
+    )
+    const wholesaleStoneSettingCost = parseOptionalNumber(
+      formData,
+      'wholesale_stone_setting_cost'
+    )
 
     // Extract product data from FormData
     const productData = {
@@ -184,12 +292,6 @@ export async function updateProduct(
       category_id: Number(formData.get('category_id')),
       product_name: formData.get('product_name') as string,
       product_code: formData.get('product_code') as string,
-      base_labor_cost: formData.get('base_labor_cost')
-        ? Number(formData.get('base_labor_cost'))
-        : null,
-      stone_setting_cost: formData.get('stone_setting_cost')
-        ? Number(formData.get('stone_setting_cost'))
-        : null,
       weight: formData.get('weight') ? Number(formData.get('weight')) : null,
       ring_size: formData.get('ring_size')
         ? Number(formData.get('ring_size'))
@@ -198,8 +300,8 @@ export async function updateProduct(
       description: (formData.get('description') as string) || null,
       additional_information:
         (formData.get('additional_information') as string) || null,
-      retail_price: Number(formData.get('retail_price')),
-      wholesale_price: Number(formData.get('wholesale_price')),
+      retail_price: retailPrice,
+      wholesale_price: wholesalePrice,
       is_sale: formData.get('is_sale') === 'true',
       is_new: formData.get('is_new') === 'true',
       sale_price: formData.get('sale_price')
@@ -217,6 +319,30 @@ export async function updateProduct(
 
     if (error) {
       return { success: false, error: error.message }
+    }
+
+    const pricingUpsertResult = await upsertBusinessPricing(supabase, productId, [
+      {
+        business_type: 'RETAIL',
+        price: retailPrice,
+        base_labor_cost: retailBaseLaborCost,
+        stone_setting_cost: retailStoneSettingCost,
+      },
+      {
+        business_type: 'WHOLESALE',
+        price: wholesalePrice,
+        base_labor_cost: wholesaleBaseLaborCost,
+        stone_setting_cost: wholesaleStoneSettingCost,
+      },
+    ])
+
+    if (!pricingUpsertResult.success) {
+      return {
+        success: false,
+        error:
+          pricingUpsertResult.error ||
+          '거래유형별 가격/공임 정보를 저장하는 중 오류가 발생했습니다.',
+      }
     }
 
     // Update material info: delete existing then insert new
