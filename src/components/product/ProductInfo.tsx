@@ -46,8 +46,20 @@ export default function ProductInfo({
   isApproved,
 }: ProductInfoProps) {
   const displaySize = product.ring_size || product.size;
+  const hasLaborData =
+    product.base_labor_cost !== null || product.stone_setting_cost !== null;
   const totalLaborCost =
     (product.base_labor_cost || 0) + (product.stone_setting_cost || 0);
+  const priceHiddenMessage = !isLoggedIn
+    ? '가격은 로그인 후 확인하실 수 있습니다'
+    : !isApproved
+      ? '가격은 승인된 회원만 확인할 수 있습니다'
+      : '가격 정보를 준비 중입니다';
+  const laborHiddenMessage = !isLoggedIn
+    ? '공임은 로그인 후 확인하실 수 있습니다'
+    : !isApproved
+      ? '공임은 승인된 회원만 확인할 수 있습니다'
+      : '공임 정보를 준비 중입니다';
 
   return (
     <div className="lg:col-span-5 flex flex-col h-full">
@@ -180,8 +192,8 @@ export default function ProductInfo({
           </div>
         )}
 
-        {/* Labor Costs Card - ONLY VISIBLE TO APPROVED USERS */}
-        {isLoggedIn && isApproved && (product.base_labor_cost || product.stone_setting_cost) && (
+        {/* Labor Costs Card */}
+        {(hasLaborData || !isLoggedIn || !isApproved) && (
           <div className="product-info-card bg-soft-ivory/50 border-gold-muted/20">
             <div className="flex items-center gap-2 mb-4">
               <span className="material-symbols-outlined text-gold-muted text-[20px]">
@@ -189,32 +201,40 @@ export default function ProductInfo({
               </span>
               <h3 className="product-info-card-title">Labor Costs</h3>
             </div>
-            <div className="flex flex-col gap-3">
-              {product.base_labor_cost && (
-                <div className="flex items-center justify-between py-2">
-                  <span className="product-info-detail-label">기본공임비</span>
-                  <span className="product-info-detail-value">
-                    {product.base_labor_cost.toLocaleString()}원
+            {isLoggedIn && isApproved && hasLaborData ? (
+              <div className="flex flex-col gap-3">
+                {product.base_labor_cost !== null && (
+                  <div className="flex items-center justify-between py-2">
+                    <span className="product-info-detail-label">기본 공임비</span>
+                    <span className="product-info-detail-value">
+                      {product.base_labor_cost.toLocaleString()}원
+                    </span>
+                  </div>
+                )}
+                {product.stone_setting_cost !== null && (
+                  <div className="flex items-center justify-between py-2">
+                    <span className="product-info-detail-label">알 공임 비용</span>
+                    <span className="product-info-detail-value">
+                      {product.stone_setting_cost.toLocaleString()}원
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between pt-3 mt-2 border-t border-gold-muted/20">
+                  <span className="text-[12px] font-bold uppercase tracking-wider text-charcoal-light/50">
+                    Total Labor Cost
+                  </span>
+                  <span className="text-[18px] font-bold text-gold-muted">
+                    {totalLaborCost.toLocaleString()}원
                   </span>
                 </div>
-              )}
-              {product.stone_setting_cost && (
-                <div className="flex items-center justify-between py-2">
-                  <span className="product-info-detail-label">알공임비 (Setting)</span>
-                  <span className="product-info-detail-value">
-                    {product.stone_setting_cost.toLocaleString()}원
-                  </span>
-                </div>
-              )}
-              <div className="flex items-center justify-between pt-3 mt-2 border-t border-gold-muted/20">
-                <span className="text-[12px] font-bold uppercase tracking-wider text-charcoal-light/50">
-                  Total Labor Cost
-                </span>
-                <span className="text-[18px] font-bold text-gold-muted">
-                  {totalLaborCost.toLocaleString()}원
-                </span>
               </div>
-            </div>
+            ) : (
+              <div className="py-2">
+                <p className="text-[13px] text-charcoal-light/70 font-light leading-relaxed">
+                  {laborHiddenMessage}
+                </p>
+              </div>
+            )}
           </div>
         )}
 
@@ -261,7 +281,7 @@ export default function ProductInfo({
             ) : (
               <div className="py-4">
                 <p className="text-[15px] text-white/80 font-light leading-relaxed">
-                  가격은 로그인 후 확인하실 수 있습니다
+                  {priceHiddenMessage}
                 </p>
               </div>
             )}

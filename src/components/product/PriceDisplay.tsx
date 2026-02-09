@@ -22,6 +22,12 @@ export default function PriceDisplay({
   isSale = false,
   originalPrice,
 }: PriceDisplayProps) {
+  const priceHiddenMessage = !isLoggedIn
+    ? '가격은 로그인 후 확인하실 수 있습니다'
+    : !isApproved
+      ? '가격은 승인된 회원만 확인할 수 있습니다'
+      : '가격 정보를 준비 중입니다'
+
   // Show login prompt if:
   // 1. User is not logged in
   // 2. User is logged in but not approved
@@ -30,7 +36,7 @@ export default function PriceDisplay({
     return (
       <div className="flex flex-col items-center gap-1">
         <p className="text-[14px] text-gray-500 italic">
-          가격은 로그인 후 확인하실 수 있습니다
+          {priceHiddenMessage}
         </p>
       </div>
     );
