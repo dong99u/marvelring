@@ -58,8 +58,10 @@ export default function SupportPage() {
               <h3 className="text-[22px] font-bold text-charcoal-light mb-2">
                 전화 문의
               </h3>
-              <p className="text-[24px] font-bold text-gold-muted mb-2">
-                02-1234-5678
+              <p className="text-[24px] font-bold text-gold-muted mb-2 leading-tight">
+                010-8365-3303
+                <br />
+                010-8186-4404
               </p>
               <p className="text-[14px] text-charcoal-light/50 font-light">
                 평일 10:00 - 18:00
