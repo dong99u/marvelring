@@ -57,6 +57,7 @@ export async function createNoticeAction(formData: NoticeFormData) {
   }
 
   revalidatePath('/admin/notices')
+  revalidatePath('/announcements')
   return { success: true, data }
 }
 
@@ -85,6 +86,7 @@ export async function updateNoticeAction(
   }
 
   revalidatePath('/admin/notices')
+  revalidatePath('/announcements')
   return { success: true, data }
 }
 
@@ -104,5 +106,6 @@ export async function deleteNoticeAction(noticeId: number) {
   }
 
   revalidatePath('/admin/notices')
+  revalidatePath('/announcements')
   return { success: true }
 }
