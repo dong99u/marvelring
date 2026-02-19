@@ -35,7 +35,7 @@ ${companyName ? `소속: ${companyName}\n` : ''}
 
 궁금하신 사항이 있으시면 고객센터로 문의해주세요.
 고객센터: support@marvelring.com
-전화: 02-1234-5678
+전화: 010-8365-3303 / 010-8186-4404
 
 감사합니다.
 Marvelring 드림
@@ -79,7 +79,7 @@ Marvelring 드림
       <p><strong>고객센터</strong></p>
       <p>
         이메일: <a href="mailto:support@marvelring.com" style="color: #667eea;">support@marvelring.com</a><br>
-        전화: 02-1234-5678<br>
+        전화: 010-8365-3303 / 010-8186-4404<br>
         운영시간: 평일 09:00 - 18:00
       </p>
     </div>
@@ -123,7 +123,7 @@ ${rejectedReason ? `거절 사유: ${rejectedReason}\n` : ''}
 고객센터로 연락 주시기 바랍니다.
 
 고객센터: support@marvelring.com
-전화: 02-1234-5678
+전화: 010-8365-3303 / 010-8186-4404
 
 감사합니다.
 Marvelring 드림
@@ -166,7 +166,7 @@ Marvelring 드림
       <p><strong>고객센터</strong></p>
       <p>
         이메일: <a href="mailto:support@marvelring.com" style="color: #667eea;">support@marvelring.com</a><br>
-        전화: 02-1234-5678<br>
+        전화: 010-8365-3303 / 010-8186-4404<br>
         운영시간: 평일 09:00 - 18:00
       </p>
     </div>

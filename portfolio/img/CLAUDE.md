@@ -7,5 +7,6 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
-| #2144 | 9:35 PM | ⚖️ | Agent Teams Architecture Design for Resume Generation and Validation | ~458 |
+| #2123 | 8:51 AM | 🟣 | Portfolio Resume Enhanced with Readability Improvements and Architecture Diagrams | ~626 |
+| #2114 | 8:41 AM | 🟣 | Enhanced resume with improved readability and visual diagrams | ~613 |
 </claude-mem-context>

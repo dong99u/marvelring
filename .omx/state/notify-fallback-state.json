@@ -1,0 +1,9 @@
+{
+  "pid": 21144,
+  "started_at": "2026-02-17T09:52:45.446Z",
+  "cwd": "/Users/parkdongkyu/my_project/marvelring",
+  "notify_script": "/opt/homebrew/lib/node_modules/oh-my-codex/scripts/notify-hook.js",
+  "poll_ms": 700,
+  "tracked_files": 0,
+  "seen_turns": 0
+}

@@ -140,9 +140,20 @@ export default function CustomOrderPage() {
             </div>
             <div className="text-center md:text-left">
               <h3 className="text-[24px] font-bold text-charcoal-light mb-1">전화 문의</h3>
-              <p className="text-[28px] font-bold text-gold-muted tracking-wide">
-                02-1234-5678
-              </p>
+              <div className="flex flex-col items-center md:items-start gap-1">
+                <a
+                  href="tel:010-8365-3303"
+                  className="text-[28px] font-bold text-gold-muted tracking-wide hover:opacity-80 transition-opacity"
+                >
+                  010-8365-3303
+                </a>
+                <a
+                  href="tel:010-8186-4404"
+                  className="text-[28px] font-bold text-gold-muted tracking-wide hover:opacity-80 transition-opacity"
+                >
+                  010-8186-4404
+                </a>
+              </div>
             </div>
           </div>
           <div className="text-right hidden md:block">
