@@ -527,7 +527,7 @@ export default function NewProductPage() {
                     placeholder="0.000"
                     className="w-28 px-3 py-2 border border-gray-300 rounded-md text-sm"
                   />
-                  <span className="text-sm text-gray-500">ct</span>
+                  <span className="text-sm text-gray-500">mm</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <label className="text-sm text-gray-600 w-12">수량:</label>
@@ -722,7 +722,7 @@ export default function NewProductPage() {
                   value={formData.retail_base_labor_cost}
                   onChange={handleChange}
                   min="0"
-                  step="1000"
+                  step="100"
                   disabled={isSubmitting}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
                   placeholder="0"
@@ -742,7 +742,7 @@ export default function NewProductPage() {
                   value={formData.retail_stone_setting_cost}
                   onChange={handleChange}
                   min="0"
-                  step="1000"
+                  step="100"
                   disabled={isSubmitting}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
                   placeholder="0"
@@ -787,7 +787,7 @@ export default function NewProductPage() {
                   value={formData.wholesale_base_labor_cost}
                   onChange={handleChange}
                   min="0"
-                  step="1000"
+                  step="100"
                   disabled={isSubmitting}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
                   placeholder="0"
@@ -807,7 +807,7 @@ export default function NewProductPage() {
                   value={formData.wholesale_stone_setting_cost}
                   onChange={handleChange}
                   min="0"
-                  step="1000"
+                  step="100"
                   disabled={isSubmitting}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
                   placeholder="0"

@@ -15,6 +15,7 @@ interface ProductDetailProps {
   relatedProducts: ProductForDisplay[];
   isLoggedIn: boolean;
   isApproved: boolean;
+  diamondRows?: Array<{ diamond_size: number; diamond_amount: number }>;
 }
 
 export default function ProductDetail({
@@ -23,6 +24,7 @@ export default function ProductDetail({
   relatedProducts,
   isLoggedIn,
   isApproved,
+  diamondRows,
 }: ProductDetailProps) {
   // Build breadcrumb items
   const breadcrumbItems = [
@@ -52,10 +54,7 @@ export default function ProductDetail({
           <ProductInfo
             productId={product.id}
             product={product}
-            diamondInfo={{
-              diamond_size: undefined, // TODO: Add to schema if needed
-              diamond_amount: undefined,
-            }}
+            diamondRows={diamondRows || []}
             isLoggedIn={isLoggedIn}
             isApproved={isApproved}
           />

@@ -91,11 +91,11 @@ export default function ImageGallery({
             }}
             onSwiper={setSwiperInstance}
             onSlideChange={handleSlideChange}
-            className="w-full aspect-[4/5]"
+            className="w-full aspect-[4/5] [&_.swiper-slide]:h-full"
           >
             {images.map((image, index) => (
               <SwiperSlide key={index}>
-                <div className="relative w-full h-full">
+                <div className="relative w-full h-full overflow-hidden">
                   {isVideoUrl(image) ? (
                     <video
                       src={image}

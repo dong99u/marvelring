@@ -4,6 +4,6 @@
   "cwd": "/Users/parkdongkyu/my_project/marvelring",
   "notify_script": "/opt/homebrew/lib/node_modules/oh-my-codex/scripts/notify-hook.js",
   "poll_ms": 700,
-  "tracked_files": 0,
+  "tracked_files": 1,
   "seen_turns": 0
 }

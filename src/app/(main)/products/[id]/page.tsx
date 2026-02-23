@@ -105,6 +105,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const images = imageData?.map((img) => img.image_url) || [];
 
+  // Fetch diamond info
+  const { data: diamondData } = await supabase
+    .from('product_diamond_info')
+    .select('diamond_size, diamond_amount')
+    .eq('product_id', parseInt(id, 10))
+    .order('diamond_size', { ascending: true })
+
+  const diamondRows = diamondData || []
+
   // Fetch related products (same category, exclude current)
   const { products: relatedProducts } = await getProductsForUser({
     category: product.category_slug || undefined,
@@ -201,6 +210,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           relatedProducts={filteredRelated}
           isLoggedIn={!!user}
           isApproved={isApproved}
+          diamondRows={diamondRows}
         />
       </main>
     </>

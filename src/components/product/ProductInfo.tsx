@@ -30,10 +30,7 @@ interface ProductInfoProps {
     is_sale: boolean;
     material_info?: MaterialInfo[];
   };
-  diamondInfo?: {
-    diamond_size?: string | null;
-    diamond_amount?: number | null;
-  };
+  diamondRows?: Array<{ diamond_size: number; diamond_amount: number }>;
   isLoggedIn: boolean;
   isApproved: boolean;
 }
@@ -41,7 +38,7 @@ interface ProductInfoProps {
 export default function ProductInfo({
   productId,
   product,
-  diamondInfo,
+  diamondRows,
   isLoggedIn,
   isApproved,
 }: ProductInfoProps) {
@@ -148,14 +145,16 @@ export default function ProductInfo({
         ) : null}
 
         {/* Size & Diamonds Card */}
-        {(displaySize || diamondInfo) && (
+        {(displaySize || (diamondRows && diamondRows.length > 0)) && (
           <div className="product-info-card">
             <div className="flex items-center gap-2 mb-4">
               <span className="material-symbols-outlined text-gold-muted text-[20px]">
                 {displaySize ? 'ring_volume' : 'diamond'}
               </span>
               <h3 className="product-info-card-title">
-                {displaySize && diamondInfo ? 'Size & Diamonds' : displaySize ? 'Ring Size' : 'Diamond Details'}
+                {displaySize && diamondRows && diamondRows.length > 0
+                  ? 'Size & Diamonds'
+                  : displaySize ? 'Ring Size' : 'Diamond Details'}
               </h3>
             </div>
             <div className="flex flex-col gap-4">
@@ -172,22 +171,21 @@ export default function ProductInfo({
                   <span className="product-info-detail-value">{displaySize}</span>
                 </div>
               )}
-              {diamondInfo &&
-                (diamondInfo.diamond_size || diamondInfo.diamond_amount) && (
-                  <div className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-soft-ivory flex items-center justify-center">
-                        <span className="material-symbols-outlined text-gold-muted text-[16px]">
-                          diamond
-                        </span>
-                      </div>
-                      <span className="product-info-detail-label">Diamond Info</span>
+              {diamondRows && diamondRows.map((diamond, idx) => (
+                <div key={idx} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-soft-ivory flex items-center justify-center">
+                      <span className="material-symbols-outlined text-gold-muted text-[16px]">
+                        diamond
+                      </span>
                     </div>
-                    <span className="product-info-detail-value">
-                      {diamondInfo.diamond_amount}ea / {diamondInfo.diamond_size}
-                    </span>
+                    <span className="product-info-detail-label">Diamond Info</span>
                   </div>
-                )}
+                  <span className="product-info-detail-value">
+                    {diamond.diamond_amount}ea / {diamond.diamond_size}mm
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         )}

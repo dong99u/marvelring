@@ -595,7 +595,7 @@ export default function ProductEditForm({
                   id="retail_base_labor_cost"
                   name="retail_base_labor_cost"
                   min="0"
-                  step="1000"
+                  step="100"
                   defaultValue={pricing.retail_base_labor_cost ?? ''}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 />
@@ -612,7 +612,7 @@ export default function ProductEditForm({
                   id="retail_stone_setting_cost"
                   name="retail_stone_setting_cost"
                   min="0"
-                  step="1000"
+                  step="100"
                   defaultValue={pricing.retail_stone_setting_cost ?? ''}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 />
@@ -651,7 +651,7 @@ export default function ProductEditForm({
                   id="wholesale_base_labor_cost"
                   name="wholesale_base_labor_cost"
                   min="0"
-                  step="1000"
+                  step="100"
                   defaultValue={pricing.wholesale_base_labor_cost ?? ''}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 />
@@ -668,7 +668,7 @@ export default function ProductEditForm({
                   id="wholesale_stone_setting_cost"
                   name="wholesale_stone_setting_cost"
                   min="0"
-                  step="1000"
+                  step="100"
                   defaultValue={pricing.wholesale_stone_setting_cost ?? ''}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 />
@@ -838,7 +838,7 @@ export default function ProductEditForm({
                       placeholder="0.000"
                       className="w-28 px-3 py-2 border border-gray-300 rounded-md text-sm"
                     />
-                    <span className="text-sm text-gray-500">ct</span>
+                    <span className="text-sm text-gray-500">mm</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-gray-600 w-12">수량:</label>

@@ -1,0 +1,373 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1771757722083,
+  "projectRoot": "/Users/parkdongkyu/my_project/marvelring",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.1.4",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.3",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.3",
+        "category": "frontend"
+      },
+      {
+        "name": "@playwright/test",
+        "version": "1.58.0",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": "npm test",
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint",
+      "test": "playwright test",
+      "test:ui": "playwright test --ui",
+      "test:headed": "playwright test --headed"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "public",
+      "scripts",
+      "src",
+      "tests"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "Users": {
+      "path": "Users",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1771757722070,
+      "keyFiles": []
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 4,
+      "lastAccessed": 1771757722072,
+      "keyFiles": [
+        "CLAUDE.md",
+        "MOBILE_DEVELOPER_GUIDE.md",
+        "admin-guide.md",
+        "supabase-dashboard-guide.md"
+      ]
+    },
+    "e2e": {
+      "path": "e2e",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1771757722078,
+      "keyFiles": [
+        "CLAUDE.md",
+        "auth.spec.ts",
+        "notices-sync.spec.ts"
+      ]
+    },
+    "memory-bank": {
+      "path": "memory-bank",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1771757722078,
+      "keyFiles": [
+        "CLAUDE.md",
+        "active-context.md",
+        "progress.md"
+      ]
+    },
+    "playwright-report": {
+      "path": "playwright-report",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1771757722078,
+      "keyFiles": [
+        "index.html"
+      ]
+    },
+    "portfolio": {
+      "path": "portfolio",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1771757722079,
+      "keyFiles": [
+        "CLAUDE.md"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 7,
+      "lastAccessed": 1771757722079,
+      "keyFiles": [
+        "file.svg",
+        "globe.svg",
+        "login_video.mp4",
+        "mr-icon.svg",
+        "next.svg"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 9,
+      "lastAccessed": 1771757722079,
+      "keyFiles": [
+        "CLAUDE.md",
+        "apply-migration.mjs",
+        "apply-rls-fix.sh",
+        "check-admin.mjs",
+        "check-user.mjs"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1771757722079,
+      "keyFiles": [
+        "CLAUDE.md",
+        "middleware.ts"
+      ]
+    },
+    "supabase": {
+      "path": "supabase",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1771757722080,
+      "keyFiles": [
+        "CLAUDE.md",
+        "README.md",
+        "SCHEMA_SUMMARY.md",
+        "VALIDATION_CHECKLIST.md"
+      ]
+    },
+    "test-results": {
+      "path": "test-results",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1771757722080,
+      "keyFiles": []
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 1,
+      "lastAccessed": 1771757722081,
+      "keyFiles": [
+        "notices-sync.test.mjs"
+      ]
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 8,
+      "lastAccessed": 1771757722083,
+      "keyFiles": [
+        "CLAUDE.md",
+        "apple-icon.png",
+        "favicon.ico"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 1,
+      "lastAccessed": 1771757722083,
+      "keyFiles": [
+        "CLAUDE.md"
+      ]
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 1,
+      "lastAccessed": 1771757722083,
+      "keyFiles": [
+        "site-url.ts"
+      ]
+    },
+    "src/types": {
+      "path": "src/types",
+      "purpose": "Type definitions",
+      "fileCount": 4,
+      "lastAccessed": 1771757722083,
+      "keyFiles": [
+        "CLAUDE.md",
+        "database.ts",
+        "index.ts"
+      ]
+    },
+    "supabase/migrations": {
+      "path": "supabase/migrations",
+      "purpose": "Database migrations",
+      "fileCount": 21,
+      "lastAccessed": 1771757722083,
+      "keyFiles": [
+        "00001_initial_schema.sql",
+        "00002_rls_policies.sql",
+        "00003_views.sql"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/app/admin/(dashboard)/products/new/page.tsx",
+      "accessCount": 25,
+      "lastAccessed": 1771820056766,
+      "type": "file"
+    },
+    {
+      "path": "src/app/admin/(dashboard)/products/[id]/edit/ProductEditForm.tsx",
+      "accessCount": 20,
+      "lastAccessed": 1771820095611,
+      "type": "file"
+    },
+    {
+      "path": "src/components/product/ImageGallery.tsx",
+      "accessCount": 11,
+      "lastAccessed": 1771821142208,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 10,
+      "lastAccessed": 1771775526677,
+      "type": "directory"
+    },
+    {
+      "path": "src/components/product/ProductInfo.tsx",
+      "accessCount": 10,
+      "lastAccessed": 1771820059534,
+      "type": "file"
+    },
+    {
+      "path": "src/components/product/ProductDetail.tsx",
+      "accessCount": 10,
+      "lastAccessed": 1771820094236,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(main)/products/[id]/page.tsx",
+      "accessCount": 9,
+      "lastAccessed": 1771820022822,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 6,
+      "lastAccessed": 1771775141842,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/actions/admin.ts",
+      "accessCount": 3,
+      "lastAccessed": 1771775562527,
+      "type": "directory"
+    },
+    {
+      "path": "src/types/database.ts",
+      "accessCount": 3,
+      "lastAccessed": 1771775563414,
+      "type": "file"
+    },
+    {
+      "path": "src/components/product",
+      "accessCount": 2,
+      "lastAccessed": 1771775524713,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/admin",
+      "accessCount": 1,
+      "lastAccessed": 1771758092770,
+      "type": "directory"
+    },
+    {
+      "path": "src/app",
+      "accessCount": 1,
+      "lastAccessed": 1771758128862,
+      "type": "directory"
+    },
+    {
+      "path": "src/components",
+      "accessCount": 1,
+      "lastAccessed": 1771758200889,
+      "type": "directory"
+    },
+    {
+      "path": "next.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771758460467,
+      "type": "file"
+    },
+    {
+      "path": "src/app/admin/(dashboard)/products/[id]/edit/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771775177427,
+      "type": "file"
+    },
+    {
+      "path": "src/types/index.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771775178447,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/site-url.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771820216722,
+      "type": "directory"
+    }
+  ],
+  "userDirectives": []
+}
