@@ -261,6 +261,12 @@
   },
   "hotPaths": [
     {
+      "path": "src/components/product/ImageGallery.tsx",
+      "accessCount": 27,
+      "lastAccessed": 1771842688314,
+      "type": "file"
+    },
+    {
       "path": "src/app/admin/(dashboard)/products/new/page.tsx",
       "accessCount": 25,
       "lastAccessed": 1771820056766,
@@ -273,15 +279,15 @@
       "type": "file"
     },
     {
-      "path": "src/components/product/ImageGallery.tsx",
-      "accessCount": 11,
-      "lastAccessed": 1771821142208,
-      "type": "file"
+      "path": "src",
+      "accessCount": 12,
+      "lastAccessed": 1771822401992,
+      "type": "directory"
     },
     {
-      "path": "src",
-      "accessCount": 10,
-      "lastAccessed": 1771775526677,
+      "path": "",
+      "accessCount": 11,
+      "lastAccessed": 1771822697840,
       "type": "directory"
     },
     {
@@ -303,12 +309,6 @@
       "type": "file"
     },
     {
-      "path": "",
-      "accessCount": 6,
-      "lastAccessed": 1771775141842,
-      "type": "directory"
-    },
-    {
       "path": "src/app/actions/admin.ts",
       "accessCount": 3,
       "lastAccessed": 1771775562527,
@@ -325,6 +325,12 @@
       "accessCount": 2,
       "lastAccessed": 1771775524713,
       "type": "directory"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 2,
+      "lastAccessed": 1771822365402,
+      "type": "file"
     },
     {
       "path": "src/app/admin",
@@ -367,6 +373,18 @@
       "accessCount": 1,
       "lastAccessed": 1771820216722,
       "type": "directory"
+    },
+    {
+      "path": "src/app/globals.css",
+      "accessCount": 1,
+      "lastAccessed": 1771822437494,
+      "type": "file"
+    },
+    {
+      "path": ".playwright-mcp/swiper-no-gpu.png",
+      "accessCount": 1,
+      "lastAccessed": 1771823688495,
+      "type": "file"
     }
   ],
   "userDirectives": []

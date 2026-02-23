@@ -9,27 +9,8 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 import type { Swiper as SwiperType, SwiperModule } from 'swiper/types';
 import { isVideoUrl } from '@/lib/utils/media';
-
-// Dynamic import for Swiper (client-only, reduces initial bundle)
-const Swiper = dynamic(
-  () => import('swiper/react').then((mod) => mod.Swiper),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full aspect-[4/5] bg-soft-ivory animate-pulse" />
-    ),
-  }
-);
-
-const SwiperSlide = dynamic(
-  () => import('swiper/react').then((mod) => mod.SwiperSlide),
-  {
-    ssr: false,
-  }
-);
 
 interface ImageGalleryProps {
   images: string[];
@@ -47,13 +28,16 @@ export default function ImageGallery({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [swiperModules, setSwiperModules] = useState<SwiperModule[] | null>(null);
+  const [SwiperComponents, setSwiperComponents] = useState<{
+    Swiper: any;
+    SwiperSlide: any;
+  } | null>(null);
 
   const currentImage = images[selectedIndex] || images[0];
 
-  // Load Swiper CSS and modules dynamically
+  // Load Swiper CSS, React components, and modules dynamically
   useEffect(() => {
     const loadSwiperAssets = async () => {
-      // Load CSS as side effects (suppress TS module resolution for CSS)
       await Promise.all([
         // @ts-expect-error CSS modules don't have type definitions
         import('swiper/css'),
@@ -63,9 +47,16 @@ export default function ImageGallery({
         import('swiper/css/navigation'),
       ]);
 
-      // Load modules
-      const modules = await import('swiper/modules');
-      setSwiperModules([modules.Pagination, modules.Navigation]);
+      const [reactMod, modulesMod] = await Promise.all([
+        import('swiper/react'),
+        import('swiper/modules'),
+      ]);
+
+      setSwiperComponents({
+        Swiper: reactMod.Swiper,
+        SwiperSlide: reactMod.SwiperSlide,
+      });
+      setSwiperModules([modulesMod.Pagination, modulesMod.Navigation]);
     };
 
     loadSwiperAssets();
@@ -79,8 +70,8 @@ export default function ImageGallery({
     <>
       {/* Mobile Swiper Gallery */}
       <div className="lg:hidden lg:col-span-7 relative w-full bg-soft-ivory overflow-hidden border border-gray-100">
-        {swiperModules ? (
-          <Swiper
+        {SwiperComponents && swiperModules ? (
+          <SwiperComponents.Swiper
             modules={swiperModules}
             spaceBetween={0}
             slidesPerView={1}
@@ -91,11 +82,11 @@ export default function ImageGallery({
             }}
             onSwiper={setSwiperInstance}
             onSlideChange={handleSlideChange}
-            className="w-full aspect-[4/5] [&_.swiper-slide]:h-full"
+            className="w-full aspect-[4/5]"
           >
             {images.map((image, index) => (
-              <SwiperSlide key={index}>
-                <div className="relative w-full h-full overflow-hidden">
+              <SwiperComponents.SwiperSlide key={index}>
+                <div className="relative w-full aspect-[4/5] overflow-hidden">
                   {isVideoUrl(image) ? (
                     <video
                       src={image}
@@ -116,9 +107,9 @@ export default function ImageGallery({
                     />
                   )}
                 </div>
-              </SwiperSlide>
+              </SwiperComponents.SwiperSlide>
             ))}
-          </Swiper>
+          </SwiperComponents.Swiper>
         ) : (
           <div className="w-full aspect-[4/5] bg-soft-ivory animate-pulse" />
         )}

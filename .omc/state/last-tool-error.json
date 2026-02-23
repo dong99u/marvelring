@@ -1,7 +1,7 @@
 {
-  "tool_name": "mcp__plugin_playwright_playwright__browser_run_code",
-  "tool_input_preview": "{\"code\":\"async (page) => {\\n  // Check image loading status\\n  const imageStatus = await page.evaluate(() => {\\n    const imgs = document.querySelectorAll('.swiper-slide img');\\n    return Array.from(...",
-  "error": "### Error\nSyntaxError: Unexpected identifier 'as'",
-  "timestamp": "2026-02-23T04:35:55.608Z",
+  "tool_name": "mcp__plugin_playwright_playwright__browser_navigate",
+  "tool_input_preview": "{\"url\":\"http://localhost:3000/products/7\"}",
+  "error": "### Error\nError: browserType.launchPersistentContext: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-defaul...",
+  "timestamp": "2026-02-23T10:05:26.595Z",
   "retry_count": 1
 }
