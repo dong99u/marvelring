@@ -53,13 +53,13 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
               href={`/products/${product.id}`}
               className="group cursor-pointer block min-h-0"
             >
-              <div className="aspect-square overflow-hidden bg-[#faf7f2] mb-5 relative shadow-sm ring-1 ring-black/[0.03]">
+              <div className="aspect-square overflow-hidden bg-white mb-5 relative shadow-sm ring-1 ring-black/[0.03]">
                 {product.main_image_url ? (
                   <Image
                     src={product.main_image_url}
                     alt={product.product_name}
                     fill
-                    className="object-contain p-2 md:p-3 transform-gpu group-hover:scale-[1.035] transition-transform duration-700"
+                    className="object-cover transform-gpu group-hover:scale-[1.035] transition-transform duration-700"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     quality={95}
                   />
