@@ -132,7 +132,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.08fr_0.92fr] gap-6 md:gap-10 items-center">
           <div className="relative w-full aspect-[4/3] md:aspect-[5/4] bg-[#d8c1ad] overflow-hidden shadow-[0_18px_45px_rgba(74,57,45,0.14)]">
             <Image
-              alt="마블링 시그니처 컬렉션 주얼리"
+              alt="마블링 컬렉션"
               className="object-cover opacity-95 scale-[1.02]"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIEaDRhQiMdJ-MM-sQmZF2tcFhLxPELgGHpgg5kD_rZENLCwTrOdhq1CtHksAY5aMdOpfArLP6zPm-csZbqqxqlg5yunc2VXxbsfoZgE-0u_wzr6AfEclAqLBwNvcP2ftjnjsWM2zhAGdEVXQM92-uK5N-KIradYa-cds6gb-7Mek1emHwcTk4sv-JENUQmyVgszv_dCQWKyhMnIa_h5OxYpqqIM-0hJwQuLWPs1U-F3ffHeuKn3O_9wmWazUgz3dnN_wPLl4QCPcd"
               fill
