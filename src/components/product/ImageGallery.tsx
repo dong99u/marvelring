@@ -132,7 +132,7 @@ export default function ImageGallery({
 
       {/* Desktop Main Image + Thumbnails Container */}
       <div className="hidden lg:block lg:col-span-7 space-y-2">
-        <div className="relative group w-full h-fit bg-[#faf7f2] overflow-hidden border border-gray-100 shadow-[0_18px_45px_rgba(74,57,45,0.08)]">
+        <div className="relative group w-full h-fit bg-white overflow-hidden border border-gray-100 shadow-[0_18px_45px_rgba(74,57,45,0.08)]">
           <div className="relative w-full aspect-square">
             {isVideoUrl(currentImage) ? (
               <video
