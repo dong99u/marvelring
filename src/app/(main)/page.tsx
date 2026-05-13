@@ -7,20 +7,20 @@ export default function LandingPage() {
   return (
     <>
       {/* Hero Section with Marble Background */}
-      <section className="marble-bg w-full py-32 md:py-40 flex flex-col items-center text-center px-6">
+      <section className="marble-bg w-full py-32 md:py-44 flex flex-col items-center text-center px-6">
         <span className="text-[11px] md:text-[12px] font-bold tracking-[0.4em] uppercase text-gold-muted mb-4">
           B2B Gold Wholesale Hub
         </span>
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-charcoal-light mb-6 md:mb-8 leading-tight">
-          성공적인 비즈니스를 위한
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-charcoal-light mb-7 md:mb-9 leading-[1.35] md:leading-[1.28]">
+          도매를 넘어,
           <br />
-          프리미엄 골드 주얼리 플랫폼
+          사업 운영까지 연결합니다.
         </h2>
-        <div className="w-12 md:w-16 h-[1px] bg-gold-muted/40 mb-8 md:mb-10"></div>
-        <p className="max-w-xl text-charcoal-light/60 leading-relaxed font-light text-base md:text-lg px-4">
-          단순한 상품 공급을 넘어, 귀사의 비즈니스 성장을 지원하는
-          <br className="hidden sm:block" />
-          맞춤형 B2B 통합 솔루션을 경험하십시오.
+        <div className="w-12 md:w-16 h-[1px] bg-gold-muted/45 mb-9 md:mb-11"></div>
+        <p className="max-w-2xl text-charcoal-light/65 leading-[1.9] md:leading-[1.95] font-light text-base md:text-lg px-4">
+          주문 · 제작 · 출고 흐름을
+          <br className="block" />
+          하나의 시스템으로 관리하세요.
         </p>
       </section>
 
@@ -29,14 +29,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-center mb-12 md:mb-20 text-center">
             <h3 className="text-xl md:text-2xl font-light tracking-tight text-charcoal-light mb-4">
-              사업자 맞춤형 서비스 허브
+              사업 운영을 위한 B2B 서비스 허브
             </h3>
             <p className="text-[11px] md:text-[13px] text-charcoal-light/50 tracking-widest uppercase">
               Customized Business Solutions
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {/* Card 1: 맞춤 제작 솔루션 */}
             <div className="dashboard-item">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6 md:mb-8">
                 <span className="material-symbols-outlined text-gold-muted text-2xl">
@@ -46,9 +45,10 @@ export default function LandingPage() {
               <h4 className="text-sm md:text-[15px] font-bold mb-3 md:mb-4 tracking-tight">
                 맞춤 제작 솔루션
               </h4>
-              <p className="text-xs md:text-[13px] text-charcoal-light/60 leading-relaxed mb-6 md:mb-8">
-                귀사만의 고유한 디자인을 실현하는 맞춤형 ODM/OEM 제작 지원
-                시스템을 제공합니다.
+              <p className="text-xs md:text-[13px] text-charcoal-light/65 leading-[1.75] mb-6 md:mb-8">
+                거래처 스타일에 맞는
+                <br />
+                맞춤 제작과 안정적인 생산 연결
               </p>
               <button className="text-[10px] md:text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">
                 상세보기{' '}
@@ -58,7 +58,6 @@ export default function LandingPage() {
               </button>
             </div>
 
-            {/* Card 2: 대량 구매 문의 */}
             <div className="dashboard-item">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6 md:mb-8">
                 <span className="material-symbols-outlined text-gold-muted text-2xl">
@@ -68,9 +67,10 @@ export default function LandingPage() {
               <h4 className="text-sm md:text-[15px] font-bold mb-3 md:mb-4 tracking-tight">
                 대량 구매 문의
               </h4>
-              <p className="text-xs md:text-[13px] text-charcoal-light/60 leading-relaxed mb-6 md:mb-8">
-                대량 발주 시 경쟁력 있는 단가 제안과 최우선 배송 프로세스로 운영
-                효율을 극대화합니다.
+              <p className="text-xs md:text-[13px] text-charcoal-light/65 leading-[1.75] mb-6 md:mb-8">
+                대량 주문부터 정기 공급까지,
+                <br />
+                안정적인 거래 흐름을 지원합니다.
               </p>
               <button className="text-[10px] md:text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">
                 문의하기{' '}
@@ -80,7 +80,6 @@ export default function LandingPage() {
               </button>
             </div>
 
-            {/* Card 3: 재고 연동 시스템 */}
             <div className="dashboard-item">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6 md:mb-8">
                 <span className="material-symbols-outlined text-gold-muted text-2xl">
@@ -90,9 +89,10 @@ export default function LandingPage() {
               <h4 className="text-sm md:text-[15px] font-bold mb-3 md:mb-4 tracking-tight">
                 재고 연동 시스템
               </h4>
-              <p className="text-xs md:text-[13px] text-charcoal-light/60 leading-relaxed mb-6 md:mb-8">
-                실시간 API 연동을 통해 품절 걱정 없는 스마트한 재고 관리 환경을
-                제공합니다.
+              <p className="text-xs md:text-[13px] text-charcoal-light/65 leading-[1.75] mb-6 md:mb-8">
+                실시간 재고 및 출고 흐름 관리로
+                <br />
+                운영 실수를 줄입니다.
               </p>
               <button className="text-[10px] md:text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">
                 API 가이드{' '}
@@ -102,7 +102,6 @@ export default function LandingPage() {
               </button>
             </div>
 
-            {/* Card 4: 마케팅 자료 지원 */}
             <div className="dashboard-item">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6 md:mb-8">
                 <span className="material-symbols-outlined text-gold-muted text-2xl">
@@ -112,9 +111,10 @@ export default function LandingPage() {
               <h4 className="text-sm md:text-[15px] font-bold mb-3 md:mb-4 tracking-tight">
                 마케팅 자료 지원
               </h4>
-              <p className="text-xs md:text-[13px] text-charcoal-light/60 leading-relaxed mb-6 md:mb-8">
-                판매를 촉진하는 고퀄리티 제품 화보와 상세 이미지, 카탈로그
-                소스를 무료로 제공합니다.
+              <p className="text-xs md:text-[13px] text-charcoal-light/65 leading-[1.75] mb-6 md:mb-8">
+                상세페이지 · 카탈로그 · 제품 이미지를
+                <br />
+                거래처에 바로 활용할 수 있도록 제공합니다.
               </p>
               <button className="text-[10px] md:text-[11px] font-bold text-gold-muted uppercase tracking-widest flex items-center gap-2 group">
                 자료실 이동{' '}
