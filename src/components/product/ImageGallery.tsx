@@ -178,7 +178,7 @@ export default function ImageGallery({
               <button
                 key={index}
                 onClick={() => setSelectedIndex(index)}
-                className={`relative flex-shrink-0 min-h-12 min-w-12 w-20 h-20 bg-[#faf7f2] border-2 transition-all ${
+                className={`relative flex-shrink-0 min-h-12 min-w-12 w-20 h-20 bg-white border-2 transition-all ${
                   index === selectedIndex
                     ? 'border-gold-muted'
                     : 'border-gray-200 hover:border-gray-300'
