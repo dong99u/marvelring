@@ -145,7 +145,7 @@ export default function LandingPage() {
               Signature Collection
             </span>
             <h2 className="text-2xl md:text-3xl lg:text-[40px] font-light text-charcoal-light mb-4 md:mb-5 leading-[1.22]">
-              마블링 시그니처 컬렉션
+              마블링 컬렉션
             </h2>
             <p className="text-charcoal-light/75 text-base md:text-lg leading-[1.65] mb-4 md:mb-5 font-light">
               현재 트렌디한 제품 가장 많이 찾는 베스트 라인업
