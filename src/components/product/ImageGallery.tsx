@@ -68,7 +68,7 @@ export default function ImageGallery({
   return (
     <>
       {/* Mobile Swiper Gallery */}
-      <div className="lg:hidden lg:col-span-7 relative w-full bg-[#faf7f2] overflow-hidden border border-gray-100">
+      <div className="lg:hidden lg:col-span-7 relative w-full bg-white overflow-hidden border border-gray-100">
         {SwiperComponents && swiperModules ? (
           <SwiperComponents.Swiper
             modules={swiperModules}
@@ -99,7 +99,7 @@ export default function ImageGallery({
                       src={image}
                       alt={`${productName} - Image ${index + 1}`}
                       fill
-                      className="object-contain p-3 transform-gpu"
+                      className="object-cover transform-gpu"
                       priority={index === 0}
                       sizes="100vw"
                       quality={PRODUCT_IMAGE_QUALITY}
@@ -147,7 +147,7 @@ export default function ImageGallery({
                 src={currentImage}
                 alt={`${productName} - Image ${selectedIndex + 1}`}
                 fill
-                className="object-contain p-5 xl:p-6 transition-transform duration-700 group-hover:scale-[1.035] transform-gpu"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.035] transform-gpu"
                 priority={selectedIndex === 0}
                 sizes="(max-width: 1024px) 100vw, 58vw"
                 quality={PRODUCT_IMAGE_QUALITY}
@@ -203,7 +203,7 @@ export default function ImageGallery({
                     src={image}
                     alt={`${productName} thumbnail ${index + 1}`}
                     fill
-                    className="object-contain p-1 transform-gpu"
+                    className="object-cover transform-gpu"
                     sizes="80px"
                     quality={PRODUCT_IMAGE_QUALITY}
                   />
