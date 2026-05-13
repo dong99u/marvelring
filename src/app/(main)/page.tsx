@@ -153,9 +153,12 @@ export default function LandingPage() {
               18K 및 24K 골드의 묵직한 중량감과 간결한 라인에 집중한 이번
               컬렉션은 귀사의 쇼룸을 더욱 빛내줄 것입니다.
             </p>
-            <button className="px-8 md:px-12 py-4 md:py-5 border border-charcoal-light text-[11px] md:text-[12px] font-bold uppercase tracking-widest hover:bg-charcoal-light hover:text-white transition-all">
-              컬렉션 전체보기
-            </button>
+            <Link
+  href="/collections"
+  className="px-8 md:px-12 py-4 md:py-5 border border-charcoal-light text-[11px] md:text-[12px] font-bold uppercase tracking-widest hover:bg-charcoal-light hover:text-white transition-all inline-flex items-center justify-center"
+>
+  컬렉션 전체보기
+</Link>
           </div>
         </div>
       </section>
