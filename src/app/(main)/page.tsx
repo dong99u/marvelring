@@ -127,38 +127,68 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Season Collection Section */}
-      <section className="w-full bg-soft-ivory py-20 md:py-32 px-4 md:px-10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-24 items-center">
-          <div className="w-full md:w-5/12 aspect-[4/5] bg-gray-100 overflow-hidden shadow-xl relative">
+           {/* Signature Collection Section */}
+      <section className="w-full bg-soft-ivory py-12 md:py-20 px-4 md:px-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.08fr_0.92fr] gap-6 md:gap-10 items-center">
+          <div className="relative w-full aspect-[4/3] md:aspect-[5/4] bg-[#d8c1ad] overflow-hidden shadow-[0_18px_45px_rgba(74,57,45,0.14)]">
             <Image
-              alt="2024 미니멀리스트 헤리티지 시리즈"
-              className="object-cover opacity-90"
+              alt="마블링 시그니처 컬렉션 주얼리"
+              className="object-cover opacity-95 scale-[1.02]"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIEaDRhQiMdJ-MM-sQmZF2tcFhLxPELgGHpgg5kD_rZENLCwTrOdhq1CtHksAY5aMdOpfArLP6zPm-csZbqqxqlg5yunc2VXxbsfoZgE-0u_wzr6AfEclAqLBwNvcP2ftjnjsWM2zhAGdEVXQM92-uK5N-KIradYa-cds6gb-7Mek1emHwcTk4sv-JENUQmyVgszv_dCQWKyhMnIa_h5OxYpqqIM-0hJwQuLWPs1U-F3ffHeuKn3O_9wmWazUgz3dnN_wPLl4QCPcd"
               fill
-              sizes="(max-width: 768px) 100vw, 42vw"
+              sizes="(max-width: 768px) 100vw, 54vw"
               priority
             />
           </div>
-          <div className="w-full md:w-7/12 flex flex-col items-start">
-            <span className="text-gold-muted text-[10px] md:text-[11px] font-bold tracking-[0.3em] uppercase mb-4 md:mb-6">
-              시즌 컬렉션
+          <div className="w-full flex flex-col items-start py-2 md:py-4">
+            <span className="text-gold-muted text-[10px] md:text-[11px] font-bold tracking-[0.28em] uppercase mb-3 md:mb-4">
+              Signature Collection
             </span>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-charcoal-light mb-6 md:mb-10 leading-snug">
-              2024 미니멀리스트 <br />
-              헤리티지 시리즈
+            <h2 className="text-2xl md:text-3xl lg:text-[40px] font-light text-charcoal-light mb-4 md:mb-5 leading-[1.22]">
+              마블링 시그니처 컬렉션
             </h2>
-            <p className="text-charcoal-light/60 text-base md:text-lg leading-relaxed mb-8 md:mb-12 font-light">
-              품격과 영속성을 위해 정교하게 설계되었습니다. <br />
-              18K 및 24K 골드의 묵직한 중량감과 간결한 라인에 집중한 이번
-              컬렉션은 귀사의 쇼룸을 더욱 빛내줄 것입니다.
+            <p className="text-charcoal-light/75 text-base md:text-lg leading-[1.65] mb-4 md:mb-5 font-light">
+              현재 트렌디한 제품 가장 많이 찾는 베스트 라인업
             </p>
+            <p className="text-charcoal-light/55 text-sm md:text-base leading-[1.7] mb-6 md:mb-7 font-light max-w-xl">
+              데일리 착용부터 선물 수요까지, 실제 판매 흐름을 기준으로 선별한
+              주얼리 구성을 만나보세요.
+            </p>
+            <div className="grid grid-cols-3 w-full max-w-lg border border-charcoal-light/10 divide-x divide-charcoal-light/10 mb-7 md:mb-8">
+              <div className="px-3 md:px-4 py-3 md:py-4">
+                <span className="block text-[9px] md:text-[10px] text-gold-muted font-bold tracking-[0.22em] uppercase mb-1">
+                  Best
+                </span>
+                <strong className="block text-xs md:text-sm text-charcoal-light font-medium">
+                  인기 라인
+                </strong>
+              </div>
+              <div className="px-3 md:px-4 py-3 md:py-4">
+                <span className="block text-[9px] md:text-[10px] text-gold-muted font-bold tracking-[0.22em] uppercase mb-1">
+                  Daily
+                </span>
+                <strong className="block text-xs md:text-sm text-charcoal-light font-medium">
+                  데일리 주얼리
+                </strong>
+              </div>
+              <div className="px-3 md:px-4 py-3 md:py-4">
+                <span className="block text-[9px] md:text-[10px] text-gold-muted font-bold tracking-[0.22em] uppercase mb-1">
+                  Stock
+                </span>
+                <strong className="block text-xs md:text-sm text-charcoal-light font-medium">
+                  빠른 출고
+                </strong>
+              </div>
+            </div>
             <Link
-  href="/collections"
-  className="px-8 md:px-12 py-4 md:py-5 border border-charcoal-light text-[11px] md:text-[12px] font-bold uppercase tracking-widest hover:bg-charcoal-light hover:text-white transition-all inline-flex items-center justify-center"
->
-  컬렉션 전체보기
-</Link>
+              href="/collections"
+              className="group inline-flex items-center justify-center gap-3 bg-charcoal-light text-white border border-charcoal-light px-7 md:px-9 py-4 text-[11px] md:text-[12px] font-bold uppercase tracking-widest transition-all hover:bg-gold-muted hover:border-gold-muted hover:shadow-[0_14px_30px_rgba(160,122,68,0.22)]"
+            >
+              컬렉션 전체보기
+              <span className="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">
+                arrow_forward
+              </span>
+            </Link>
           </div>
         </div>
       </section>
