@@ -17,7 +17,7 @@ interface ImageGalleryProps {
   productName: string;
 }
 
-const PRODUCT_IMAGE_QUALITY = 90;
+const PRODUCT_IMAGE_QUALITY = 95;
 
 export default function ImageGallery({
   images,
@@ -35,7 +35,6 @@ export default function ImageGallery({
 
   const currentImage = images[selectedIndex] || images[0];
 
-  // Load Swiper CSS, React components, and modules dynamically
   useEffect(() => {
     const loadSwiperAssets = async () => {
       await Promise.all([
@@ -69,7 +68,7 @@ export default function ImageGallery({
   return (
     <>
       {/* Mobile Swiper Gallery */}
-      <div className="lg:hidden lg:col-span-7 relative w-full bg-soft-ivory overflow-hidden border border-gray-100">
+      <div className="lg:hidden lg:col-span-7 relative w-full bg-[#faf7f2] overflow-hidden border border-gray-100">
         {SwiperComponents && swiperModules ? (
           <SwiperComponents.Swiper
             modules={swiperModules}
@@ -82,11 +81,11 @@ export default function ImageGallery({
             }}
             onSwiper={setSwiperInstance}
             onSlideChange={handleSlideChange}
-            className="w-full aspect-[4/5]"
+            className="w-full aspect-square"
           >
             {images.map((image, index) => (
               <SwiperComponents.SwiperSlide key={index}>
-                <div className="relative w-full aspect-[4/5] overflow-hidden">
+                <div className="relative w-full aspect-square overflow-hidden">
                   {isVideoUrl(image) ? (
                     <video
                       src={image}
@@ -100,7 +99,7 @@ export default function ImageGallery({
                       src={image}
                       alt={`${productName} - Image ${index + 1}`}
                       fill
-                      className="object-cover transform-gpu"
+                      className="object-contain p-3 transform-gpu"
                       priority={index === 0}
                       sizes="100vw"
                       quality={PRODUCT_IMAGE_QUALITY}
@@ -111,10 +110,9 @@ export default function ImageGallery({
             ))}
           </SwiperComponents.Swiper>
         ) : (
-          <div className="w-full aspect-[4/5] bg-soft-ivory animate-pulse" />
+          <div className="w-full aspect-square bg-soft-ivory animate-pulse" />
         )}
 
-        {/* Zoom Button */}
         {!isVideoUrl(currentImage) && (
           <button
             onClick={() => setIsZoomed(true)}
@@ -125,7 +123,6 @@ export default function ImageGallery({
           </button>
         )}
 
-        {/* B2B Exclusive Badge */}
         <div className="absolute top-4 left-4">
           <span className="bg-charcoal-light text-white text-[10px] font-bold px-3 py-2 uppercase tracking-[0.2em]">
             B2B Exclusive
@@ -135,9 +132,8 @@ export default function ImageGallery({
 
       {/* Desktop Main Image + Thumbnails Container */}
       <div className="hidden lg:block lg:col-span-7 space-y-2">
-        {/* Main Image */}
-        <div className="relative group w-full h-fit bg-soft-ivory overflow-hidden border border-gray-100">
-          <div className="relative w-full aspect-[4/5]">
+        <div className="relative group w-full h-fit bg-[#faf7f2] overflow-hidden border border-gray-100 shadow-[0_18px_45px_rgba(74,57,45,0.08)]">
+          <div className="relative w-full aspect-square">
             {isVideoUrl(currentImage) ? (
               <video
                 src={currentImage}
@@ -151,15 +147,14 @@ export default function ImageGallery({
                 src={currentImage}
                 alt={`${productName} - Image ${selectedIndex + 1}`}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105 transform-gpu"
+                className="object-contain p-5 xl:p-6 transition-transform duration-700 group-hover:scale-[1.035] transform-gpu"
                 priority={selectedIndex === 0}
-                sizes="(max-width: 1024px) 50vw, 58vw"
+                sizes="(max-width: 1024px) 100vw, 58vw"
                 quality={PRODUCT_IMAGE_QUALITY}
               />
             )}
           </div>
 
-          {/* Zoom Button */}
           {!isVideoUrl(currentImage) && (
             <button
               onClick={() => setIsZoomed(true)}
@@ -170,7 +165,6 @@ export default function ImageGallery({
             </button>
           )}
 
-          {/* B2B Exclusive Badge */}
           <div className="absolute top-8 left-8">
             <span className="bg-charcoal-light text-white text-[10px] font-bold px-4 py-2 uppercase tracking-[0.2em]">
               B2B Exclusive
@@ -178,14 +172,13 @@ export default function ImageGallery({
           </div>
         </div>
 
-        {/* Thumbnail Navigation (if multiple images) */}
         {images.length > 1 && (
           <div className="flex gap-2 overflow-x-auto pb-2">
             {images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedIndex(index)}
-                className={`relative flex-shrink-0 min-h-12 min-w-12 w-20 h-20 border-2 transition-all ${
+                className={`relative flex-shrink-0 min-h-12 min-w-12 w-20 h-20 bg-[#faf7f2] border-2 transition-all ${
                   index === selectedIndex
                     ? 'border-gold-muted'
                     : 'border-gray-200 hover:border-gray-300'
@@ -210,7 +203,7 @@ export default function ImageGallery({
                     src={image}
                     alt={`${productName} thumbnail ${index + 1}`}
                     fill
-                    className="object-cover transform-gpu"
+                    className="object-contain p-1 transform-gpu"
                     sizes="80px"
                     quality={PRODUCT_IMAGE_QUALITY}
                   />
@@ -221,7 +214,6 @@ export default function ImageGallery({
         )}
       </div>
 
-      {/* Lightbox Modal */}
       {isZoomed && (
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
@@ -234,7 +226,7 @@ export default function ImageGallery({
           >
             <span className="material-symbols-outlined text-2xl">close</span>
           </button>
-          <div className="relative w-full max-w-5xl aspect-[4/5]">
+          <div className="relative w-full max-w-6xl h-[82vh]">
             {isVideoUrl(currentImage) ? (
               <video
                 src={currentImage}
