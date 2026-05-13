@@ -23,9 +23,9 @@ export default function ProductCard({ product, isLoggedIn: isLoggedInProp, isApp
   return (
     <Link
       href={`/products/${product.id}`}
-      className="group flex flex-col bg-white border border-card-border p-3 md:p-4 hover:shadow-lg transition-all duration-300 min-h-[300px]"
+      className="group flex flex-col bg-white border border-card-border/80 p-3 md:p-4 hover:border-gold-muted/30 hover:shadow-[0_18px_45px_rgba(74,57,45,0.10)] transition-all duration-300 min-h-[300px]"
     >
-      <div className="relative w-full aspect-square bg-marble-grey mb-4 md:mb-6 overflow-hidden">
+      <div className="relative w-full aspect-square bg-[#faf7f2] mb-4 md:mb-6 overflow-hidden ring-1 ring-black/[0.03]">
         {product.main_image_url ? (
           isVideoUrl(product.main_image_url) ? (
             <video
@@ -41,9 +41,9 @@ export default function ProductCard({ product, isLoggedIn: isLoggedInProp, isApp
               src={product.main_image_url}
               alt={product.product_name}
               fill
-              className="object-cover transform-gpu group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              quality={90}
+              className="object-contain p-2 md:p-3 transform-gpu group-hover:scale-[1.035] transition-transform duration-700"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 34vw, 25vw"
+              quality={95}
             />
           )
         ) : (
